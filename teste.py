@@ -1,6 +1,3 @@
-from turtle import home
-from interface.screens.homeWindow import HomeWindow
+from interface.screens.search_window import generate_search_window
 
-homeWindow = HomeWindow()
-
-homeWindow.generate_home_window()
+generate_search_window()
