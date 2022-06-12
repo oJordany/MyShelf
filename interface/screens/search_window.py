@@ -50,8 +50,6 @@ def generate_search_window():
     button_icon.place(
         x=1197.0,
         y=19.0,
-        width=71.0,
-        height=86.0
     )
 
     image_image_search = PhotoImage(
