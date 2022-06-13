@@ -1,4 +1,3 @@
-from jmespath import search
 from interface.screens.HomeWindow import HomeWindow
 
 home_window = HomeWindow()
