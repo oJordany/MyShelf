@@ -21,9 +21,10 @@ class HomeWindow:
 
 
     def change_window(self):
-        from interface.screens.menuWindow import generate_menu_window
+        from interface.screens.MenuWindow import MenuWindow
         self.home_window.destroy()
-        generate_menu_window()
+        self.menu_window = MenuWindow()
+        self.menu_window.generate_menu_window()
 
         
     def generate_home_window(self):
@@ -80,4 +81,3 @@ class HomeWindow:
 
         self.home_window.resizable(False, False)
         self.home_window.mainloop()
-

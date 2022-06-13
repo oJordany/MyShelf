@@ -18,181 +18,194 @@ def relative_to_assets(path: str) -> Path:
     return ASSETS_PATH / Path(path)
 
 
-newbookwindow= Tk()
+class NewBookWindow:
+    def __init__(self):    
+        self.newbookwindow= Tk()
 
-newbookwindow.title("Add a New Book")
-newbookwindow.geometry("1300x700")
-newbookwindow.configure(bg = "#2C0A59")
+        self.newbookwindow.title("Add a New Book")
+        self.newbookwindow.geometry("1300x700")
+        self.newbookwindow.configure(bg = "#2C0A59")
 
-
-canvas = Canvas(
-    newbookwindow
-,
-    bg = "#2C0A59",
-    height = 700,
-    width = 1300,
-    bd = 0,
-    highlightthickness = 0,
-    relief = "ridge"
-)
-
-canvas.place(x = 0, y = 0)
-
-image_image_readStatus = PhotoImage(
-    file=relative_to_assets("image_readStatus.png"))
-image_readStatus = canvas.create_image(
-    718.0,
-    347.0,
-    image=image_image_readStatus
-)
-
-image_image_ISB = PhotoImage(
-    file=relative_to_assets("image_ISBN.png"))
-image_2 = canvas.create_image(
-    683.0,
-    160.0,
-    image=image_image_ISB
-)
-
-image_image_AddNewBook = PhotoImage(
-    file=relative_to_assets("image_AddNewBook.png"))
-image_AddNewBook = canvas.create_image(
-    321.0,
-    58.0,
-    image=image_image_AddNewBook
-)
-
-entry_image_isbn = PhotoImage(
-    file=relative_to_assets("entry_isbn.png"))
-
-entry_bg_1 = canvas.create_image(
-    670.5,
-    253.0,
-    image=entry_image_isbn
-)
-
-entry_isbn = Entry(
-    bd=0,
-    bg="#2C0A59",
-    highlightthickness=0,
-    justify="center",
-    font=('Georgia 20')
+    def back_to_home(self):
+        from interface.screens.HomeWindow import HomeWindow
+        self.newbookwindow.destroy()
+        self.novaHome = HomeWindow()
+        self.novaHome.generate_home_window()
     
-    
-)
-entry_isbn.place(
-    x=505.0,
-    y=235.0,
+    def go_to_IWTR_window(self):
+        from interface.screens.IWantToReadWindow import IWantToReadWindow
+        self.IWTR_window = IWantToReadWindow()
+        self.IWTR_window.generate_IWTR_window()
 
-)
+    def generate_new_book_window(self):
+        canvas = Canvas(
+            self.newbookwindow,
+            bg = "#2C0A59",
+            height = 700,
+            width = 1300,
+            bd = 0,
+            highlightthickness = 0,
+            relief = "ridge"
+        )
 
-newbookwindow.btn_inactiveRead = PhotoImage(file=relative_to_assets("button_read.png"))
-newbookwindow.btn_activeRead = PhotoImage(file=relative_to_assets("button_ReadActive.png"))
+        canvas.place(x = 0, y = 0)
 
-button_image_read = PhotoImage(
-    file=relative_to_assets("button_read.png"))
-button_read = Button(
-    image=button_image_read,
-    borderwidth=0,
-    highlightthickness=0,
-    relief="sunken",
-    bg="#2C0A59",
-    bd=0,
-    activebackground="#2C0A59",
-    command=lambda: print("button_read clicked"),
-    cursor="hand2",
-)
-button_read.place(
-    x=517.0,
-    y=380.0,
+        image_image_readStatus = PhotoImage(
+            file=relative_to_assets("image_readStatus.png"))
+        image_readStatus = canvas.create_image(
+            718.0,
+            347.0,
+            image=image_image_readStatus
+        )
 
-)
+        image_image_ISB = PhotoImage(
+            file=relative_to_assets("image_ISBN.png"))
+        image_2 = canvas.create_image(
+            683.0,
+            160.0,
+            image=image_image_ISB
+        )
 
-button_read.bind("<Enter>", lambda e: button_read.config(image=newbookwindow.btn_activeRead))
-button_read.bind("<Leave>", lambda e: button_read.config(image=newbookwindow.btn_inactiveRead))
+        image_image_AddNewBook = PhotoImage(
+            file=relative_to_assets("image_AddNewBook.png"))
+        image_AddNewBook = canvas.create_image(
+            321.0,
+            58.0,
+            image=image_image_AddNewBook
+        )
+
+        entry_image_isbn = PhotoImage(
+            file=relative_to_assets("entry_isbn.png"))
+
+        entry_bg_1 = canvas.create_image(
+            670.5,
+            253.0,
+            image=entry_image_isbn
+        )
+
+        entry_isbn = Entry(
+            bd=0,
+            bg="#2C0A59",
+            highlightthickness=0,
+            justify="center",
+            font=('Georgia 20')
+            
+            
+        )
+        entry_isbn.place(
+            x=375.0,
+            y=235.0,
+            width=600.0,
+            height=30.75,
+        )
+
+        self.newbookwindow.btn_inactiveRead = PhotoImage(file=relative_to_assets("button_read.png"))
+        self.newbookwindow.btn_activeRead = PhotoImage(file=relative_to_assets("button_ReadActive.png"))
+
+        button_image_read = PhotoImage(
+            file=relative_to_assets("button_read.png"))
+        button_read = Button(
+            image=button_image_read,
+            borderwidth=0,
+            highlightthickness=0,
+            relief="sunken",
+            bg="#2C0A59",
+            bd=0,
+            activebackground="#2C0A59",
+            command=lambda: print("button_read clicked"),
+            cursor="hand2",
+        )
+        button_read.place(
+            x=537.0,
+            y=380.0,
+
+        )
+
+        button_read.bind("<Enter>", lambda e: button_read.config(image=self.newbookwindow.btn_activeRead))
+        button_read.bind("<Leave>", lambda e: button_read.config(image=self.newbookwindow.btn_inactiveRead))
 
 
-newbookwindow.btn_inactiveReading = PhotoImage(file=relative_to_assets("button_reading.png"))
-newbookwindow.btn_activeReading = PhotoImage(file=relative_to_assets("button_ReadingActive.png"))
+        self.newbookwindow.btn_inactiveReading = PhotoImage(file=relative_to_assets("button_reading.png"))
+        self.newbookwindow.btn_activeReading = PhotoImage(file=relative_to_assets("button_ReadingActive.png"))
 
-button_image_reading = PhotoImage(
-    file=relative_to_assets("button_reading.png"))
-button_reading = Button(
-    image=button_image_reading,
-    borderwidth=0,
-    highlightthickness=0,
-    relief="sunken",
-    bg="#2C0A59",
-    bd=0,
-    activebackground="#2C0A59",
-    command=lambda: print("button_reading clicked"),
-    cursor="hand2",
-)
-button_reading.place(
-    x=517.0,
-    y=480.0,
-)
+        button_image_reading = PhotoImage(
+            file=relative_to_assets("button_reading.png"))
+        button_reading = Button(
+            image=button_image_reading,
+            borderwidth=0,
+            highlightthickness=0,
+            relief="sunken",
+            bg="#2C0A59",
+            bd=0,
+            activebackground="#2C0A59",
+            command=lambda: print("button_reading clicked"),
+            cursor="hand2",
+        )
+        button_reading.place(
+            x=537.0,
+            y=480.0,
+        )
 
-button_reading.bind("<Enter>", lambda e: button_reading.config(image=newbookwindow.btn_activeReading))
-button_reading.bind("<Leave>", lambda e: button_reading.config(image=newbookwindow.btn_inactiveReading))
+        button_reading.bind("<Enter>", lambda e: button_reading.config(image=self.newbookwindow.btn_activeReading))
+        button_reading.bind("<Leave>", lambda e: button_reading.config(image=self.newbookwindow.btn_inactiveReading))
 
-newbookwindow.btn_inactiveIWTR = PhotoImage(file=relative_to_assets("button_IWTR.png"))
-newbookwindow.btn_activeIWTR = PhotoImage(file=relative_to_assets("Button_IWTRActive.png"))
+        self.newbookwindow.btn_inactiveIWTR = PhotoImage(file=relative_to_assets("button_IWTR.png"))
+        self.newbookwindow.btn_activeIWTR = PhotoImage(file=relative_to_assets("button_IWTRActive.png"))
 
-button_image_IWTR = PhotoImage(
-    file=relative_to_assets("button_IWTR.png"))
-button_IWTR = Button(
-    image=button_image_IWTR,
-    borderwidth=0,
-    highlightthickness=0,
-    relief="sunken",
-    bg="#2C0A59",
-    bd=0,
-    activebackground="#2C0A59",
-    command=lambda: print("button_IWTR clicked"),
-    cursor="hand2",
-)
-button_IWTR.place(
-    x=523.0,
-    y=580.0,
-)
-button_IWTR.bind("<Enter>", lambda e: button_IWTR.config(image=newbookwindow.btn_activeIWTR))
-button_IWTR.bind("<Leave>", lambda e: button_IWTR.config(image=newbookwindow.btn_inactiveIWTR))
+        button_image_IWTR = PhotoImage(
+            file=relative_to_assets("button_IWTR.png"))
+        button_IWTR = Button(
+            image=button_image_IWTR,
+            borderwidth=0,
+            highlightthickness=0,
+            relief="sunken",
+            bg="#2C0A59",
+            bd=0,
+            activebackground="#2C0A59",
+            command=self.go_to_IWTR_window,
+            cursor="hand2",
+        )
+        button_IWTR.place(
+            x=537.0,
+            y=580.0,
+        )
+        button_IWTR.bind("<Enter>", lambda e: button_IWTR.config(image=self.newbookwindow.btn_activeIWTR))
+        button_IWTR.bind("<Leave>", lambda e: button_IWTR.config(image=self.newbookwindow.btn_inactiveIWTR))
 
-button_image_plus = PhotoImage(
-    file=relative_to_assets("button_plus.png"))
-button_plus = Button(
-    image=button_image_plus,
-    borderwidth=0,
-    highlightthickness=0,
-    relief="sunken",
-    bg="#2C0A59",
-    bd=0,
-    activebackground="#2C0A60",
-    command=lambda: print("button_home clicked"),
-    cursor="hand2",
-)
-button_plus.place(
-    x=1087.2080078125,
-    y=227.0,
-)
+        button_image_plus = PhotoImage(
+            file=relative_to_assets("button_plus.png"))
+        button_plus = Button(
+            image=button_image_plus,
+            borderwidth=0,
+            highlightthickness=0,
+            relief="sunken",
+            bg="#2C0A59",
+            bd=0,
+            activebackground="#2C0A60",
+            command=lambda: print("icon clicked"),
+            cursor="hand2",
+        )
+        button_plus.place(
+            x=1087.2080078125,
+            y=227.0,
+        )
 
-button_image_home = PhotoImage(
-    file=relative_to_assets("button_home.png"))
-button_home = Button(
-    image=button_image_home,
-    borderwidth=0,
-    highlightthickness=0,
-    relief="sunken",
-    bg="#2C0A59",
-    bd=0,
-    activebackground="#2C0A60",
-    command=lambda: print("button_home clicked"),
-    cursor="hand2",
-)
-button_home.place(
-    x=1191.0,
-    y=21.0
-)
-newbookwindow.resizable(True, True)
-newbookwindow.mainloop()
+        button_image_icon = PhotoImage(
+            file=relative_to_assets("icon.png"))
+        button_icon = Button(
+            image=button_image_icon,
+            borderwidth=0,
+            highlightthickness=0,
+            relief="flat",
+            bg="#2C0A59",
+            bd=0,
+            activebackground="#2C0A60",
+            command=self.back_to_home,
+            cursor="hand2",
+        )
+        button_icon.place(
+            x=1197.0,
+            y=19.0,
+        )
+        self.newbookwindow.resizable(False, False)
+        self.newbookwindow.mainloop()

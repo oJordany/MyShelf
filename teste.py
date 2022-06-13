@@ -1,3 +1,6 @@
-from interface.screens.search_window import generate_search_window
+from jmespath import search
+from interface.screens.HomeWindow import HomeWindow
 
-generate_search_window()
+home_window = HomeWindow()
+
+home_window.generate_home_window()
