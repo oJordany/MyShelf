@@ -23,9 +23,12 @@ class MenuWindow:
         self.novaHome.generate_home_window()
 
     def go_to_my_books_window(self):
-        from interface.screens.MyBooksWindows import MyBooksWindow
+        from interface.screens.MyBooksWindow import Aplicattion
         self.menu_window.destroy()
-        self.my_books_window = MyBooksWindow()
+        self.my_books_window = Aplicattion()
+        self.my_books_window.interface()
+        self.my_books_window.Frame_Table()
+        self.my_books_window.MyBooks_list()        
         self.my_books_window.generate_my_books_window()
     
     def go_to_new_book_window(self):

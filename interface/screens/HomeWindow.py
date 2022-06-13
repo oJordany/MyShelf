@@ -25,7 +25,7 @@ class HomeWindow:
         self.home_window.destroy()
         self.menu_window = MenuWindow()
         self.menu_window.generate_menu_window()
-
+        
         
     def generate_home_window(self):
 

@@ -18,15 +18,18 @@ def relative_to_assets(path: str) -> Path:
     return ASSETS_PATH / Path(path)
 
 
-mybookswindow = Tk()
 class Aplicattion():
     def __init__(self):
-        self.mybookswindow=mybookswindow
+        self.mybookswindow = Tk()
         self.interface()
         self.Frame_Table()
         self.MyBooks_list()
-        self.mybookswindow.resizable(True, True)
-        self.mybookswindow.mainloop()
+
+    def back_to_home(self):
+        from interface.screens.HomeWindow import HomeWindow
+        self.mybookswindow.destroy()
+        self.novaHome = HomeWindow()
+        self.novaHome.generate_home_window()
 
     def interface(self):
         self.mybookswindow.geometry("1300x700")
@@ -34,10 +37,9 @@ class Aplicattion():
         self.mybookswindow.maxsize(width=1300, height=700)#configura as dmensoes maximas da tela
         self.mybookswindow.minsize(width=400, height=170)
 
-
         self.canvas = Canvas(
-            mybookswindow,
-            mybookswindow.title("Mybooks"),
+            self.mybookswindow,
+            self.mybookswindow.title("Mybooks"),
             bg = "#2C0A59",
             height = 700,
             width = 1297,
@@ -48,24 +50,24 @@ class Aplicattion():
 
         self.canvas.place(x = 0, y = 0)
 
-        self.button_image_home = PhotoImage(
-            file=relative_to_assets("button_home.png"))
+        self.button_image_icon = PhotoImage(
+            file=relative_to_assets("icon.png"))
 
-        self.button_home = Button(
-            image=self.button_image_home,
+        self.button_icon = Button(
+            image=self.button_image_icon,
             borderwidth=0,
             highlightthickness=0,
-            command=lambda: print("button_home clicked"),
-            bg = "#2C0A59",
-            activebackground="#2C0A59",
+            relief="flat",
+            bg="#2C0A59",
             bd=0,
-            relief="sunken",
+            activebackground="#2C0A60",
+            command=self.back_to_home,
             cursor="hand2",
         )
 
-        self.button_home.place(
-            x=1191.0,
-            y=21.0
+        self.button_icon.place(
+            x=1194.0,
+            y=19.0,
         )
 
         self.image_image_MyBooks = PhotoImage(
@@ -114,4 +116,7 @@ class Aplicattion():
         self.scroolList.place(relx=0.98, rely=0.01, relwidth=0.01, relheight=0.98)
 
         # self.xscroolList.place(relx=0.01, rely=0.99, relwidth=0.99, relheight=0.1)        
-Aplicattion()  
+    
+    def generate_my_books_window(self):
+        self.mybookswindow.resizable(False, False)
+        self.mybookswindow.mainloop()
