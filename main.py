@@ -3,18 +3,18 @@ from controller.database import *
 
 
 # criando banco e tabelas
-criaBanco()
+create_database()
 
-tabelaLendo = Tabela('lendo')
-tabelaLendo.criarTabela()
+tableReading = Table('lendo')
+tableReading.create_table()
 
-tabelaLer = Tabela('ler')
-tabelaLer.criarTabela()
+tableIWTR = Table('ler')
+tableIWTR.create_table()
 
-tabelaLido = Tabela('lido')
-tabelaLido.criarTabela()
+tableRead = Table('lido')
+tableRead.create_table()
 
-mostraTabelasBanco()
+show_database()
 
 
 # colocando os dados inseridos no banco
@@ -30,13 +30,13 @@ dadosRetornados['fim_leitura'] = fimLeitura
 print(dadosRetornados)
 while True:
     if status == "lendo":
-        tabelaLendo.adicionarDados(dadosRetornados)
+        tableReading.adicionarDados(dadosRetornados)
         break
     elif status == "ler":
-        tabelaLer.adicionarDados(dadosRetornados)
+        tableReading.adicionarDados(dadosRetornados)
         break
     elif status == "lido":
-        tabelaLido.adicionarDados(dadosRetornados)
+        tableRead.adicionarDados(dadosRetornados)
         break
     else:
         print('status invalido!')

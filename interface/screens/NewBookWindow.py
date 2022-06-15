@@ -4,6 +4,7 @@
 
 
 from pathlib import Path
+from select import select
 
 # from tkinter import *
 # Explicit imports to satisfy Flake8
@@ -31,7 +32,54 @@ class NewBookWindow:
         self.newbookwindow.destroy()
         self.novaHome = HomeWindow()
         self.novaHome.generate_home_window()
-    
+
+    def submit(self):
+        from controller.request import request 
+        from datetime import date
+        isbn = self.entry_isbn.get()
+        datas = request(isbn)
+        datas['status'] = self.status 
+        if self.status == "read":
+            datas['start_of_reading'] = "NULL"
+        elif self.status == "reading":
+            datas['start_of_reading'] = str(date.today())
+        elif self.status == "IWTR":
+            datas['start_of_reading'] = self.IWTR_window.date
+        print(datas['start_of_reading'], '  ', datas['status'])
+        
+    def select_status(self, status):
+        self.status = status
+
+    def clicked_button_read(self, event):
+        self.button_read.config(image=self.newbookwindow.btn_activeRead)
+        self.button_read.bind("<Leave>", lambda e: self.button_read.config(image=self.newbookwindow.btn_activeRead))
+        
+        self.button_reading.config(image=self.newbookwindow.btn_inactiveReading)
+        self.button_reading.bind("<Leave>", lambda e: self.button_reading.config(image=self.newbookwindow.btn_inactiveReading))
+
+        self.button_IWTR.config(image=self.newbookwindow.btn_inactiveIWTR)
+        self.button_IWTR.bind("<Leave>", lambda e: self.button_IWTR.config(image=self.newbookwindow.btn_inactiveIWTR))
+
+    def clicked_button_reading(self, event):
+        self.button_reading.config(image=self.newbookwindow.btn_activeReading)
+        self.button_reading.bind("<Leave>", lambda e: self.button_reading.config(image=self.newbookwindow.btn_activeReading))
+        
+        self.button_read.config(image=self.newbookwindow.btn_inactiveRead)
+        self.button_read.bind("<Leave>", lambda e: self.button_read.config(image=self.newbookwindow.btn_inactiveRead))
+
+        self.button_IWTR.config(image=self.newbookwindow.btn_inactiveIWTR)
+        self.button_IWTR.bind("<Leave>", lambda e: self.button_IWTR.config(image=self.newbookwindow.btn_inactiveIWTR))
+
+    def clicked_button_IWTR(self, event):
+        self.button_IWTR.config(image=self.newbookwindow.btn_activeIWTR)
+        self.button_IWTR.bind("<Leave>", lambda e: self.button_IWTR.config(image=self.newbookwindow.btn_activeIWTR))
+        
+        self.button_reading.config(image=self.newbookwindow.btn_inactiveReading)
+        self.button_reading.bind("<Leave>", lambda e: self.button_reading.config(image=self.newbookwindow.btn_inactiveReading))
+
+        self.button_read.config(image=self.newbookwindow.btn_inactiveRead)
+        self.button_read.bind("<Leave>", lambda e: self.button_read.config(image=self.newbookwindow.btn_inactiveRead))
+
     def go_to_IWTR_window(self):
         from interface.screens.IWantToReadWindow import IWantToReadWindow
         self.IWTR_window = IWantToReadWindow()
@@ -83,7 +131,7 @@ class NewBookWindow:
             image=entry_image_isbn
         )
 
-        entry_isbn = Entry(
+        self.entry_isbn = Entry(
             bd=0,
             bg="#2C0A59",
             highlightthickness=0,
@@ -92,7 +140,7 @@ class NewBookWindow:
             
             
         )
-        entry_isbn.place(
+        self.entry_isbn.place(
             x=375.0,
             y=235.0,
             width=600.0,
@@ -102,35 +150,35 @@ class NewBookWindow:
         self.newbookwindow.btn_inactiveRead = PhotoImage(file=relative_to_assets("button_read.png"))
         self.newbookwindow.btn_activeRead = PhotoImage(file=relative_to_assets("button_ReadActive.png"))
 
-        button_image_read = PhotoImage(
+        self.button_image_read = PhotoImage(
             file=relative_to_assets("button_read.png"))
-        button_read = Button(
-            image=button_image_read,
+        self.button_read = Button(
+            image=self.button_image_read,
             borderwidth=0,
             highlightthickness=0,
             relief="sunken",
             bg="#2C0A59",
             bd=0,
             activebackground="#2C0A59",
-            command=lambda: print("button_read clicked"),
+            command= self.select_status("read"),
             cursor="hand2",
         )
-        button_read.place(
+        self.button_read.place(
             x=537.0,
             y=380.0,
 
         )
 
-        button_read.bind("<Enter>", lambda e: button_read.config(image=self.newbookwindow.btn_activeRead))
-        button_read.bind("<Leave>", lambda e: button_read.config(image=self.newbookwindow.btn_inactiveRead))
-
+        self.button_read.bind("<Enter>", lambda e: self.button_read.config(image=self.newbookwindow.btn_activeRead))
+        self.button_read.bind("<Leave>", lambda e: self.button_read.config(image=self.newbookwindow.btn_inactiveRead))
+        self.button_read.bind("<Button-1>", self.clicked_button_read)
 
         self.newbookwindow.btn_inactiveReading = PhotoImage(file=relative_to_assets("button_reading.png"))
         self.newbookwindow.btn_activeReading = PhotoImage(file=relative_to_assets("button_ReadingActive.png"))
 
         button_image_reading = PhotoImage(
             file=relative_to_assets("button_reading.png"))
-        button_reading = Button(
+        self.button_reading = Button(
             image=button_image_reading,
             borderwidth=0,
             highlightthickness=0,
@@ -138,23 +186,24 @@ class NewBookWindow:
             bg="#2C0A59",
             bd=0,
             activebackground="#2C0A59",
-            command=lambda: print("button_reading clicked"),
+            command=self.select_status("reading"),
             cursor="hand2",
         )
-        button_reading.place(
+        self.button_reading.place(
             x=537.0,
             y=480.0,
         )
 
-        button_reading.bind("<Enter>", lambda e: button_reading.config(image=self.newbookwindow.btn_activeReading))
-        button_reading.bind("<Leave>", lambda e: button_reading.config(image=self.newbookwindow.btn_inactiveReading))
+        self.button_reading.bind("<Enter>", lambda e: self.button_reading.config(image=self.newbookwindow.btn_activeReading))
+        self.button_reading.bind("<Leave>", lambda e: self.button_reading.config(image=self.newbookwindow.btn_inactiveReading))
+        self.button_reading.bind("<Button-1>", self.clicked_button_reading)
 
         self.newbookwindow.btn_inactiveIWTR = PhotoImage(file=relative_to_assets("button_IWTR.png"))
         self.newbookwindow.btn_activeIWTR = PhotoImage(file=relative_to_assets("button_IWTRActive.png"))
 
         button_image_IWTR = PhotoImage(
             file=relative_to_assets("button_IWTR.png"))
-        button_IWTR = Button(
+        self.button_IWTR = Button(
             image=button_image_IWTR,
             borderwidth=0,
             highlightthickness=0,
@@ -162,15 +211,16 @@ class NewBookWindow:
             bg="#2C0A59",
             bd=0,
             activebackground="#2C0A59",
-            command=self.go_to_IWTR_window,
+            command=self.select_status('IWTR'),
             cursor="hand2",
         )
-        button_IWTR.place(
+        self.button_IWTR.place(
             x=537.0,
             y=580.0,
         )
-        button_IWTR.bind("<Enter>", lambda e: button_IWTR.config(image=self.newbookwindow.btn_activeIWTR))
-        button_IWTR.bind("<Leave>", lambda e: button_IWTR.config(image=self.newbookwindow.btn_inactiveIWTR))
+        self.button_IWTR.bind("<Enter>", lambda e: self.button_IWTR.config(image=self.newbookwindow.btn_activeIWTR))
+        self.button_IWTR.bind("<Leave>", lambda e: self.button_IWTR.config(image=self.newbookwindow.btn_inactiveIWTR))
+        self.button_IWTR.bind("<Button-1>",self.clicked_button_IWTR)
 
         button_image_plus = PhotoImage(
             file=relative_to_assets("button_plus.png"))
@@ -182,7 +232,7 @@ class NewBookWindow:
             bg="#2C0A59",
             bd=0,
             activebackground="#2C0A60",
-            command=lambda: print("icon clicked"),
+            command=self.submit,
             cursor="hand2",
         )
         button_plus.place(

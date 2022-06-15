@@ -1,0 +1,12 @@
+<<<<<<< HEAD
+#!/home/jordany/Documentos/estanteVirtual/venv/bin/python3
+=======
+#!/home/jordany/Documentos/estanteVirtual/venv/bin/python
+>>>>>>> d87ae31b99d345d0a1f00aaa964f6b8a373531c3
+# -*- coding: utf-8 -*-
+import re
+import sys
+from pip._internal.cli.main import main
+if __name__ == '__main__':
+    sys.argv[0] = re.sub(r'(-script\.pyw|\.exe)?$', '', sys.argv[0])
+    sys.exit(main())

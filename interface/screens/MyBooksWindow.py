@@ -50,6 +50,7 @@ class Aplicattion():
 
         self.canvas.place(x = 0, y = 0)
 
+        #buttons
         self.button_image_icon = PhotoImage(
             file=relative_to_assets("icon.png"))
 
@@ -69,6 +70,28 @@ class Aplicattion():
             x=1194.0,
             y=19.0,
         )
+        self.button_image_search = PhotoImage(
+                file=relative_to_assets("button_search.png"))
+
+        self.button_search = Button(
+            image=self.button_image_search,
+            borderwidth=0,
+            highlightthickness=0,
+            command=lambda: print("button_search clicked"),
+            relief="sunken",
+            cursor="hand2",
+            activebackground="#2C0A59",
+            bg="#2C0A59",
+            bd=0
+        )
+        self.button_search.place(
+            x=1235.0,
+            y=168.0,
+            width=40.3193359375,
+            height=40.5035400390625
+        )
+
+        #images
 
         self.image_image_MyBooks = PhotoImage(
             file=relative_to_assets("MyBooks.png"))
@@ -77,13 +100,51 @@ class Aplicattion():
             68.0,
             image=self.image_image_MyBooks
         )
+        self.image_image_ISBN = PhotoImage(
+            file=relative_to_assets("image_ISBN.png"))
+        self.image_3 = self.canvas.create_image(
+            770.0,
+            188.0,
+            image=self.image_image_ISBN
+            )
+        self.image_image_search = PhotoImage(
+            file=relative_to_assets("image_search.png"))
+        self.image_search = self.canvas.create_image(
+            1030.0,
+            145.0,
+            image=self.image_image_search
+        )
+
+        #input
+        self.entry_image_search = PhotoImage(
+            file=relative_to_assets("entry_search.png"))
+        self.entry_bg_1 = self.canvas.create_image(
+            1030.5,
+            190.5,
+            image=self.entry_image_search
+        )
+        self.entry_search = Entry(
+            bd=0,
+            bg="#93679A",
+            highlightthickness=0,
+            justify="center",
+            font=('Georgia 14')
+        )
+        self.entry_search.place(
+            x=850.0,
+            y=173.5,
+            width=365.0,
+            height=26.0
+        )
+
+        #tabela 
         
     def Frame_Table(self): 
         self.frame_MyBooksTable= Frame(self.mybookswindow,bd=5,bg="#2C0A59",highlightbackground="purple",highlightthickness=3)
         self.frame_MyBooksTable.place(relx=0.05,rely=0.34 ,relwidth=0.90,relheight=0.65)
     def MyBooks_list(self):
 
-        self.Books_list= ttk.Treeview(self.frame_MyBooksTable,height=5,columns=("Title","Type","Author","Publisher","Publication date","Start of Reading","End of Reading","Status"))#"Status"
+        self.Books_list= ttk.Treeview(self.frame_MyBooksTable,height=5,columns=("Title","Type","Author","Publisher","Publication date","Language","Start of Reading","End of Reading","Status"))#"Status"
 
         self.Books_list.heading("#0",text="ID")
         self.Books_list.heading("#1",text="Title")
@@ -91,19 +152,21 @@ class Aplicattion():
         self.Books_list.heading("#3",text="Author")
         self.Books_list.heading("#4",text="Publisher")
         self.Books_list.heading("#5",text="Publication date")
-        self.Books_list.heading("#6",text="Start of Reading")
-        self.Books_list.heading("#7",text="End of Reading" )
-        self.Books_list.heading("#8",text="Status" )
+        self.Books_list.heading("#6",text="Language")
+        self.Books_list.heading("#7",text="Start of Reading")
+        self.Books_list.heading("#8",text="End of Reading" )
+        self.Books_list.heading("#9",text="Status" )
 
-        self.Books_list.column("#0", width=150)
-        self.Books_list.column("#1", width=150)
-        self.Books_list.column("#2", width=150)
-        self.Books_list.column("#3", width=150)
-        self.Books_list.column("#4", width=150)
+        self.Books_list.column("#0", width=50)
+        self.Books_list.column("#1", width=100)
+        self.Books_list.column("#2", width=100)
+        self.Books_list.column("#3", width=100)
+        self.Books_list.column("#4", width=100)
         self.Books_list.column("#5", width=150)
-        self.Books_list.column("#6", width=150)
+        self.Books_list.column("#6", width=100)
         self.Books_list.column("#7", width=150)
         self.Books_list.column("#8", width=150)
+        self.Books_list.column("#9", width=100)
 
         self.Books_list.place(relx=0.01, rely=0.01, relwidth=0.97, relheight=0.98)
 
