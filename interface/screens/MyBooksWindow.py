@@ -164,10 +164,10 @@ class Aplicattion():
         self.Books_list.column("#2", width=100)
         self.Books_list.column("#3", width=100)
         self.Books_list.column("#4", width=100)
-        self.Books_list.column("#5", width=300)
+        self.Books_list.column("#5", width=150)
         self.Books_list.column("#6", width=100)
-        self.Books_list.column("#7", width=300)
-        self.Books_list.column("#8", width=300)
+        self.Books_list.column("#7", width=150)
+        self.Books_list.column("#8", width=150)
         self.Books_list.column("#9", width=100)
 
         self.Books_list.place(relx=0.01, rely=0.01, relwidth=0.97, relheight=0.98)
