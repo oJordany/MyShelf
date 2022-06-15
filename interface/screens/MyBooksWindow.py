@@ -117,7 +117,7 @@ class Aplicattion():
 
         #input
         self.entry_image_search = PhotoImage(
-            file=relative_to_assets("entry_search.png"))
+            file=relative_to_assets("entry_search_2.png"))
         self.entry_bg_1 = self.canvas.create_image(
             1030.5,
             190.5,
