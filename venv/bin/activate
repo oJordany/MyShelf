@@ -19,10 +19,14 @@ deactivate () {
     # past commands the $PATH changes we made may not be respected
     if [ -n "${BASH:-}" -o -n "${ZSH_VERSION:-}" ] ; then
 <<<<<<< HEAD
+<<<<<<< HEAD
         hash -r 2> /dev/null
 =======
         hash -r
 >>>>>>> d87ae31b99d345d0a1f00aaa964f6b8a373531c3
+=======
+        hash -r
+>>>>>>> 30631c49693a5289a9d1a1b6e48c0200e953b539
     fi
 
     if [ -n "${_OLD_VIRTUAL_PS1:-}" ] ; then
@@ -59,8 +63,11 @@ fi
 if [ -z "${VIRTUAL_ENV_DISABLE_PROMPT:-}" ] ; then
     _OLD_VIRTUAL_PS1="${PS1:-}"
 <<<<<<< HEAD
+<<<<<<< HEAD
     PS1="(venv) ${PS1:-}"
 =======
+=======
+>>>>>>> 30631c49693a5289a9d1a1b6e48c0200e953b539
     if [ "x(venv) " != x ] ; then
 	PS1="(venv) ${PS1:-}"
     else
@@ -72,7 +79,10 @@ if [ -z "${VIRTUAL_ENV_DISABLE_PROMPT:-}" ] ; then
         PS1="(`basename \"$VIRTUAL_ENV\"`)$PS1"
     fi
     fi
+<<<<<<< HEAD
 >>>>>>> d87ae31b99d345d0a1f00aaa964f6b8a373531c3
+=======
+>>>>>>> 30631c49693a5289a9d1a1b6e48c0200e953b539
     export PS1
 fi
 
@@ -81,8 +91,12 @@ fi
 # past commands the $PATH changes we made may not be respected
 if [ -n "${BASH:-}" -o -n "${ZSH_VERSION:-}" ] ; then
 <<<<<<< HEAD
+<<<<<<< HEAD
     hash -r 2> /dev/null
 =======
     hash -r
 >>>>>>> d87ae31b99d345d0a1f00aaa964f6b8a373531c3
+=======
+    hash -r
+>>>>>>> 30631c49693a5289a9d1a1b6e48c0200e953b539
 fi
