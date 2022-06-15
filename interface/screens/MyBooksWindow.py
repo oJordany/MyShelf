@@ -8,7 +8,7 @@ from re import X
 
 # from tkinter import *
 # Explicit imports to satisfy Flake8
-from tkinter import BOTTOM, RIGHT, Y, Frame, Scrollbar, Tk, Canvas, Entry, Text, Button, ttk , PhotoImage
+from tkinter import BOTTOM, RIGHT, Y,X, Frame, Scrollbar, Tk, Canvas, Entry, Text, Button, ttk , PhotoImage
 
 
 OUTPUT_PATH = Path(__file__).parent
@@ -159,16 +159,16 @@ class Aplicattion():
         self.Books_list.heading("#8",text="End of Reading" )
         self.Books_list.heading("#9",text="Status" )
 
-        self.Books_list.column("#0", width=50)
+        self.Books_list.column("#0", width=100)
         self.Books_list.column("#1", width=100)
         self.Books_list.column("#2", width=100)
         self.Books_list.column("#3", width=100)
         self.Books_list.column("#4", width=100)
-        self.Books_list.column("#5", width=150)
-        self.Books_list.column("#6", width=100)
-        self.Books_list.column("#7", width=150)
-        self.Books_list.column("#8", width=150)
-        self.Books_list.column("#9", width=100)
+        self.Books_list.column("#5", width=160)
+        self.Books_list.column("#6", width=160)
+        self.Books_list.column("#7", width=160)
+        self.Books_list.column("#8", width=160)
+        self.Books_list.column("#9", width=160)
 
         self.Books_list.place(relx=0.01, rely=0.01, relwidth=0.97, relheight=0.98)
 
