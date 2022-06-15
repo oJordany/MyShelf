@@ -1,20 +1,13 @@
 from controller.request import request
+from interface.screens.HomeWindow import HomeWindow
 from controller.database import *
 
 
 # criando banco e tabelas
 create_database()
 
-tableReading = Table('lendo')
-tableReading.create_table()
-
-tableIWTR = Table('ler')
-tableIWTR.create_table()
-
-tableRead = Table('lido')
-tableRead.create_table()
-
-show_database()
+home_window = HomeWindow()
+home_window.generate_home_window()
 
 
 

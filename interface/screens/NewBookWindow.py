@@ -34,25 +34,32 @@ class NewBookWindow:
         self.novaHome.generate_home_window()
 
     def submit(self):
-        from controller.database import 
+        from controller.database import Table
         from controller.request import request 
         from datetime import date
         isbn = self.entry_isbn.get()
         datas = request(isbn)
         datas['status'] = self.status 
+        self.estante = Table()
         if self.status == "read":
             datas['start_of_reading'] = "NULL"
             datas['end_of_reading'] = "NULL"
+            self.estante.add_data(datas)
+
         elif self.status == "reading":
             datas['start_of_reading'] = str(date.today())
             datas['end_of_reading'] = "NULL"
+            self.estante.add_data(datas)
+
         elif self.status == "IWTR":
             datas['start_of_reading'] = self.IWTR_window.date
             datas['end_of_reading'] = "NULL"
+            self.estante.add_data(datas)
 
         print(datas)
         
         del datas
+
     def select_status(self, status):
         self.status = status
         print(status)
