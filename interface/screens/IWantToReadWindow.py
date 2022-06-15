@@ -24,11 +24,13 @@ class IWantToReadWindow:
         self.IWTR_window.maxsize(width=988, height=700)#configura as dmensoes maximas da tela
         self.IWTR_window.minsize(width=400, height=170)
 
-    def get_date(self):
+    def catch_date(self):
         self.date = self.calendar.get_date()
+        self.IWTR_window.destroy()
 
     def i_dont_know(self):
         self.date = "NULL"
+        self.IWTR_window.destroy()
 
     def generate_IWTR_window(self):
         from datetime import date
@@ -115,7 +117,7 @@ class IWantToReadWindow:
             bg="#2C0A59",
             bd=0,
             activebackground="#2C0A59",
-            command=self.get_date,
+            command=self.catch_date,
             relief="sunken",
             cursor="hand2",
         )

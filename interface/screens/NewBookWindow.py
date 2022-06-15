@@ -34,6 +34,7 @@ class NewBookWindow:
         self.novaHome.generate_home_window()
 
     def submit(self):
+        from controller.database import 
         from controller.request import request 
         from datetime import date
         isbn = self.entry_isbn.get()
@@ -41,16 +42,24 @@ class NewBookWindow:
         datas['status'] = self.status 
         if self.status == "read":
             datas['start_of_reading'] = "NULL"
+            datas['end_of_reading'] = "NULL"
         elif self.status == "reading":
             datas['start_of_reading'] = str(date.today())
+            datas['end_of_reading'] = "NULL"
         elif self.status == "IWTR":
             datas['start_of_reading'] = self.IWTR_window.date
-        print(datas['start_of_reading'], '  ', datas['status'])
+            datas['end_of_reading'] = "NULL"
+
+        print(datas)
         
+        del datas
     def select_status(self, status):
         self.status = status
+        print(status)
+        
 
     def clicked_button_read(self, event):
+        self.status = 'read'
         self.button_read.config(image=self.newbookwindow.btn_activeRead)
         self.button_read.bind("<Leave>", lambda e: self.button_read.config(image=self.newbookwindow.btn_activeRead))
         
@@ -61,6 +70,7 @@ class NewBookWindow:
         self.button_IWTR.bind("<Leave>", lambda e: self.button_IWTR.config(image=self.newbookwindow.btn_inactiveIWTR))
 
     def clicked_button_reading(self, event):
+        self.status = 'reading'
         self.button_reading.config(image=self.newbookwindow.btn_activeReading)
         self.button_reading.bind("<Leave>", lambda e: self.button_reading.config(image=self.newbookwindow.btn_activeReading))
         
@@ -71,6 +81,7 @@ class NewBookWindow:
         self.button_IWTR.bind("<Leave>", lambda e: self.button_IWTR.config(image=self.newbookwindow.btn_inactiveIWTR))
 
     def clicked_button_IWTR(self, event):
+        self.status = "IWTR"
         self.button_IWTR.config(image=self.newbookwindow.btn_activeIWTR)
         self.button_IWTR.bind("<Leave>", lambda e: self.button_IWTR.config(image=self.newbookwindow.btn_activeIWTR))
         
@@ -110,7 +121,7 @@ class NewBookWindow:
             file=relative_to_assets("image_ISBN.png"))
         image_2 = canvas.create_image(
             683.0,
-            160.0,
+            180.0,
             image=image_image_ISB
         )
 
@@ -133,12 +144,10 @@ class NewBookWindow:
 
         self.entry_isbn = Entry(
             bd=0,
-            bg="#2C0A59",
+            bg="#93679A",
             highlightthickness=0,
             justify="center",
-            font=('Georgia 20')
-            
-            
+            font=('Georgia 20')      
         )
         self.entry_isbn.place(
             x=375.0,
@@ -160,7 +169,6 @@ class NewBookWindow:
             bg="#2C0A59",
             bd=0,
             activebackground="#2C0A59",
-            command= self.select_status("read"),
             cursor="hand2",
         )
         self.button_read.place(
@@ -186,7 +194,6 @@ class NewBookWindow:
             bg="#2C0A59",
             bd=0,
             activebackground="#2C0A59",
-            command=self.select_status("reading"),
             cursor="hand2",
         )
         self.button_reading.place(
@@ -211,7 +218,7 @@ class NewBookWindow:
             bg="#2C0A59",
             bd=0,
             activebackground="#2C0A59",
-            command=self.select_status('IWTR'),
+            command=self.go_to_IWTR_window,
             cursor="hand2",
         )
         self.button_IWTR.place(

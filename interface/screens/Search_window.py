@@ -64,10 +64,10 @@ class SearchWindow:
         )
 
         image_image_isbn = PhotoImage(
-            file=relative_to_assets("image_isbn.png"))
+            file=relative_to_assets("image_ISBN.png"))
         
         canvas.create_image(
-            151.0,
+            110.0,
             129.0,
             image=image_image_isbn
         )
