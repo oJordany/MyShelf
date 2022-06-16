@@ -5,10 +5,13 @@
 
 from pathlib import Path
 from select import select
+from tabnanny import check
 
 # from tkinter import *
 # Explicit imports to satisfy Flake8
-from tkinter import NW, Tk, Canvas, Entry, Text, Button, PhotoImage
+from tkinter import NW, Tk, Canvas, Entry, Text, Button, PhotoImage, Label, StringVar, FLAT
+
+from controller.database import check_existence
 
 
 OUTPUT_PATH = Path(__file__).parent
@@ -34,27 +37,53 @@ class NewBookWindow:
         self.novaHome.generate_home_window()
 
     def submit(self):
-        from controller.database import Table
+        from controller.database import Table, check_existence
         from controller.request import request 
         from datetime import date
         isbn = self.entry_isbn.get()
+        var = StringVar()
         datas = request(isbn)
-        datas['status'] = self.status 
-        self.estante = Table()
-        if self.status == "read":
-            datas['start_of_reading'] = "NULL"
-            datas['end_of_reading'] = "NULL"
-            self.estante.add_data(datas)
+        check = check_existence(isbn)
 
-        elif self.status == "reading":
-            datas['start_of_reading'] = str(date.today())
-            datas['end_of_reading'] = "NULL"
-            self.estante.add_data(datas)
+        if type(datas) != str and not check:
+            try:
+                datas['status'] = self.status 
+                self.estante = Table()
+                if self.status == "read":
+                    datas['start_of_reading'] = "NULL"
+                    datas['end_of_reading'] = "NULL"
+                    self.estante.add_data(datas)
 
-        elif self.status == "I want to read":
-            datas['start_of_reading'] = self.IWTR_window.date
-            datas['end_of_reading'] = "NULL"
-            self.estante.add_data(datas)
+                elif self.status == "reading":
+                    datas['start_of_reading'] = str(date.today())
+                    datas['end_of_reading'] = "NULL"
+                    self.estante.add_data(datas)
+
+                elif self.status == "I want to read":
+                    datas['start_of_reading'] = self.IWTR_window.date
+                    datas['end_of_reading'] = "NULL"
+                    self.estante.add_data(datas)
+                
+                var.set("book successfully inserted")
+                colorLabel = "green"
+            except:
+                var.set("Error: select a status")
+                colorLabel = "red"
+        elif not check:
+            var.set("Error: non-existent isbn")
+            colorLabel = "red"
+
+        if check:
+            var.set("This book already exists")
+            colorLabel = "red"
+        
+        try: 
+            self.label.destroy()
+        except:
+            pass 
+        finally:
+            self.label = Label( self.newbookwindow, textvariable=var, relief=FLAT, background="#2C0A59", foreground=colorLabel, font=("Georgia 14 bold"))
+            self.label.place(x=540, y=200)
 
         print(datas)
         

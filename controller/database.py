@@ -1,6 +1,4 @@
-from curses import meta
 import sqlite3
-from random import randint
 
 def create_database():
     con = sqlite3.connect('database/estante.db')
@@ -8,21 +6,21 @@ def create_database():
     con.close()
     
 
-def show_database(nameDatabase='estante'):
-    con = sqlite3.connect(f'database/{nameDatabase}.db')
-    cur = con.cursor()
-    cur.execute('SELECT name from sqlite_master where type= "table"')
-    tablesDatabase = cur.fetchall()
-    print(tablesDatabase)
-    print('\n')
-    if tablesDatabase == []:
-        print('Banco vazio')
-    else:
-        print(f'TABELAS DE \033[1;32m{nameDatabase}\033[m:')
-        for table in tablesDatabase:
-            color = randint(31,39)
-            print(f'\033[1;{color}m{table[0]}\033[m', end = '   ')
-    print('\n')
+# def show_database(nameDatabase='estante'):
+#     con = sqlite3.connect(f'database/{nameDatabase}.db')
+#     cur = con.cursor()
+#     cur.execute('SELECT name from sqlite_master where type= "table"')
+#     tablesDatabase = cur.fetchall()
+#     print(tablesDatabase)
+#     print('\n')
+#     if tablesDatabase == []:
+#         print('Banco vazio')
+#     else:
+#         print(f'TABELAS DE \033[1;32m{nameDatabase}\033[m:')
+#         for table in tablesDatabase:
+#             color = randint(31,39)
+#             print(f'\033[1;{color}m{table[0]}\033[m', end = '   ')
+#     print('\n')
 
 def query_database(nameDatabase='estante'):
     con = sqlite3.connect(f'database/{nameDatabase}.db')
@@ -31,6 +29,36 @@ def query_database(nameDatabase='estante'):
     allDatas = cur.fetchall()
     return allDatas
 
+def remove_database(isbn, nameDatabase='estante'):
+    con = sqlite3.connect(f'database/{nameDatabase}.db')
+    cur = con.cursor()
+    cur.execute(f'DELETE FROM Books WHERE ID = {isbn}')
+
+    con.commit()
+    con.close()
+
+def search_database(isbn, nameDatabase='estante'):
+    con = sqlite3.connect(f'database/{nameDatabase}.db')
+    cur = con.cursor()
+    cur.execute(f'SELECT * FROM Books WHERE ID = {isbn}')
+
+    searchDatas = cur.fetchall()
+    return searchDatas
+
+def check_existence(isbn, nameDatabase='estante'):
+    con = sqlite3.connect(f'database/{nameDatabase}.db')
+    cur = con.cursor()
+    try: 
+        cur.execute(f'SELECT * FROM Books WHERE ID = {isbn}')
+        book = cur.fetchall()
+        if book != []:
+            return True
+        else:
+            return False
+    except:
+        return False
+
+    
 class Table:
 
     def __init__(self):

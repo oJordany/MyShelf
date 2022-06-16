@@ -1,6 +1,7 @@
 import json
 from isbnlib import info
 from isbnlib import meta
+from tkinter import Label, StringVar, FLAT
 from isbnlib.registry import bibformatters
 import re
 
@@ -22,4 +23,5 @@ def request(isbn):
         return metadata
 
     except:
-        return 'Não foi possível encontrar o isbn fornecido'
+        msgError = "Erro: non-existent isbn"
+        return msgError

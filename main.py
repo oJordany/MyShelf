@@ -13,7 +13,7 @@ home_window.generate_home_window()
 
 
 # 9788595081536 -> O Homem Mais Rico da Babilônia
-# 8524905549 -> A REvoluçã Informacional
+# 8524905549 -> A Revolução Informacional
 # 8573081082 -> Computer Crimes - A Criminalidadena Era dos Computadores 
 # 9780805210408 -> O processo - Kafka
 # 9780132350884 -> Clean Code

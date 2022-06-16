@@ -4,11 +4,15 @@
 
 
 from curses import meta
+from os import remove
 from pathlib import Path
 
 # from tkinter import *
 # Explicit imports to satisfy Flake8
 from tkinter import BOTTOM, CENTER, RIGHT, W, Y,X, Frame, Scrollbar, Tk, Canvas, Entry, Text, Button, ttk , PhotoImage
+from tkinter import StringVar, Label, FLAT
+from numpy import pad
+from requests import delete
 from controller.database import query_database
 
 OUTPUT_PATH = Path(__file__).parent
@@ -78,7 +82,7 @@ class Aplicattion():
             image=self.button_image_search,
             borderwidth=0,
             highlightthickness=0,
-            command=lambda: print("button_search clicked"),
+            command=self.searchBook,
             relief="sunken",
             cursor="hand2",
             activebackground="#2C0A59",
@@ -92,7 +96,7 @@ class Aplicattion():
             height=40.5035400390625
         )
 
-        # #button delet
+        # #button delete
 
         self.mybookswindow.btn_inactivedelete = PhotoImage(file=relative_to_assets("button_delete.png"))
         self.mybookswindow.btn_activedelete = PhotoImage(file=relative_to_assets("button_deleteActive.png"))
@@ -103,7 +107,7 @@ class Aplicattion():
             image=self.button_image_delete,
             borderwidth=0,
             highlightthickness=0,
-            command=lambda: print("button_delete clicked"),
+            command=self.deleteBook,
             bg = "#2C0A59",
             activebackground="#2C0A59",
             relief="sunken",
@@ -153,7 +157,7 @@ class Aplicattion():
             image=self.button_image_ShowAll,
             borderwidth=0,
             highlightthickness=0,
-            command=lambda: print("button_ShowAll clicked"),
+            command=self.show_all_datas,
             bg = "#2C0A59",
             activebackground="#2C0A59",
             relief="sunken",
@@ -274,12 +278,52 @@ class Aplicattion():
         )
     
     def insert_datas(self):
+        self.allDatas = query_database()
         try:
-            self.allDatas = query_database()
             for i, metadatas in enumerate(self.allDatas):
                 self.Books_list.insert(parent='', index='end', iid=i,text=metadatas[0], values=metadatas[1:])
         except:
+            pass 
+
+    def show_all_datas(self):
+        try: 
+            self.labelError.destroy()
+        except:
             pass
+        finally:
+            for item in self.Books_list.get_children():
+                self.Books_list.delete(item)
+            self.insert_datas()
+
+    def deleteBook(self):
+        from controller.database import remove_database
+        book = self.Books_list.selection()[0]
+        isbn = self.Books_list.item(book)["text"]
+        remove_database(isbn)
+        self.Books_list.delete(book)
+
+    def searchBook(self):
+        from controller.database import search_database
+
+        for item in self.Books_list.get_children():
+            self.Books_list.delete(item)
+
+        try: 
+            self.labelError.destroy()
+        except:
+            pass
+        
+        try:
+            isbn = int(self.entry_search.get())
+            self.searchDatas = search_database(isbn)
+            self.Books_list.insert(parent='', index='end', iid=0,text=self.searchDatas[0][0], values=self.searchDatas[0][1:])
+        except:
+            var = StringVar()
+            self.labelError = Label( self.mybookswindow, textvariable=var, relief=FLAT, foreground="red", background="#2C0A59", font=("Georgia 14 bold"))
+
+            var.set("Erro: non-existent isbn")
+            self.labelError.pack()
+
 
     def generate_my_books_window(self):
         self.mybookswindow.resizable(False, False)

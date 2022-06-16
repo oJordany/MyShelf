@@ -19,17 +19,11 @@ class IWantToReadWindow:
     def __init__(self):        
         self.IWTR_window = Toplevel()
         self.IWTR_window.title("I Want to Read")
-        self.IWTR_window.geometry("530x292")
+        self.IWTR_window.geometry("360x320")
         self.IWTR_window.configure(bg = "#2C0A59")
-        self.IWTR_window.maxsize(width=988, height=700)#configura as dmensoes maximas da tela
-        self.IWTR_window.minsize(width=400, height=170)
 
     def catch_date(self):
         self.date = self.calendar.get_date()
-        self.IWTR_window.destroy()
-
-    def i_dont_know(self):
-        self.date = "NULL"
         self.IWTR_window.destroy()
 
     def generate_IWTR_window(self):
@@ -39,27 +33,19 @@ class IWantToReadWindow:
         canvas = Canvas(
             self.IWTR_window,
             bg = "#2C0A59",
-            height = 270,
-            width = 870,
+            height = 340,
+            width = 360,
             bd = 0,
             highlightthickness = 0,
             relief = "ridge"
         )
         
-        image_image_WTR= PhotoImage(
-            file=relative_to_assets("WTR.png"))
+        image_image_IWTRin= PhotoImage(
+            file=relative_to_assets("IWTRin.png"))
         canvas.create_image(
             179.0,
             47.0,
-            image=image_image_WTR
-        )
-
-        image_image_OR= PhotoImage(
-            file=relative_to_assets("Or.png"))
-        canvas.create_image(
-            395.0,
-            177.0,
-            image=image_image_OR
+            image=image_image_IWTRin
         )
 
         canvas.place(x=0,y=0)
@@ -72,35 +58,7 @@ class IWantToReadWindow:
 
         self.calendar = Calendar(self.IWTR_window, setmode="day", year=dateSeparated[0], month=dateSeparated[1], day=dateSeparated[2])
         self.calendar.config(background="#B22FD3", locale="en", date_pattern="yyyy-mm-dd")
-        self.calendar.place(x=40, y=100)
-
-        self.IWTR_window.btn_IDKinactive = PhotoImage(file=relative_to_assets("button_IDK.png"))
-        self.IWTR_window.btn_IDKactive = PhotoImage(file=relative_to_assets("button_IDKActive.png"))
-
-        button_image_IDK = PhotoImage(
-            file=relative_to_assets("button_IDK.png"))
-
-        button_IDK = Button(
-            self.IWTR_window,
-            image=button_image_IDK,
-            borderwidth=0,
-            highlightthickness=0,
-            bg="#2C0A59",
-            bd=0,
-            activebackground="#2C0A59",
-            command=self.i_dont_know,
-            relief="sunken",
-            cursor="hand2",
-        )
-        
-        button_IDK.bind("<Enter>", lambda e: button_IDK.config(image=self.IWTR_window.btn_IDKactive))
-        button_IDK.bind("<Leave>", lambda e: button_IDK.config(image=self.IWTR_window.btn_IDKinactive))
-        
-        button_IDK.place(
-            x=300,
-            y=200,
-
-        )
+        self.calendar.place(x=60, y=100)
 
         self.IWTR_window.btn_select_date_inactive = PhotoImage(file=relative_to_assets("button_select_date_inactive.png"))
         self.IWTR_window.btn_select_date_active = PhotoImage(file=relative_to_assets("button_select_date.png"))
@@ -126,8 +84,8 @@ class IWantToReadWindow:
         button_select_date.bind("<Leave>", lambda e: button_select_date.config(image=self.IWTR_window.btn_select_date_inactive))
 
         button_select_date.place(
-            x=300,
-            y=100,
+            x=80,
+            y=260,
         )
 
         self.IWTR_window.resizable(False, False)
