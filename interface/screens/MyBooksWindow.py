@@ -181,6 +181,22 @@ class Aplicattion():
         self.Books_list.configure(xscroll=self.xscroolList.set)
         self.xscroolList.pack(side=BOTTOM,fill=X) 
         self.xscroolList.config(command=self.Books_list.xview)
+        #style
+        self.style=ttk.Style()
+        
+        #pick a theme
+        self.style.theme_use("alt")
+        self.style.configure("Treeview", 
+            background="#93679A",
+            foreground="black",
+            rowheight=25,
+            fieldbackground= "#93679A"
+                        
+        )
+        self.style.map('Treeview',
+            background=[('selected','purple')]
+        )
+      
 
     def generate_my_books_window(self):
         self.mybookswindow.resizable(False, False)
