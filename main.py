@@ -17,4 +17,5 @@ home_window.generate_home_window()
 # 8573081082 -> Computer Crimes - A Criminalidadena Era dos Computadores 
 # 9780805210408 -> O processo - Kafka
 # 9780132350884 -> Clean Code
+# 9780201485677 -> Refactoring
 # pattern = re.compile(r"\[\'|\'\]") -> Padrão para retornar uma string de lista em lista novamente
