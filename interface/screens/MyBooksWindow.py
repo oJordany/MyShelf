@@ -21,7 +21,6 @@ def relative_to_assets(path: str) -> Path:
 
 class Aplicattion():
     def __init__(self):
-        self.allDatas = query_database()
         self.mybookswindow = Tk()
         self.interface()
         self.Frame_Table()
@@ -200,9 +199,12 @@ class Aplicattion():
         )
     
     def insert_datas(self):
-        for i, metadatas in enumerate(self.allDatas):
-            print(metadatas)
-            self.Books_list.insert(parent='', index='end', iid=i,text=metadatas[0], values=metadatas[1:])
+        try:
+            self.allDatas = query_database()
+            for i, metadatas in enumerate(self.allDatas):
+                self.Books_list.insert(parent='', index='end', iid=i,text=metadatas[0], values=metadatas[1:])
+        except:
+            pass
 
     def generate_my_books_window(self):
         self.mybookswindow.resizable(False, False)

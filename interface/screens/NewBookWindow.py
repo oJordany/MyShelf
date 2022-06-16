@@ -51,7 +51,7 @@ class NewBookWindow:
             datas['end_of_reading'] = "NULL"
             self.estante.add_data(datas)
 
-        elif self.status == "IWTR":
+        elif self.status == "I want to read":
             datas['start_of_reading'] = self.IWTR_window.date
             datas['end_of_reading'] = "NULL"
             self.estante.add_data(datas)
@@ -88,7 +88,7 @@ class NewBookWindow:
         self.button_IWTR.bind("<Leave>", lambda e: self.button_IWTR.config(image=self.newbookwindow.btn_inactiveIWTR))
 
     def clicked_button_IWTR(self, event):
-        self.status = "IWTR"
+        self.status = "I want to read"
         self.button_IWTR.config(image=self.newbookwindow.btn_activeIWTR)
         self.button_IWTR.bind("<Leave>", lambda e: self.button_IWTR.config(image=self.newbookwindow.btn_activeIWTR))
         

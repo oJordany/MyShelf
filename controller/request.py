@@ -2,6 +2,7 @@ import json
 from isbnlib import info
 from isbnlib import meta
 from isbnlib.registry import bibformatters
+import re
 
 def request(isbn):
     try:
@@ -16,7 +17,8 @@ def request(isbn):
             authors.append(author['name'])
         metadata['author'] = str(authors)
         metadata['identifier'] = int(metadata['identifier'][0]['id'])
-
+        pattern = re.compile(r"\[|\'|\'|\]")
+        metadata['author'] = re.sub(pattern, '', metadata['author'])
         return metadata
 
     except:

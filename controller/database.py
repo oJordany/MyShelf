@@ -51,10 +51,15 @@ class Table:
         cur = con.cursor() 
 
         cur.execute(f'''INSERT INTO Books VALUES 
-                        ({dados['identifier']}, "{dados['type']}", "{dados['title']}", "{dados['author']}", 
+                        ({dados['identifier']}, 
+                        "{dados['type']}", 
+                        "{dados['title']}", 
+                        "{dados['author']}", 
                         {'"' if dados['publisher'] != '' else ''}{dados['publisher'] if dados['publisher'] != '' else 'NULL'}{'"' if dados['publisher'] != '' else ''}, 
-                        {int(dados['year'])}, "{dados['language']}", 
-                        {'"' if dados['start_of_reading'] != 'NULL' else ''}{dados['start_of_reading']}{'"' if dados['start_of_reading'] != 'NULL' else ''}, {'"' if dados['end_of_reading'] != 'NULL' else ''}{dados['end_of_reading']}{'"' if dados['end_of_reading'] != 'NULL' else ''},
+                        {int(dados['year'])}, 
+                        "{dados['language']}", 
+                        {'"' if dados['start_of_reading'] != 'NULL' else ''}{dados['start_of_reading']}{'"' if dados['start_of_reading'] != 'NULL' else ''}, 
+                        {'"' if dados['end_of_reading'] != 'NULL' else ''}{dados['end_of_reading']}{'"' if dados['end_of_reading'] != 'NULL' else ''},
                         "{dados['status']}" 
                         )''')
 

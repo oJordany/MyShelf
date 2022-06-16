@@ -28,8 +28,8 @@ class MenuWindow:
         self.my_books_window = Aplicattion()
         self.my_books_window.interface()
         self.my_books_window.Frame_Table()
-        self.my_books_window.MyBooks_list()        
-        self.my_books_window.insert_datas()        
+        self.my_books_window.MyBooks_list()
+        self.my_books_window.insert_datas()   
         self.my_books_window.generate_my_books_window()
     
     def go_to_new_book_window(self):
