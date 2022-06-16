@@ -3,12 +3,13 @@
 # https://github.com/ParthJadhav/Tkinter-Designer
 
 
+from curses import meta
 from pathlib import Path
 
 # from tkinter import *
 # Explicit imports to satisfy Flake8
 from tkinter import BOTTOM, RIGHT, Y,X, Frame, Scrollbar, Tk, Canvas, Entry, Text, Button, ttk , PhotoImage
-
+from controller.database import query_database
 
 OUTPUT_PATH = Path(__file__).parent
 ASSETS_PATH = OUTPUT_PATH / Path("./assets")
@@ -20,6 +21,7 @@ def relative_to_assets(path: str) -> Path:
 
 class Aplicattion():
     def __init__(self):
+        self.allDatas = query_database()
         self.mybookswindow = Tk()
         self.interface()
         self.Frame_Table()
@@ -148,8 +150,8 @@ class Aplicattion():
         self.Books_list= ttk.Treeview(self.frame_MyBooksTable,height=5,columns=("Title","Type","Author","Publisher","Publication date","Language","Start of Reading","End of Reading","Status"))#"Status"
 
         self.Books_list.heading("#0",text="ID")
-        self.Books_list.heading("#1",text="Title")
-        self.Books_list.heading("#2",text="Type")
+        self.Books_list.heading("#1",text="Type")
+        self.Books_list.heading("#2",text="Title")
         self.Books_list.heading("#3",text="Author")
         self.Books_list.heading("#4",text="Publisher")
         self.Books_list.heading("#5",text="Publication date")
@@ -196,7 +198,11 @@ class Aplicattion():
         self.style.map('Treeview',
             background=[('selected','purple')]
         )
-      
+    
+    def insert_datas(self):
+        for i, metadatas in enumerate(self.allDatas):
+            print(metadatas)
+            self.Books_list.insert(parent='', index='end', iid=i,text=metadatas[0], values=metadatas[1:])
 
     def generate_my_books_window(self):
         self.mybookswindow.resizable(False, False)

@@ -1,3 +1,4 @@
+from curses import meta
 import sqlite3
 from random import randint
 
@@ -23,6 +24,12 @@ def show_database(nameDatabase='estante'):
             print(f'\033[1;{color}m{table[0]}\033[m', end = '   ')
     print('\n')
 
+def query_database(nameDatabase='estante'):
+    con = sqlite3.connect(f'database/{nameDatabase}.db')
+    cur = con.cursor()
+    cur.execute('SELECT * FROM Books')
+    allDatas = cur.fetchall()
+    return allDatas
 
 class Table:
 
@@ -45,8 +52,10 @@ class Table:
 
         cur.execute(f'''INSERT INTO Books VALUES 
                         ({dados['identifier']}, "{dados['type']}", "{dados['title']}", "{dados['author']}", 
-                        "{dados['publisher']}", {int(dados['year'])}, "{dados['language']}", 
-                        "{dados['start_of_reading']}", "{dados['end_of_reading']}", "{dados['status']}" 
+                        {'"' if dados['publisher'] != '' else ''}{dados['publisher'] if dados['publisher'] != '' else 'NULL'}{'"' if dados['publisher'] != '' else ''}, 
+                        {int(dados['year'])}, "{dados['language']}", 
+                        {'"' if dados['start_of_reading'] != 'NULL' else ''}{dados['start_of_reading']}{'"' if dados['start_of_reading'] != 'NULL' else ''}, {'"' if dados['end_of_reading'] != 'NULL' else ''}{dados['end_of_reading']}{'"' if dados['end_of_reading'] != 'NULL' else ''},
+                        "{dados['status']}" 
                         )''')
 
         con.commit()
