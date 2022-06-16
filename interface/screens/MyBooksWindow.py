@@ -8,7 +8,7 @@ from pathlib import Path
 
 # from tkinter import *
 # Explicit imports to satisfy Flake8
-from tkinter import BOTTOM, RIGHT, Y,X, Frame, Scrollbar, Tk, Canvas, Entry, Text, Button, ttk , PhotoImage
+from tkinter import BOTTOM, CENTER, RIGHT, W, Y,X, Frame, Scrollbar, Tk, Canvas, Entry, Text, Button, ttk , PhotoImage
 from controller.database import query_database
 
 OUTPUT_PATH = Path(__file__).parent
@@ -93,11 +93,86 @@ class Aplicattion():
             height=40.5035400390625
         )
 
+        # #button delet
+
+        self.mybookswindow.btn_inactivedelete = PhotoImage(file=relative_to_assets("button_delete.png"))
+        self.mybookswindow.btn_activedelete = PhotoImage(file=relative_to_assets("button_deleteActive.png"))
+
+        self.button_image_delete = PhotoImage(
+            file=relative_to_assets("button_delete.png"))
+        self.button_delete = Button(
+            image=self.button_image_delete,
+            borderwidth=0,
+            highlightthickness=0,
+            command=lambda: print("button_delete clicked"),
+            bg = "#2C0A59",
+            activebackground="#2C0A59",
+            relief="sunken",
+            cursor="hand2"
+            
+        )
+        self.button_delete.place(
+            x=378.0,
+            y=207.0,
+
+        )
+        self.button_delete.bind("<Enter>", lambda e: self.button_delete.config(image=self.mybookswindow.btn_activedelete))
+        self.button_delete.bind("<Leave>", lambda e: self.button_delete.config(image=self.mybookswindow.btn_inactivedelete))
+
+        #button edit status 
+        self.mybookswindow.btn_inactiveeditstatus = PhotoImage(file=relative_to_assets("button_editstatus.png"))
+        self.mybookswindow.btn_activeeditstatus = PhotoImage(file=relative_to_assets("button_editstatusActive.png"))
+
+        self.button_image_editstatus = PhotoImage(
+            file=relative_to_assets("button_editstatus.png"))
+        self.button_editstatus = Button(
+            image=self.button_image_editstatus,
+            borderwidth=0,
+            highlightthickness=0,
+            command=lambda: print("button_editstatus clicked"),
+            bg = "#2C0A59",
+            activebackground="#2C0A59",
+            relief="sunken",
+            cursor="hand2"
+
+        )
+        self.button_editstatus.place(
+            x=218.0,
+            y=207.0,
+        )
+        self.button_editstatus.bind("<Enter>", lambda e: self.button_editstatus.config(image=self.mybookswindow.btn_activeeditstatus))
+        self.button_editstatus.bind("<Leave>", lambda e: self.button_editstatus.config(image=self.mybookswindow.btn_inactiveeditstatus))
+
+        #button Show All
+        self.mybookswindow.btn_inactiveShowAll = PhotoImage(file=relative_to_assets("button_ShowAll.png"))
+        self.mybookswindow.btn_activeShowAll = PhotoImage(file=relative_to_assets("button_ShowAllActive.png"))
+
+        self.button_image_ShowAll = PhotoImage(
+            file=relative_to_assets("button_ShowAll.png"))
+
+        self.button_ShowAll = Button(
+            image=self.button_image_ShowAll,
+            borderwidth=0,
+            highlightthickness=0,
+            command=lambda: print("button_ShowAll clicked"),
+            bg = "#2C0A59",
+            activebackground="#2C0A59",
+            relief="sunken",
+            cursor="hand2"
+        )
+        self.button_ShowAll.place(
+            x=60.0,
+            y=207.0,
+        )
+
+        self.button_ShowAll.bind("<Enter>", lambda e: self.button_ShowAll.config(image=self.mybookswindow.btn_activeShowAll))
+        self.button_ShowAll.bind("<Leave>", lambda e: self.button_ShowAll.config(image=self.mybookswindow.btn_inactiveShowAll))
+
         #images
 
         self.image_image_MyBooks = PhotoImage(
             file=relative_to_assets("MyBooks.png"))
-        image_1 = self.canvas.create_image(
+        self.image_1 = self.canvas.create_image(
             248.861328125,
             68.0,
             image=self.image_image_MyBooks
@@ -160,16 +235,16 @@ class Aplicattion():
         self.Books_list.heading("#8",text="End of Reading" )
         self.Books_list.heading("#9",text="Status" )
 
-        self.Books_list.column("#0", width=100)
-        self.Books_list.column("#1", width=100)
-        self.Books_list.column("#2", width=100)
-        self.Books_list.column("#3", width=100)
-        self.Books_list.column("#4", width=100)
-        self.Books_list.column("#5", width=160)
-        self.Books_list.column("#6", width=160)
-        self.Books_list.column("#7", width=160)
-        self.Books_list.column("#8", width=160)
-        self.Books_list.column("#9", width=160)
+        self.Books_list.column("#0", width=150,anchor=CENTER)
+        self.Books_list.column("#1", width=100,anchor=CENTER)
+        self.Books_list.column("#2", width=450,anchor=W)
+        self.Books_list.column("#3", width=350,anchor=W)
+        self.Books_list.column("#4", width=200,anchor=CENTER)
+        self.Books_list.column("#5", width=200,anchor=CENTER)
+        self.Books_list.column("#6", width=200,anchor=CENTER)
+        self.Books_list.column("#7", width=200,anchor=CENTER)
+        self.Books_list.column("#8", width=200,anchor=CENTER)
+        self.Books_list.column("#9", width=260,anchor=CENTER)
 
         self.Books_list.place(relx=0.01, rely=0.01, relwidth=0.97, relheight=0.98)
 
