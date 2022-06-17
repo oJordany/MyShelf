@@ -1,5 +1,4 @@
 from pathlib import Path
-# from tkinter import *
 from tkinter import Tk, Canvas, Entry, Text, Button, PhotoImage, font
 
 
@@ -14,7 +13,9 @@ class SearchWindow:
 
     def __init__(self):
         self.search_window = Tk()
-
+        icon = PhotoImage(file=relative_to_assets("Logo.png"))
+        self.search_window.iconphoto(False, icon)
+        self.search_window.title("Search")
         self.search_window.geometry("1300x700")
         self.search_window.configure(bg = "#2C0A59")
 

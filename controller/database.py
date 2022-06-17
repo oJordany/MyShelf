@@ -27,6 +27,7 @@ def query_database(nameDatabase='estante'):
     cur = con.cursor()
     cur.execute('SELECT * FROM Books')
     allDatas = cur.fetchall()
+    con.close()
     return allDatas
 
 def remove_database(isbn, nameDatabase='estante'):
@@ -43,6 +44,7 @@ def search_database(isbn, nameDatabase='estante'):
     cur.execute(f'SELECT * FROM Books WHERE ID = {isbn}')
 
     searchDatas = cur.fetchall()
+    con.close()
     return searchDatas
 
 def check_existence(isbn, nameDatabase='estante'):
@@ -57,8 +59,22 @@ def check_existence(isbn, nameDatabase='estante'):
             return False
     except:
         return False
+    finally:
+        con.close()
 
-    
+def change_status(isbn, nameDatabase='estante'):
+    from datetime import date
+    endDate = str(date.today())
+    con = sqlite3.connect(f'database/{nameDatabase}.db')
+    cur = con.cursor()
+
+    cur.execute(f'''UPDATE Books 
+        SET End_of_Reading = "{endDate}",
+            Status = "read"
+        WHERE ID = {isbn}''')
+
+    con.commit()
+    con.close()
 class Table:
 
     def __init__(self):

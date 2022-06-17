@@ -12,7 +12,9 @@ class MenuWindow:
 
     def __init__(self):
         self.menu_window = Tk()
-
+        icon = PhotoImage(file=relative_to_assets("Logo.png"))
+        self.menu_window.iconphoto(False, icon)
+        self.menu_window.title("Menu")
         self.menu_window.geometry("1295x700")
         self.menu_window.configure(bg = "#2C0A59")
 

@@ -1,9 +1,6 @@
 from pathlib import Path
 # from tkinter import *
 from tkinter import Tk, Canvas, Entry, Text, Button, PhotoImage
-from turtle import window_width
-from urllib.parse import unquote_to_bytes
-
 
 OUTPUT_PATH = Path(__file__).parent
 ASSETS_PATH = OUTPUT_PATH / Path("./assets")
@@ -15,7 +12,9 @@ def relative_to_assets(path: str) -> Path:
 class HomeWindow:
     def __init__(self):
         self.home_window = Tk()
-
+        icon = PhotoImage(file=relative_to_assets("Logo.png"))
+        self.home_window.iconphoto(False, icon)
+        self.home_window.title("Home")
         self.home_window.geometry("1300x700")
         self.home_window.configure(bg = "#2C0A59")
 

@@ -17,29 +17,7 @@ setenv PATH "$VIRTUAL_ENV/bin:$PATH"
 set _OLD_VIRTUAL_PROMPT="$prompt"
 
 if (! "$?VIRTUAL_ENV_DISABLE_PROMPT") then
-<<<<<<< HEAD
-<<<<<<< HEAD
     set prompt = "(venv) $prompt"
-=======
-=======
->>>>>>> 30631c49693a5289a9d1a1b6e48c0200e953b539
-    if ("venv" != "") then
-        set env_name = "venv"
-    else
-        if (`basename "VIRTUAL_ENV"` == "__") then
-            # special case for Aspen magic directories
-            # see https://aspen.io/
-            set env_name = `basename \`dirname "$VIRTUAL_ENV"\``
-        else
-            set env_name = `basename "$VIRTUAL_ENV"`
-        endif
-    endif
-    set prompt = "[$env_name] $prompt"
-    unset env_name
-<<<<<<< HEAD
->>>>>>> d87ae31b99d345d0a1f00aaa964f6b8a373531c3
-=======
->>>>>>> 30631c49693a5289a9d1a1b6e48c0200e953b539
 endif
 
 alias pydoc python -m pydoc

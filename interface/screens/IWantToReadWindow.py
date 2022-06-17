@@ -3,7 +3,6 @@ from pathlib import Path
 from tkinter import *
 # Explicit imports to satisfy Flake8
 from tkinter import Tk, Canvas, Entry, Text, Button, PhotoImage
-from turtle import bgcolor, mode
 from webbrowser import BackgroundBrowser
 
 
@@ -18,6 +17,8 @@ class IWantToReadWindow:
 
     def __init__(self):        
         self.IWTR_window = Toplevel()
+        icon = PhotoImage(file=relative_to_assets("Logo.png"))
+        self.IWTR_window.iconphoto(False, icon)
         self.IWTR_window.title("I Want to Read")
         self.IWTR_window.geometry("360x320")
         self.IWTR_window.configure(bg = "#2C0A59")
