@@ -1,6 +1,12 @@
+from email.mime import image
 from pathlib import Path
-from tkinter import Tk, Canvas, Entry, Text, Button, PhotoImage, font
+from tkinter import Tk, Canvas, Entry, Text, Button, PhotoImage, font, Label, ttk, LEFT, BOTTOM, RIGHT, TOP, X, Y
+import webbrowser
 
+from numpy import size
+from controller.request import request, request_google_books
+from PIL import Image, ImageTk
+from urllib.request import urlopen
 
 OUTPUT_PATH = Path(__file__).parent
 ASSETS_PATH = OUTPUT_PATH / Path("./assets")
@@ -25,8 +31,72 @@ class SearchWindow:
         self.novaHome = HomeWindow()
         self.novaHome.generate_home_window()
 
+    def open_url(self, url):
+        webbrowser.open_new(url)
+        #lambda url="google.com": self.open_url(url)
+
+    def search_keyword(self):
+        keyword = self.entry_search.get()
+        books = request_google_books(keyword)
+        counter = 1
+        for book in books:
+            if counter == 1:
+                try:
+                    imageUrl = book["imageLink"]
+                    u = urlopen(imageUrl)
+                    raw_data = u.read()
+                    u.close()
+
+                    photo = ImageTk.PhotoImage(data=raw_data)
+                    label = Label(image=photo, background="#2C0A59")
+                    label.image = photo
+                    label.place(x=30, y=230)
+                except:
+                    photo = PhotoImage(file=relative_to_assets("noImageAvailable.png"))
+                    label = Label(image=photo, background="#2C0A59")
+                    label.image = photo
+                    label.place(x=30, y=250)
+            elif counter == 5:
+                try:
+                    imageUrl = book["imageLink"]
+                    u = urlopen(imageUrl)
+                    raw_data = u.read()
+                    u.close()
+
+                    photo = ImageTk.PhotoImage(data=raw_data)
+                    label = Label(image=photo, background="#2C0A59")
+                    label.image = photo
+                    label.place(x=30, y=450)
+                except:
+                    photo = PhotoImage(file=relative_to_assets("noImageAvailable.png"))
+                    label = Label(image=photo, background="#2C0A59")
+                    label.image = photo
+                    label.place(x=30, y=450)
+            else:
+                if counter > 1 and counter < 5:
+                    x = 30 + ((counter-1) * 370)
+                    y = 230
+                else:
+                    x = 30 + ((counter - 5) * 370)
+                    y = 450
+                try:
+                    imageUrl = book["imageLink"]
+                    u = urlopen(imageUrl)
+                    raw_data = u.read()
+                    u.close()
+
+                    photo = ImageTk.PhotoImage(data=raw_data)
+                    label = Label(image=photo, background="#2C0A59")
+                    label.image = photo
+                    label.place(x=x, y=y)
+                except:
+                    photo = PhotoImage(file=relative_to_assets("noImageAvailable.png"))
+                    label = Label(image=photo, background="#2C0A59")
+                    label.image = photo
+                    label.place(x=x, y=y)
+            counter += 1
     def generate_search_window(self):
-        canvas = Canvas(
+        self.canvas = Canvas(
             self.search_window,
             bg = "#2C0A59",
             height = 700,
@@ -36,7 +106,7 @@ class SearchWindow:
             relief = "ridge"
         )
 
-        canvas.place(x = 0, y = 0)
+        self.canvas.place(x = 0, y = 0)
         button_image_icon = PhotoImage(
             file=relative_to_assets("icon.png"))
         button_icon = Button(
@@ -58,17 +128,17 @@ class SearchWindow:
         image_image_search = PhotoImage(
             file=relative_to_assets("image_search.png"))
         
-        canvas.create_image(
-            339.0,
+        self.canvas.create_image(
+            312.0,
             59.0,
             image=image_image_search
         )
 
         image_image_isbn = PhotoImage(
-            file=relative_to_assets("image_ISBN.png"))
+            file=relative_to_assets("keywordSearch.png"))
         
-        canvas.create_image(
-            110.0,
+        self.canvas.create_image(
+            240.0,
             129.0,
             image=image_image_isbn
         )
@@ -76,13 +146,13 @@ class SearchWindow:
         entry_image_search = PhotoImage(
             file=relative_to_assets("entry_search.png"))
         
-        canvas.create_image(
-            207.5,
+        self.canvas.create_image(
+            235.5,
             180.5,
             image=entry_image_search
         )
 
-        entry_search = Entry(
+        self.entry_search = Entry(
             bd=0,
             bg="#93679A",
             highlightthickness=0,
@@ -90,10 +160,10 @@ class SearchWindow:
             font=('Georgia 20')
         )
 
-        entry_search.place(
+        self.entry_search.place(
             x=65.5,
             y=161.5,
-            width=284.0,
+            width=350.0,
             height=30.75,
         )
 
@@ -103,7 +173,7 @@ class SearchWindow:
             image=button_image_search,
             borderwidth=0,
             highlightthickness=0,
-            command=lambda: print("button_search clicked"),
+            command=self.search_keyword,
             relief="sunken",
             cursor="hand2",
             activebackground="#2C0A59",
@@ -111,7 +181,7 @@ class SearchWindow:
             bd=0,   
         )
         button_search.place(
-            x=386.0,
+            x=450.0,
             y=162.0,
             width=40.3193359375,
             height=37.80328369140625
