@@ -4,10 +4,17 @@ from isbnlib import meta
 from tkinter import Label, StringVar, FLAT
 from isbnlib.registry import bibformatters
 import requests
-import re
 import copy
+import re
+import urllib.request
+import asyncio
+
 
 def request(isbn):
+    try:
+        urllib.request.urlopen('http://google.com')
+    except:
+        return "Error: Connection Failure"
     try:
         language = info(isbn) # Isso contém o país 
         bibtex = bibformatters["json"]
@@ -25,16 +32,25 @@ def request(isbn):
         return metadata
 
     except:
-        msgError = "Erro: non-existent isbn"
+        msgError = "Error: non-existent isbn"
         return msgError
 
-def request_google_books(keyword):
-    keyword = re.sub(r'\s', '+', keyword)
-    result = requests.get(
-        f"https://www.googleapis.com/books/v1/volumes?q={keyword}"
-    )
+async def request_google_books(keyword):
+    keywordTreated = re.sub(r'\s', '+', keyword)
+    try:
+        result = requests.get(
+            f"https://www.googleapis.com/books/v1/volumes?q={keywordTreated}"
+        )
+    except:
+        return "Connection Failure"
+
     books = result.json()
-    items = books["items"]
+
+    try:
+        items = books["items"]
+    except:
+        return f"nothing found for {keyword}"
+    
     encoded = json.dumps(items)
     decoded = json.loads(encoded)
 

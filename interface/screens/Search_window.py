@@ -1,8 +1,9 @@
 from email.mime import image
 from pathlib import Path
-from tkinter import Tk, Canvas, Entry, Text, Button, PhotoImage, font, Label, ttk, LEFT, BOTTOM, RIGHT, TOP, X, Y
+from tkinter import Tk, Canvas, Entry, Text, Button, PhotoImage, font, Label, ttk, LEFT, BOTTOM, RIGHT, TOP, X, Y, StringVar, FLAT
+from typing import final
 import webbrowser
-
+import asyncio
 from numpy import size
 from controller.request import request, request_google_books
 from PIL import Image, ImageTk
@@ -35,9 +36,7 @@ class SearchWindow:
         webbrowser.open_new(url)
         #lambda url="google.com": self.open_url(url)
 
-    def search_keyword(self):
-        keyword = self.entry_search.get()
-        books = request_google_books(keyword)
+    async def renders_book(self, books):
         counter = 1
         for book in books:
             if counter == 1:
@@ -74,10 +73,10 @@ class SearchWindow:
                     label.place(x=30, y=450)
             else:
                 if counter > 1 and counter < 5:
-                    x = 30 + ((counter-1) * 370)
+                    x = 30 + ((counter-1) * 320)
                     y = 230
                 else:
-                    x = 30 + ((counter - 5) * 370)
+                    x = 30 + ((counter - 5) * 320)
                     y = 450
                 try:
                     imageUrl = book["imageLink"]
@@ -95,6 +94,34 @@ class SearchWindow:
                     label.image = photo
                     label.place(x=x, y=y)
             counter += 1
+        self.label.destroy()
+
+    def render_wait_msg(self, event):
+        try:
+            self.label.destroy()
+        except:
+            pass
+        finally:
+            self.var = StringVar()
+            self.var.set("Wait a moment")
+            self.label = Label( self.search_window, textvariable=self.var, relief=FLAT, background="#2C0A59", foreground="white", font=("Georgia 14 bold"))
+            self.label.pack()
+
+    def search_keyword(self):
+        keyword = self.entry_search.get()
+        books = asyncio.run(request_google_books(keyword))
+        if type(books) != list:
+            try: 
+                self.label.destroy()
+            except:
+                pass
+            finally:
+                self.var.set(f"Error: {books}")
+                self.label = Label( self.search_window, textvariable=self.var, relief=FLAT, background="#2C0A59", foreground="red", font=("Georgia 14 bold"))
+                self.label.pack()
+        else:
+            asyncio.run(self.renders_book(books))
+
     def generate_search_window(self):
         self.canvas = Canvas(
             self.search_window,
@@ -169,7 +196,7 @@ class SearchWindow:
 
         button_image_search = PhotoImage(
             file=relative_to_assets("button_search.png"))
-        button_search = Button(
+        self.button_search = Button(
             image=button_image_search,
             borderwidth=0,
             highlightthickness=0,
@@ -180,11 +207,12 @@ class SearchWindow:
             bg="#2C0A59",
             bd=0,   
         )
-        button_search.place(
+        self.button_search.place(
             x=450.0,
             y=162.0,
             width=40.3193359375,
             height=37.80328369140625
         )
+        self.button_search.bind("<Button-1>", self.render_wait_msg)
         self.search_window.resizable(False, False)
         self.search_window.mainloop()

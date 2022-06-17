@@ -62,7 +62,7 @@ class NewBookWindow:
                 var.set("Error: select a status")
                 colorLabel = "red"
         elif not check:
-            var.set("Error: non-existent isbn")
+            var.set(datas)
             colorLabel = "red"
 
         if check:
