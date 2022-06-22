@@ -20,7 +20,7 @@ class IWantToReadWindow:
         icon = PhotoImage(file=relative_to_assets("Logo.png"))
         self.IWTR_window.iconphoto(False, icon)
         self.IWTR_window.title("I Want to Read")
-        self.IWTR_window.geometry("360x320")
+        self.IWTR_window.geometry("360x340")
         self.IWTR_window.configure(bg = "#2C0A59")
 
     def catch_date(self):
@@ -86,7 +86,7 @@ class IWantToReadWindow:
 
         button_select_date.place(
             x=80,
-            y=260,
+            y=275,
         )
 
         self.IWTR_window.resizable(False, False)
