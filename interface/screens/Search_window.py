@@ -64,7 +64,7 @@ class SearchWindow:
                     photo = PhotoImage(file=relative_to_assets("noImageAvailable.png"))
                     self.listLabels[counter - 1] = Label(image=photo, background="#2C0A59")
                     self.listLabels[counter -1].image = photo
-                    self.listLabels[counter - 1].place(x=30, y=250)
+                    self.listLabels[counter - 1].place(x=30, y=230)
             elif counter == 5:
                 try:
                     imageUrl = book["imageLink"]
