@@ -1,6 +1,6 @@
 from email.mime import image
 from pathlib import Path
-from tkinter import Tk, Canvas, Entry, Text, Button, PhotoImage, font, Label, ttk, LEFT, BOTTOM, RIGHT, TOP, X, Y, StringVar, FLAT
+from tkinter import Tk, Canvas, Entry, Text, Button, PhotoImage, Scrollbar, font, Label, ttk, LEFT, BOTTOM, RIGHT, TOP, X, Y, StringVar, FLAT
 from typing import final
 import webbrowser
 import asyncio
@@ -36,7 +36,42 @@ class SearchWindow:
         webbrowser.open_new(url)
         #lambda url="google.com": self.open_url(url)
 
-    async def renders_book(self, books):
+    def renders_infos_book(self, books):
+        counter = 1
+        for book in books:
+            if counter == 1:
+                frame = ttk.LabelFrame(self.search_window, width=170, height=180)
+                frame.place(x=160, y=230)
+            elif counter == 5:
+                frame = ttk.LabelFrame(self.search_window, width=170, height=180)
+                frame.place(x=160, y=450)
+            else:
+                if counter > 1 and counter < 5:
+                    x = 160 + ((counter-1) * 320)
+                    y = 230
+                else:
+                    x = 160 + ((counter - 5) * 320)
+                    y = 450
+                frame = ttk.LabelFrame(self.search_window, width=180, height=180)
+                frame.place(x=x, y=y)
+            counter += 1 
+        # try:
+        #     self.labelTitle = Label(self.search_window, text=book["title"], relief=FLAT, background="#2C0A59", foreground="white", font=("Georgia 6 bold"))
+        #     self.labelTitle.place(x=160, y=230)
+        # except:
+        #     pass
+        # try:
+        #     self.labelSubtitle = Label(self.search_window, text=book["subtitle"], relief=FLAT, background="#2C0A59", foreground="white", font=("Georgia 6 bold"))
+        #     self.labelSubtitle.place(x=160, y=235)
+        # except:
+        #     pass
+
+    async def renders_image_book(self, books):
+        try:
+            for labelImage in self.listlabelImage:
+                labelImage.destroy()
+        except:
+            pass
         counter = 1
         for book in books:
             if counter == 1:
@@ -45,16 +80,17 @@ class SearchWindow:
                     u = urlopen(imageUrl)
                     raw_data = u.read()
                     u.close()
-
+                    self.listLabelImage = list()
                     photo = ImageTk.PhotoImage(data=raw_data)
-                    label = Label(image=photo, background="#2C0A59")
-                    label.image = photo
-                    label.place(x=30, y=230)
+                    self.labelImage = Label(image=photo, background="#2C0A59")
+                    self.labelImage.image = photo
+                    self.listLabelImage.append(labelImage)
+                    self.labelImage.place(x=30, y=230)
                 except:
                     photo = PhotoImage(file=relative_to_assets("noImageAvailable.png"))
-                    label = Label(image=photo, background="#2C0A59")
-                    label.image = photo
-                    label.place(x=30, y=250)
+                    self.labelImage = Label(image=photo, background="#2C0A59")
+                    self.labelImage.image = photo
+                    self.labelImage.place(x=30, y=230)
             elif counter == 5:
                 try:
                     imageUrl = book["imageLink"]
@@ -63,14 +99,14 @@ class SearchWindow:
                     u.close()
 
                     photo = ImageTk.PhotoImage(data=raw_data)
-                    label = Label(image=photo, background="#2C0A59")
-                    label.image = photo
-                    label.place(x=30, y=450)
+                    self.labelImage = Label(image=photo, background="#2C0A59")
+                    self.labelImage.image = photo
+                    self.labelImage.place(x=30, y=450)
                 except:
                     photo = PhotoImage(file=relative_to_assets("noImageAvailable.png"))
-                    label = Label(image=photo, background="#2C0A59")
-                    label.image = photo
-                    label.place(x=30, y=450)
+                    self.labelImage = Label(image=photo, background="#2C0A59")
+                    self.labelImage.image = photo
+                    self.labelImage.place(x=30, y=450)
             else:
                 if counter > 1 and counter < 5:
                     x = 30 + ((counter-1) * 320)
@@ -85,14 +121,14 @@ class SearchWindow:
                     u.close()
 
                     photo = ImageTk.PhotoImage(data=raw_data)
-                    label = Label(image=photo, background="#2C0A59")
-                    label.image = photo
-                    label.place(x=x, y=y)
+                    self.labelImage = Label(image=photo, background="#2C0A59")
+                    self.labelImage.image = photo
+                    self.labelImage.place(x=x, y=y)
                 except:
                     photo = PhotoImage(file=relative_to_assets("noImageAvailable.png"))
-                    label = Label(image=photo, background="#2C0A59")
-                    label.image = photo
-                    label.place(x=x, y=y)
+                    self.labelImage = Label(image=photo, background="#2C0A59")
+                    self.labelImage.image = photo
+                    self.labelImage.place(x=x, y=y)
             counter += 1
         self.label.destroy()
 
@@ -120,7 +156,8 @@ class SearchWindow:
                 self.label = Label( self.search_window, textvariable=self.var, relief=FLAT, background="#2C0A59", foreground="red", font=("Georgia 14 bold"))
                 self.label.pack()
         else:
-            asyncio.run(self.renders_book(books))
+            asyncio.run(self.renders_image_book(books))
+            self.renders_infos_book(books)
 
     def generate_search_window(self):
         self.canvas = Canvas(

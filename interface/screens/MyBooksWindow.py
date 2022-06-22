@@ -268,8 +268,8 @@ class Aplicattion():
         )
 
     def insert_datas(self):
-        self.allDatas = query_database()
         try:
+            self.allDatas = query_database()
             for i, metadatas in enumerate(self.allDatas):
                 self.Books_list.insert(parent='', index='end', iid=i,text=metadatas[0], values=metadatas[1:])
         except:
