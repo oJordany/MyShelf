@@ -80,7 +80,7 @@ class NewBookWindow:
         print(datas)
         
         del datas
-
+    
     def select_status(self, status):
         self.status = status
         print(status)
@@ -274,6 +274,7 @@ class NewBookWindow:
             x=1087.2080078125,
             y=227.0,
         )
+        button_plus.bind("<Button-1>", )
 
         button_image_icon = PhotoImage(
             file=relative_to_assets("icon.png"))

@@ -1,4 +1,5 @@
 from email.mime import image
+from itertools import count
 from pathlib import Path
 from tkinter import Tk, Canvas, Entry, Text, Button, PhotoImage, Scrollbar, font, Label, ttk, LEFT, BOTTOM, RIGHT, TOP, X, Y, StringVar, FLAT
 from typing import final
@@ -73,6 +74,15 @@ class SearchWindow:
         except:
             pass
         counter = 1
+        try:
+            for i in range(0, len(self.listLabels)):
+                self.listLabels[i].destroy()
+        except:
+            pass
+
+        self.listLabels = list()
+        for i in range(0,len(books)):
+            self.listLabels.append(None)
         for book in books:
             if counter == 1:
                 try:
@@ -82,15 +92,14 @@ class SearchWindow:
                     u.close()
                     self.listLabelImage = list()
                     photo = ImageTk.PhotoImage(data=raw_data)
-                    self.labelImage = Label(image=photo, background="#2C0A59")
-                    self.labelImage.image = photo
-                    self.listLabelImage.append(labelImage)
-                    self.labelImage.place(x=30, y=230)
+                    self.listLabels[counter - 1] = Label(image=photo, background="#2C0A59")
+                    self.listLabels[counter - 1].image = photo
+                    self.listLabels[counter - 1].place(x=30, y=230)
                 except:
                     photo = PhotoImage(file=relative_to_assets("noImageAvailable.png"))
-                    self.labelImage = Label(image=photo, background="#2C0A59")
-                    self.labelImage.image = photo
-                    self.labelImage.place(x=30, y=230)
+                    self.listLabels[counter - 1] = Label(image=photo, background="#2C0A59")
+                    self.listLabels[counter -1].image = photo
+                    self.listLabels[counter - 1].place(x=30, y=230)
             elif counter == 5:
                 try:
                     imageUrl = book["imageLink"]
@@ -99,14 +108,14 @@ class SearchWindow:
                     u.close()
 
                     photo = ImageTk.PhotoImage(data=raw_data)
-                    self.labelImage = Label(image=photo, background="#2C0A59")
-                    self.labelImage.image = photo
-                    self.labelImage.place(x=30, y=450)
+                    self.listLabels[counter - 1] = Label(image=photo, background="#2C0A59")
+                    self.listLabels[counter - 1].image = photo
+                    self.listLabels[counter - 1].place(x=30, y=450)
                 except:
                     photo = PhotoImage(file=relative_to_assets("noImageAvailable.png"))
-                    self.labelImage = Label(image=photo, background="#2C0A59")
-                    self.labelImage.image = photo
-                    self.labelImage.place(x=30, y=450)
+                    self.listLabels[counter - 1] = Label(image=photo, background="#2C0A59")
+                    self.listLabels[counter - 1].image = photo
+                    self.listLabels[counter - 1].place(x=30, y=450)
             else:
                 if counter > 1 and counter < 5:
                     x = 30 + ((counter-1) * 320)
@@ -121,14 +130,14 @@ class SearchWindow:
                     u.close()
 
                     photo = ImageTk.PhotoImage(data=raw_data)
-                    self.labelImage = Label(image=photo, background="#2C0A59")
-                    self.labelImage.image = photo
-                    self.labelImage.place(x=x, y=y)
+                    self.listLabels[counter - 1] = Label(image=photo, background="#2C0A59")
+                    self.listLabels[counter - 1].image = photo
+                    self.listLabels[counter - 1].place(x=x, y=y)
                 except:
                     photo = PhotoImage(file=relative_to_assets("noImageAvailable.png"))
-                    self.labelImage = Label(image=photo, background="#2C0A59")
-                    self.labelImage.image = photo
-                    self.labelImage.place(x=x, y=y)
+                    self.listLabels[counter - 1] = Label(image=photo, background="#2C0A59")
+                    self.listLabels[counter -1].image = photo
+                    self.listLabels[counter - 1].place(x=x, y=y)
             counter += 1
         self.label.destroy()
 
