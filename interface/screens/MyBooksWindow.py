@@ -1,6 +1,8 @@
 from pathlib import Path
 from tkinter import BOTTOM, CENTER, RIGHT, W, Y,X, Frame, Scrollbar, Tk, Canvas, Entry, Text, Button, ttk , PhotoImage
 from tkinter import StringVar, Label, FLAT
+
+from jmespath import search
 from controller.database import query_database
 
 OUTPUT_PATH = Path(__file__).parent
@@ -80,7 +82,7 @@ class Aplicattion():
             bd=0
         )
         self.button_search.place(
-            x=1235.0,
+            x=1195.0,
             y=193.0,
             width=40.3193359375,
             height=40.5035400390625
@@ -170,17 +172,11 @@ class Aplicattion():
             68.0,
             image=self.image_image_MyBooks
         )
-        self.image_image_ISBN = PhotoImage(
-            file=relative_to_assets("image_ISBN.png"))
-        self.image_3 = self.canvas.create_image(
-            770.0,
-            210.0,
-            image=self.image_image_ISBN
-            )
+
         self.image_image_search = PhotoImage(
             file=relative_to_assets("image_search_MB.png"))
         self.image_search = self.canvas.create_image(
-            1040.0,
+            1000.0,
             165.0,
             image=self.image_image_search
         )
@@ -189,7 +185,7 @@ class Aplicattion():
         self.entry_image_search = PhotoImage(
             file=relative_to_assets("entry_search_2.png"))
         self.entry_bg_1 = self.canvas.create_image(
-            1030.5,
+            990.5,
             215.5,
             image=self.entry_image_search
         )
@@ -201,7 +197,7 @@ class Aplicattion():
             font=('Georgia 14')
         )
         self.entry_search.place(
-            x=850.0,
+            x=810.0,
             y=198.5,
             width=365.0,
             height=26.0
@@ -304,15 +300,17 @@ class Aplicattion():
         except:
             pass
         
-        try:
-            isbn = int(self.entry_search.get())
-            self.searchDatas = search_database(isbn)
-            self.Books_list.insert(parent='', index='end', iid=0,text=self.searchDatas[0][0], values=self.searchDatas[0][1:])
-        except:
+        
+        search = self.entry_search.get()
+        self.searchDatas = search_database(search)
+        print(self.searchDatas)
+        for i in range(0, len(self.searchDatas)):
+            self.Books_list.insert(parent='', index='end', iid=i,text=self.searchDatas[i][0], values=self.searchDatas[i][1:])
+        if self.searchDatas == []:
             var = StringVar()
             self.labelError = Label( self.mybookswindow, textvariable=var, relief=FLAT, foreground="red", background="#2C0A59", font=("Georgia 14 bold"))
 
-            var.set("Erro: non-existent isbn")
+            var.set(f"Error: nothing found for {search}")
             self.labelError.pack()  
 
     def switch_to_read(self):

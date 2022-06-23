@@ -33,17 +33,49 @@ def query_database(nameDatabase='estante'):
 def remove_database(isbn, nameDatabase='estante'):
     con = sqlite3.connect(f'database/{nameDatabase}.db')
     cur = con.cursor()
+    
     cur.execute(f'DELETE FROM Books WHERE ID = {isbn}')
 
     con.commit()
     con.close()
 
-def search_database(isbn, nameDatabase='estante'):
+def search_database(search, nameDatabase='estante'):
     con = sqlite3.connect(f'database/{nameDatabase}.db')
     cur = con.cursor()
-    cur.execute(f'SELECT * FROM Books WHERE ID = {isbn}')
 
-    searchDatas = cur.fetchall()
+    try:
+        cur.execute(f'SELECT * FROM Books WHERE ID = {search}')
+        searchDatas = cur.fetchall()
+    except:
+        cur.execute(f'SELECT * FROM Books WHERE Type = "{search}"')
+        searchDatas = cur.fetchall()
+    if searchDatas == []:
+        cur.execute(f'SELECT * FROM Books WHERE Title = "{search}"')
+        searchDatas = cur.fetchall()
+    if searchDatas == []:
+        cur.execute(f'SELECT * FROM Books WHERE Author = "{search}"')
+        searchDatas = cur.fetchall()
+    if searchDatas == []:
+        cur.execute(f'SELECT * FROM Books WHERE Publisher = "{search}"')
+        searchDatas = cur.fetchall()
+    if searchDatas == []:
+        try:
+            cur.execute(f'SELECT * FROM Books WHERE Publicate_date = {search}')
+            searchDatas = cur.fetchall()
+        except:
+            pass
+    if searchDatas == []:
+        cur.execute(f'SELECT * FROM Books WHERE Language = "{search}"')
+        searchDatas = cur.fetchall()
+    if searchDatas == []:
+        cur.execute(f'SELECT * FROM Books WHERE Start_of_Reading = "{search}"')
+        searchDatas = cur.fetchall()
+    if searchDatas == []:
+        cur.execute(f'SELECT * FROM Books WHERE End_of_Reading = "{search}"')
+        searchDatas = cur.fetchall()
+    if searchDatas == []:
+        cur.execute(f'SELECT * FROM Books WHERE Status = "{search}"')
+        searchDatas = cur.fetchall()
     con.close()
     return searchDatas
 

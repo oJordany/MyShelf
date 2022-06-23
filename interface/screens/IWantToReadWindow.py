@@ -20,7 +20,7 @@ class IWantToReadWindow:
         icon = PhotoImage(file=relative_to_assets("Logo.png"))
         self.IWTR_window.iconphoto(False, icon)
         self.IWTR_window.title("I Want to Read")
-        self.IWTR_window.geometry("360x340")
+        self.IWTR_window.geometry("460x460")
         self.IWTR_window.configure(bg = "#2C0A59")
 
     def catch_date(self):
@@ -34,8 +34,8 @@ class IWantToReadWindow:
         canvas = Canvas(
             self.IWTR_window,
             bg = "#2C0A59",
-            height = 340,
-            width = 360,
+            height = 460,
+            width = 460,
             bd = 0,
             highlightthickness = 0,
             relief = "ridge"
@@ -44,7 +44,7 @@ class IWantToReadWindow:
         image_image_IWTRin= PhotoImage(
             file=relative_to_assets("IWTRin.png"))
         canvas.create_image(
-            179.0,
+            227.0,
             47.0,
             image=image_image_IWTRin
         )
@@ -59,7 +59,7 @@ class IWantToReadWindow:
 
         self.calendar = Calendar(self.IWTR_window, setmode="day", year=dateSeparated[0], month=dateSeparated[1], day=dateSeparated[2])
         self.calendar.config(background="#B22FD3", locale="en", date_pattern="yyyy-mm-dd")
-        self.calendar.place(x=60, y=100)
+        self.calendar.place(x=105, y=100)
 
         self.IWTR_window.btn_select_date_inactive = PhotoImage(file=relative_to_assets("button_select_date_inactive.png"))
         self.IWTR_window.btn_select_date_active = PhotoImage(file=relative_to_assets("button_select_date.png"))
@@ -85,8 +85,33 @@ class IWantToReadWindow:
         button_select_date.bind("<Leave>", lambda e: button_select_date.config(image=self.IWTR_window.btn_select_date_inactive))
 
         button_select_date.place(
-            x=80,
-            y=275,
+            x=125,
+            y=285,
+        )
+
+        entry_image_search = PhotoImage(
+            file=relative_to_assets("entry_search.png"))
+        
+        canvas.create_image(
+            230,
+            419,
+            image=entry_image_search
+        )
+
+        self.entry_search = Entry(
+            self.IWTR_window,
+            bd=0,
+            bg="#93679A",
+            highlightthickness=0,
+            justify="center",
+            font=('Georgia 20')
+        )
+
+        self.entry_search.place(
+            x=55,
+            y=400,
+            width=350.0,
+            height=30.75,
         )
 
         self.IWTR_window.resizable(False, False)
