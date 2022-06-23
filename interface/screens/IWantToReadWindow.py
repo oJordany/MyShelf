@@ -82,7 +82,7 @@ class IWantToReadWindow:
 
         self.calendar = Calendar(self.IWTR_window, setmode="day", year=dateSeparated[0], month=dateSeparated[1], day=dateSeparated[2])
         self.calendar.config(background="#B22FD3", locale="en", date_pattern="yyyy-mm-dd")
-        self.calendar.place(x=105, y=100)
+        self.calendar.place(x=105, y=83)
 
         self.IWTR_window.btn_confirm_inactive = PhotoImage(file=relative_to_assets("button_confirm.png"))
         self.IWTR_window.btn_confirm_active = PhotoImage(file=relative_to_assets("button_confirm_active.png"))

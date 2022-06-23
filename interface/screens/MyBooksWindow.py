@@ -2,7 +2,7 @@ from pathlib import Path
 from tkinter import BOTTOM, CENTER, RIGHT, W, Y,X, Frame, Scrollbar, Tk, Canvas, Entry, Text, Button, ttk , PhotoImage
 from tkinter import StringVar, Label, FLAT
 
-from jmespath import search
+#from jmespath import search
 from controller.database import query_database
 
 OUTPUT_PATH = Path(__file__).parent
