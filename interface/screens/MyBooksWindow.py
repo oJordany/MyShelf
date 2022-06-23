@@ -30,7 +30,7 @@ class Aplicattion():
 
     def go_to_CD_window(self):
         from interface.screens.ConfirmDeleteWindow import ConfirmDeleteWindow
-        self.ConfirmDeleteWindow = ConfirmDeleteWindow()
+        self.ConfirmDeleteWindow = ConfirmDeleteWindow(self.Books_list)
         self.ConfirmDeleteWindow.generate_ConfirmDelete_window()
 
     def interface(self):

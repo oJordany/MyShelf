@@ -20,7 +20,8 @@ def relative_to_assets(path: str) -> Path:
     return ASSETS_PATH / Path(path)
 
 class ConfirmDeleteWindow:
-    def __init__(self):
+    def __init__(self, table):
+        self.Books_list = table
         self.ConfirmDeleteWindow= Toplevel()
         icon = PhotoImage(file=relative_to_assets("Logo.png"))
         self.ConfirmDeleteWindow.iconphoto(False, icon)
@@ -28,15 +29,14 @@ class ConfirmDeleteWindow:
         self.ConfirmDeleteWindow.configure(bg = "#2C0A59")
         self.ConfirmDeleteWindow.title("Delete Confirm")
 
-    # def deleteBook(self):
-    #     from controller.database import remove_database
-    #     from MenuWindow import 
-    #     books = self.Books_list.selection()
-    #     for book in books:
-    #         isbn = self.Books_list.item(book)["text"]
-    #         remove_database(isbn)
-    #         self.Books_list.delete(book)
-    #     self.ConfirmDeleteWindow.destroy()
+    def deleteBook(self):
+        from controller.database import remove_database
+        books = self.Books_list.selection()
+        for book in books:
+            isbn = self.Books_list.item(book)["text"]
+            remove_database(isbn)
+            self.Books_list.delete(book)
+        self.ConfirmDeleteWindow.destroy()
 
     def generate_ConfirmDelete_window(self):
 
@@ -120,7 +120,7 @@ class ConfirmDeleteWindow:
             relief="sunken",
             cursor="hand2",
             activebackground="#2C0A59",
-            command=lambda: print(" teste delete")
+            command=self.deleteBook
         )
         button_delete2.place(
             x=260.0,
