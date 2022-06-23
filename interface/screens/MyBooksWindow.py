@@ -26,6 +26,11 @@ class Aplicattion():
         self.novaHome = HomeWindow()
         self.novaHome.generate_home_window()
 
+    def go_to_CD_window(self):
+        from interface.screens.ConfirmDeleteWindow import ConfirmDeleteWindow
+        self.ConfirmDeleteWindow = ConfirmDeleteWindow()
+        self.ConfirmDeleteWindow.generate_ConfirmDelete_window()
+
     def interface(self):
         self.mybookswindow.geometry("1300x700")
         self.mybookswindow.configure(bg = "#2C0A59")
@@ -97,7 +102,7 @@ class Aplicattion():
             image=self.button_image_delete,
             borderwidth=0,
             highlightthickness=0,
-            command=self.deleteBook,
+            command=self.go_to_CD_window,
             bg = "#2C0A59",
             activebackground="#2C0A59",
             relief="sunken",
@@ -291,7 +296,7 @@ class Aplicattion():
         for book in books:
             isbn = self.Books_list.item(book)["text"]
             remove_database(isbn)
-            self.Books_list.delete(book)
+            self.Books_list.delete(book)       
 
     def searchBook(self):
         from controller.database import search_database
