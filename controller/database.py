@@ -1,11 +1,26 @@
+from io import BufferedReader
 import sqlite3
+
+def get_key():
+    con = sqlite3.connect('database/estante.db')
+    cur = con.cursor()
+    cur.execute("SELECT * FROM Keys")
+    key = cur.fetchone()[0]
+    con.close()
+    return key
 
 def create_database():
     con = sqlite3.connect('database/estante.db')
     con.commit()
     con.close()
-    
 
+def add_data_key(key):
+    con = sqlite3.connect('database/estante.db')
+    with con:
+        cur = con.cursor()
+        print(key)
+        cur.execute('''INSERT INTO Keys(key) VALUES (?)''', (memoryview(key), ))
+    
 # def show_database(nameDatabase='estante'):
 #     con = sqlite3.connect(f'database/{nameDatabase}.db')
 #     cur = con.cursor()

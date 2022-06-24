@@ -23,31 +23,15 @@ class IWantToReadWindow:
         self.IWTR_window.geometry("460x445")
         self.IWTR_window.configure(bg = "#2C0A59")
 
-    def generate_gmail(self):
-        from random import randint
-        import requests
-        ID = randint(0,1000)
-        # access the API
-        url = "https://temp-gmail.p.rapidapi.com/get"
-        querystring = {"id":ID,"type":"estanteVirtual"}
-        headers = {
-            'x-rapidapi-host': "temp-gmail.p.rapidapi.com",
-            'x-rapidapi-key': "YOUR PRIVATE KEY"
-            }
-        
-        # send a request to the API
-        response = requests.request("GET", url, headers=headers, params=querystring)
-        
-        # convert the response to JSON format 
-        json_response = response.json()
-        # get gmail address
-        gmail = json_response['items']['username']
-        # get gmail password
-        password = json_response['items']['key']
+    def set_email_notification(self, event):
+        import re
+        self.email = self.entry_email.get()
+        self.username = re.sub(r'@[\w\d\.]+', '', self.email)
+
+
 
     def catch_date(self):
         self.date = self.calendar.get_date()
-        self.email = self.entry_email.get()
         self.IWTR_window.destroy()
 
     def generate_IWTR_window(self):
@@ -87,13 +71,13 @@ class IWantToReadWindow:
         self.IWTR_window.btn_confirm_inactive = PhotoImage(file=relative_to_assets("button_confirm.png"))
         self.IWTR_window.btn_confirm_active = PhotoImage(file=relative_to_assets("button_confirm_active.png"))
 
-        button_image_select_date = PhotoImage(
+        button_image_confirm = PhotoImage(
             file=relative_to_assets("button_confirm.png")
         )
         
-        button_select_date = Button(
+        button_confirm = Button(
             self.IWTR_window,
-            image=button_image_select_date,
+            image=button_image_confirm,
             borderwidth=0,
             highlightthickness=0,
             bg="#2C0A59",
@@ -104,10 +88,10 @@ class IWantToReadWindow:
             cursor="hand2",
         )
 
-        button_select_date.bind("<Enter>", lambda e: button_select_date.config(image=self.IWTR_window.btn_confirm_active))
-        button_select_date.bind("<Leave>", lambda e: button_select_date.config(image=self.IWTR_window.btn_confirm_inactive))
-
-        button_select_date.place(
+        button_confirm.bind("<Enter>", lambda e: button_confirm.config(image=self.IWTR_window.btn_confirm_active))
+        button_confirm.bind("<Leave>", lambda e: button_confirm.config(image=self.IWTR_window.btn_confirm_inactive))
+        button_confirm.bind("<Button-1>", self.set_email_notification)
+        button_confirm.place(
             x=127,
             y=360,
         )
