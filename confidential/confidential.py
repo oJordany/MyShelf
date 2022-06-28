@@ -3,8 +3,9 @@ from controller.database import get_key, add_data_key
 
 
 def encrypt():
-
-    key = get_key()
+    key = Fernet.generate_key()
+    
+    add_data_key(key)
 
     fernet = Fernet(key)
     
