@@ -2,6 +2,7 @@ from email.mime import image
 from itertools import count
 from pathlib import Path
 from tkinter import Tk, Canvas, Entry, Text, Button, PhotoImage, Scrollbar, font, Label, ttk, LEFT, BOTTOM, RIGHT, TOP, X, Y, StringVar, FLAT
+import tkinter
 from typing import final
 import webbrowser
 import asyncio
@@ -20,12 +21,38 @@ def relative_to_assets(path: str) -> Path:
 class SearchWindow:
 
     def __init__(self):
+        # Assets to LoadingGif
+        self.framelist = []      # List to hold all the frames
+        self.frame_index = 0 
+        self.count = 0
+        self.anim = None
+
         self.search_window = Tk()
         icon = PhotoImage(file=relative_to_assets("Logo.png"))
         self.search_window.iconphoto(False, icon)
         self.search_window.title("Search")
         self.search_window.geometry("1300x700")
         self.search_window.configure(bg = "#2C0A59")
+        self.l1 = tkinter.Label(self.search_window, bg="purple", image = "")
+    
+    def animate_gif(self, event=None):  
+        self.l1.config(image = self.framelist[self.count])
+        
+        self.count +=1
+            
+        if self.count > self.last_frame:
+            self.count = 0  
+        #recall animate_gif method    
+        self.anim = self.search_window.after(100, lambda :self.animate_gif(self.count))
+
+    def stop_gif(self):
+        global anim
+        #stop recall method
+        self.l1.destroy()
+    
+
+
+
 
     def back_to_home(self):
         from interface.screens.HomeWindow import HomeWindow
@@ -141,16 +168,16 @@ class SearchWindow:
             counter += 1
         self.label.destroy()
 
-    def render_wait_msg(self, event):
-        try:
-            self.label.destroy()
-        except:
-            pass
-        finally:
-            self.var = StringVar()
-            self.var.set("Wait a moment")
-            self.label = Label( self.search_window, textvariable=self.var, relief=FLAT, background="#2C0A59", foreground="white", font=("Georgia 14 bold"))
-            self.label.pack()
+    # def render_wait_msg(self, event):
+    #     try:
+    #         self.label.destroy()
+    #     except:
+    #         pass
+    #     finally:
+    #         self.var = StringVar()
+    #         self.var.set("Wait a moment")
+    #         self.label = Label( self.search_window, textvariable=self.var, relief=FLAT, background="#2C0A59", foreground="white", font=("Georgia 14 bold"))
+    #         self.label.pack()
 
     def search_keyword(self):
         keyword = self.entry_search.get()
@@ -259,6 +286,20 @@ class SearchWindow:
             width=40.3193359375,
             height=37.80328369140625
         )
-        self.button_search.bind("<Button-1>", self.render_wait_msg)
         self.search_window.resizable(False, False)
+        while True:
+            try:
+                # Read a frame from GIF file
+                part = 'gif -index {}'.format(self.frame_index)
+                frame = tkinter.PhotoImage(file='loading.gif', format=part)
+            except:
+                print("break")
+                self.last_frame = self.frame_index - 1    # Save index for last frame
+                break               # Will break when GIF index is reached
+            self.framelist.append(frame)
+            print(len(self.framelist))
+            self.frame_index += 1 
+            '''------------label to show gif--------------------'''
+            self.l1.pack()
+        self.button_search.bind("<Button-1>", self.animate_gif())
         self.search_window.mainloop()

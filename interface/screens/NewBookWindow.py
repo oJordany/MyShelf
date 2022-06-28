@@ -1,8 +1,10 @@
+from email.utils import formatdate
 from pathlib import Path
+from socket import timeout
+from time import time
 
 from tkinter import NW, Tk, Canvas, Entry, Text, Button, PhotoImage, Label, StringVar, FLAT
-
-from controller.database import check_existence
+from turtle import delay
 
 
 OUTPUT_PATH = Path(__file__).parent
@@ -32,10 +34,17 @@ class NewBookWindow:
         from controller.database import Table, check_existence
         from controller.request import request 
         from datetime import date
+        import smtplib
+        import email.message
+        from confidential.confidential import decrypt
+        APPLICATION_ID = '78f82552-1b78-4ccb-8416-11e79a7170ee'
+        CLIENT_SECRET = 'u7D8Q~ua.ifDQs~WY6FktaW1bdQg3WjElade3bTZ'
         isbn = self.entry_isbn.get()
         var = StringVar()
         datas = request(isbn)
         check = check_existence(isbn)
+
+
 
         if type(datas) != str and not check:
             try:
@@ -52,13 +61,46 @@ class NewBookWindow:
                     self.estante.add_data(datas)
 
                 elif self.status == "I want to read":
+                    
                     datas['start_of_reading'] = self.IWTR_window.date
                     datas['end_of_reading'] = "NULL"
                     self.estante.add_data(datas)
-                
-                var.set("book successfully inserted")
-                colorLabel = "green"
-            except:
+                    
+                    datas_decrypted = decrypt()
+                    print(datas_decrypted)
+                    username = self.IWTR_window.username
+                    email_body = f'''
+                    <h3>Hi {username} 👋,</h3>
+                    <p>you have a book to read on your virtual bookshelf.</p>
+                    <p>Don't waste time, start reading the book &quot;{datas['title']}&quot; right now.</p>
+                    <br>
+                    <p>Thanks for staying with us.</p>
+                    <br>
+                    <p>With best regards,</p>
+                    <p>My Shelf📚.</p>
+                    '''
+                    msg = email.message.Message()
+                    msg['Subject'] = "Read Notification"
+                    msg['From'] = datas_decrypted[0]
+                    msg['To'] = self.IWTR_window.email
+                    code = datas_decrypted[1]
+                    msg.add_header('Content-Type', 'text/html')
+                    msg.set_payload(email_body)
+
+                    s = smtplib.SMTP('smtp.outlook.com: 587')
+
+                    s.starttls()
+
+                    s.login(msg["From"], code)
+                    s.sendmail(msg["From"], msg["To"], msg.as_string().encode('utf-8'))
+                    
+                    s.quit()
+                    print('email enviado')
+
+                    var.set("book successfully inserted")
+                    colorLabel = "green"
+            except Exception as err:
+                print(err)
                 var.set("Error: select a status")
                 colorLabel = "red"
         elif not check:

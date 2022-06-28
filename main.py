@@ -1,7 +1,8 @@
+from requests import put
 from controller.request import request
 from interface.screens.HomeWindow import HomeWindow
 from controller.database import *
-
+from confidential.confidential import decrypt, encrypt
 
 # criando banco e tabelas
 create_database()
