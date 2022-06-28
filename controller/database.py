@@ -11,6 +11,7 @@ def get_key():
 
 def create_database():
     con = sqlite3.connect('database/estante.db')
+    cur = con.cursor()
     con.commit()
     con.close()
 
