@@ -35,24 +35,20 @@ class SearchWindow:
         self.search_window.configure(bg = "#2C0A59")
         self.l1 = tkinter.Label(self.search_window, bg="purple", image = "")
     
-    def animate_gif(self, event=None):  
-        self.l1.config(image = self.framelist[self.count])
+    # def animate_gif(self, event=None):  
+    #     self.l1.config(image = self.framelist[self.count])
         
-        self.count +=1
+    #     self.count +=1
             
-        if self.count > self.last_frame:
-            self.count = 0  
-        #recall animate_gif method    
-        self.anim = self.search_window.after(100, lambda :self.animate_gif(self.count))
+    #     if self.count > self.last_frame:
+    #         self.count = 0  
+    #     #recall animate_gif method    
+    #     self.anim = self.search_window.after(100, lambda :self.animate_gif(self.count))
 
-    def stop_gif(self):
-        global anim
-        #stop recall method
-        self.l1.destroy()
-    
-
-
-
+    # def stop_gif(self):
+    #     global anim
+    #     #stop recall method
+    #     self.l1.destroy()
 
     def back_to_home(self):
         from interface.screens.HomeWindow import HomeWindow
@@ -70,6 +66,16 @@ class SearchWindow:
             if counter == 1:
                 frame = ttk.LabelFrame(self.search_window, width=170, height=180)
                 frame.place(x=160, y=230)
+                yscroolframe = Scrollbar(frame, orient='vertical')
+                frame.configure(yscroll= yscroolframe.set)
+                yscroolframe.pack(side=RIGHT,fill=Y)
+                yscroolframe.config(command= frame.yview)
+
+                xscroolframe = Scrollbar(frame, orient='horizontal')
+                frame.configure(xscroll=xscroolframe.set)
+                xscroolframe.pack(side=BOTTOM,fill=X) 
+                xscroolframe.config(command=frame.xview)
+                
             elif counter == 5:
                 frame = ttk.LabelFrame(self.search_window, width=170, height=180)
                 frame.place(x=160, y=450)
@@ -166,18 +172,18 @@ class SearchWindow:
                     self.listLabels[counter -1].image = photo
                     self.listLabels[counter - 1].place(x=x, y=y)
             counter += 1
-        self.label.destroy()
+        # self.label.destroy()
 
-    # def render_wait_msg(self, event):
-    #     try:
-    #         self.label.destroy()
-    #     except:
-    #         pass
-    #     finally:
-    #         self.var = StringVar()
-    #         self.var.set("Wait a moment")
-    #         self.label = Label( self.search_window, textvariable=self.var, relief=FLAT, background="#2C0A59", foreground="white", font=("Georgia 14 bold"))
-    #         self.label.pack()
+    def render_wait_msg(self, event):
+        try:
+            self.label.destroy()
+        except:
+            pass
+        finally:
+            self.var = StringVar()
+            self.var.set("Wait a moment")
+            self.label = Label( self.search_window, textvariable=self.var, relief=FLAT, background="#2C0A59", foreground="white", font=("Georgia 14 bold"))
+            self.label.pack()
 
     def search_keyword(self):
         keyword = self.entry_search.get()
@@ -287,19 +293,19 @@ class SearchWindow:
             height=37.80328369140625
         )
         self.search_window.resizable(False, False)
-        while True:
-            try:
-                # Read a frame from GIF file
-                part = 'gif -index {}'.format(self.frame_index)
-                frame = tkinter.PhotoImage(file='loading.gif', format=part)
-            except:
-                print("break")
-                self.last_frame = self.frame_index - 1    # Save index for last frame
-                break               # Will break when GIF index is reached
-            self.framelist.append(frame)
-            print(len(self.framelist))
-            self.frame_index += 1 
-            '''------------label to show gif--------------------'''
-            self.l1.pack()
-        self.button_search.bind("<Button-1>", self.animate_gif())
+        # while True:
+        #     try:
+        #         # Read a frame from GIF file
+        #         part = 'gif -index {}'.format(self.frame_index)
+        #         frame = tkinter.PhotoImage(file='loading.gif', format=part)
+        #     except:
+        #         print("break")
+        #         self.last_frame = self.frame_index - 1    # Save index for last frame
+        #         break               # Will break when GIF index is reached
+        #     self.framelist.append(frame)
+        #     print(len(self.framelist))
+        #     self.frame_index += 1 
+        '''------------label to show gif--------------------'''
+        #     self.l1.pack()
+        # self.button_search.bind("<Button-1>", self.animate_gif())
         self.search_window.mainloop()

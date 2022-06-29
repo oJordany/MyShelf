@@ -30,5 +30,3 @@ def decrypt():
     datas = decrypted.split('\n')
 
     return datas
-    
-    
