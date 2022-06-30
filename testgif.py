@@ -1,5 +1,7 @@
 import tkinter as tk
 
+from matplotlib.pyplot import flag
+
 class LoadingGif:
     def __init__(self):
         '''-------------Tkinter GUI main search_window----------------------'''
@@ -7,24 +9,30 @@ class LoadingGif:
         self.frame_index = 0 
         self.count = 0
         self.anim = None
+        self.flag = True
         self.search_window = tk.Tk()
         self.search_window.title("GIF LOADED")
         self.search_window.geometry("300x300")
     '''-----------------methods---------------------'''
     def animate_gif(self, count):  
-        global anim
-        self.l1.config(image = self.framelist[count])
-        count +=1
+        if count == 0 and self.flag == True:
+            self.l1 = tk.Label(self.search_window, bg="purple", text='', font=('Georgia 80'))
+            self.l1.pack()
+            self.flag = False
             
-        if count > self.last_frame:
+        self.l1.config(text='.'*count)
+        count +=1
+        
+        if count > 3:
             count = 0  
         #recall animate_gif method    
-        anim = self.search_window.after(100, lambda :self.animate_gif(count))        
+        anim = self.l1.after(300, lambda :self.animate_gif(count))        
             
     def stop_gif(self):
         global anim
         #stop recall method
-        self.search_window.after_cancel(anim)
+        self.l1.destroy()
+        self.flag = True
     '''--------------count all frames in gif and saved in a list-----------------'''
 
     def generateGif(self):
@@ -40,9 +48,7 @@ class LoadingGif:
             self.framelist.append(frame)
             print(len(self.framelist))
             self.frame_index += 1 
-        '''------------label to show gif--------------------'''
-        self.l1 = tk.Label(self.search_window, bg="purple", image = "")
-        self.l1.pack()
+
         '''-----------------button to start gif--------------------'''
         self.b1 = tk.Button(self.search_window, text = "start", command = lambda :self.animate_gif(0))
         self.b1.pack()

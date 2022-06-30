@@ -10,6 +10,7 @@ from numpy import size
 from controller.request import request, request_google_books
 from PIL import Image, ImageTk
 from urllib.request import urlopen
+import threading
 
 OUTPUT_PATH = Path(__file__).parent
 ASSETS_PATH = OUTPUT_PATH / Path("./assets")
@@ -25,7 +26,8 @@ class SearchWindow:
         self.framelist = []      # List to hold all the frames
         self.frame_index = 0 
         self.count = 0
-        self.anim = None
+        self.flag = True
+        self.thread = threading.Thread(target= self.search_keyword)
 
         self.search_window = Tk()
         icon = PhotoImage(file=relative_to_assets("Logo.png"))
@@ -33,26 +35,36 @@ class SearchWindow:
         self.search_window.title("Search")
         self.search_window.geometry("1300x700")
         self.search_window.configure(bg = "#2C0A59")
-        self.l1 = tkinter.Label(self.search_window, bg="purple", image = "")
     
-    def animate_gif(self, event=None):  
-        self.l1.config(image = self.framelist[self.count])
-        
-        self.count +=1
+
+    def animate_gif(self, count=0):  
+        if self.thread.isAlive() == True:
+            if count == 0 and self.flag == True:
+                self.l1 = tkinter.Label(self.search_window, bg="#2C0A59", image='' )
+                self.l1.place(x=650, y=150)
+                self.flag=False
+
             
-        if self.count > self.last_frame:
-            self.count = 0  
-        #recall animate_gif method    
-        self.anim = self.search_window.after(100, lambda :self.animate_gif(self.count))
+            count += 1
+            self.l1.config(image=self.framelist[count])
+                
+            if count > self.last_frame - 1:
+                count = 0  
+            #recall animate_gif method    
+            print(count)
+            self.l1.after(50, lambda: self.animate_gif(count=count))
+        else:
+            self.l1.destroy()
+            self.thread = threading.Thread(target= self.search_keyword)
 
     def stop_gif(self):
-        global anim
         #stop recall method
         self.l1.destroy()
     
 
-
-
+    def monitor(self):
+        if self.thread.isAlive() == False:
+            self.stop_gif()
 
     def back_to_home(self):
         from interface.screens.HomeWindow import HomeWindow
@@ -166,7 +178,7 @@ class SearchWindow:
                     self.listLabels[counter -1].image = photo
                     self.listLabels[counter - 1].place(x=x, y=y)
             counter += 1
-        self.label.destroy()
+        self.flag = True
 
     # def render_wait_msg(self, event):
     #     try:
@@ -178,6 +190,7 @@ class SearchWindow:
     #         self.var.set("Wait a moment")
     #         self.label = Label( self.search_window, textvariable=self.var, relief=FLAT, background="#2C0A59", foreground="white", font=("Georgia 14 bold"))
     #         self.label.pack()
+
 
     def search_keyword(self):
         keyword = self.entry_search.get()
@@ -273,7 +286,7 @@ class SearchWindow:
             image=button_image_search,
             borderwidth=0,
             highlightthickness=0,
-            command=self.search_keyword,
+            command=self.animate_gif,
             relief="sunken",
             cursor="hand2",
             activebackground="#2C0A59",
@@ -286,12 +299,13 @@ class SearchWindow:
             width=40.3193359375,
             height=37.80328369140625
         )
-        self.search_window.resizable(False, False)
+        self.button_search.bind("<Button-1>", lambda e: self.thread.start())
+        
         while True:
             try:
                 # Read a frame from GIF file
                 part = 'gif -index {}'.format(self.frame_index)
-                frame = tkinter.PhotoImage(file='loading.gif', format=part)
+                frame = PhotoImage(file=relative_to_assets('loading.gif'), format=part)
             except:
                 print("break")
                 self.last_frame = self.frame_index - 1    # Save index for last frame
@@ -299,7 +313,7 @@ class SearchWindow:
             self.framelist.append(frame)
             print(len(self.framelist))
             self.frame_index += 1 
-            '''------------label to show gif--------------------'''
-            self.l1.pack()
-        self.button_search.bind("<Button-1>", self.animate_gif())
+
+        self.search_window.resizable(False, False)
+
         self.search_window.mainloop()
