@@ -3,13 +3,18 @@ from itertools import count
 from pathlib import Path
 from tkinter import Tk, Canvas, Entry, Text, Button, PhotoImage, Scrollbar, font, Label, ttk, LEFT, BOTTOM, RIGHT, TOP, X, Y, StringVar, FLAT
 import tkinter
+from tkinter.tix import ButtonBox
 from typing import final
+from unittest import expectedFailure
 import webbrowser
 import asyncio
 from numpy import size
+from pyparsing import replace_html_entity
 from controller.request import request, request_google_books
 from PIL import Image, ImageTk
 from urllib.request import urlopen
+import threading
+from tkinter import *
 
 OUTPUT_PATH = Path(__file__).parent
 ASSETS_PATH = OUTPUT_PATH / Path("./assets")
@@ -25,31 +30,43 @@ class SearchWindow:
         self.framelist = []      # List to hold all the frames
         self.frame_index = 0 
         self.count = 0
-        self.anim = None
+        self.flag = True
 
         self.search_window = Tk()
+        self.thread = threading.Thread(target= self.search_keyword)
+        self.var = StringVar()
         icon = PhotoImage(file=relative_to_assets("Logo.png"))
         self.search_window.iconphoto(False, icon)
         self.search_window.title("Search")
         self.search_window.geometry("1300x700")
         self.search_window.configure(bg = "#2C0A59")
-        self.l1 = tkinter.Label(self.search_window, bg="purple", image = "")
     
-    # def animate_gif(self, event=None):  
-    #     self.l1.config(image = self.framelist[self.count])
+
+    def animate_gif(self, count=0):  
+        try:
+            if self.thread.is_alive() == True:
+                if count == 0 and self.flag == True:
+                    self.l1 = tkinter.Label(self.search_window, bg="#2C0A59", image='' )
+                    self.l1.place(x=650, y=150)
+                    self.flag=False
+
+                
+                count += 1
+                self.l1.config(image=self.framelist[count])
+                print('ta vivo')
+                    
+                if count > self.last_frame - 1:
+                    count = 0  
+                #recall animate_gif method    
+                print(count)
+                self.l1.after(50, lambda: self.animate_gif(count=count))
+            else:
+                print('ta morto')
+                self.l1.destroy()
+                self.thread = threading.Thread(target=self.search_keyword)
+        except:
+            self.thread = threading.Thread(target=self.search_keyword)
         
-    #     self.count +=1
-            
-    #     if self.count > self.last_frame:
-    #         self.count = 0  
-    #     #recall animate_gif method    
-    #     self.anim = self.search_window.after(100, lambda :self.animate_gif(self.count))
-
-    # def stop_gif(self):
-    #     global anim
-    #     #stop recall method
-    #     self.l1.destroy()
-
     def back_to_home(self):
         from interface.screens.HomeWindow import HomeWindow
         self.search_window.destroy()
@@ -64,21 +81,57 @@ class SearchWindow:
         counter = 1
         for book in books:
             if counter == 1:
-                frame = ttk.LabelFrame(self.search_window, width=170, height=180)
-                frame.place(x=160, y=230)
-                yscroolframe = Scrollbar(frame, orient='vertical')
-                frame.configure(yscroll= yscroolframe.set)
-                yscroolframe.pack(side=RIGHT,fill=Y)
-                yscroolframe.config(command= frame.yview)
+                mycanvas = Canvas(self.search_window, width=180, height=180)
+                mycanvas.place(x=160, y=230)
 
-                xscroolframe = Scrollbar(frame, orient='horizontal')
-                frame.configure(xscroll=xscroolframe.set)
-                xscroolframe.pack(side=BOTTOM,fill=X) 
-                xscroolframe.config(command=frame.xview)
-                
+                try:
+                                
+                    self.labelTitle = Label(mycanvas, width=20,height=2,text=book["title"], relief=FLAT, foreground="purple", font=("Georgia 10 bold"))
+                    self.labelTitle.pack(side=TOP)
+
+                    self.labelSubtitle = Label(mycanvas, width=20,height=2,text=book["subtitle"], relief=FLAT, foreground="purple", font=("Georgia 10 bold"))
+                    self.labelSubtitle.pack(side=TOP)
+
+                    testebutton=Button(mycanvas,width=15,height=1,text="know more",font=("Georgia 10 bold"),foreground="purple",command=ButtonBox)
+                    testebutton.pack(side=BOTTOM,fill='x')
+                except:
+                    pass
+
+                #scrollbar in frame
+                # mycanvas=Canvas(frame,height=168, width=170)
+                # mycanvas.pack(side=TOP,ipadx=0,ipady=0)
+                xscrollbar = ttk.Scrollbar(mycanvas, orient=HORIZONTAL,command=mycanvas.xview)
+                xscrollbar.pack(side=BOTTOM,fill=X)#ipadx=76,ipady=76,pady=0,padx=0
+                mycanvas.configure(xscrollcommand=xscrollbar.set)
+                xscrollbar.config(command=mycanvas.xview)
+            
+
             elif counter == 5:
-                frame = ttk.LabelFrame(self.search_window, width=170, height=180)
+                frame = ttk.LabelFrame(self.search_window, width=180, height=180)
                 frame.place(x=160, y=450)
+                #scrollbar in frame
+                mycanvas=Canvas(frame,height=168, width=170)
+                mycanvas.pack(side=TOP,ipadx=0,ipady=0)
+
+
+                try:
+                    self.labelTitle = Label(mycanvas, width=20,height=2,text=book["title"], relief=FLAT, foreground="purple", font=("Georgia 10 bold"))
+                    self.labelTitle.pack(side=TOP)
+
+                    self.labelSubtitle = Label(mycanvas, width=20,height=2,text=book["subtitle"], relief=FLAT, foreground="purple", font=("Georgia 10 bold"))
+                    self.labelSubtitle.pack(side=TOP)
+
+                    testebutton=Button(mycanvas,width=15,height=1,text="know more",font=("Georgia 10 bold"),foreground="purple",command=ButtonBox)
+                    testebutton.pack(side=BOTTOM,fill='x')
+                except:
+                    pass
+
+                xscrollbar = ttk.Scrollbar(frame, orient=HORIZONTAL,command=mycanvas.xview)
+                mycanvas.configure(xscrollcommand=xscrollbar.set)
+                xscrollbar.pack(side=BOTTOM,fill=X)#ipadx=76,ipady=76,pady=0,padx=0
+                xscrollbar.config(command=mycanvas.xview)
+
+
             else:
                 if counter > 1 and counter < 5:
                     x = 160 + ((counter-1) * 320)
@@ -88,15 +141,41 @@ class SearchWindow:
                     y = 450
                 frame = ttk.LabelFrame(self.search_window, width=180, height=180)
                 frame.place(x=x, y=y)
+
+                #scrollbar in frame
+                mycanvas=Canvas(frame,height=168, width=170)
+                mycanvas.pack(side=TOP,ipadx=0,ipady=0)
+                
+                try:
+                    
+                    self.labelTitle = Label(mycanvas, width=20,height=2,text=book["title"], relief=FLAT, foreground="purple", font=("Georgia 10 bold"))
+                    self.labelTitle.pack(side=TOP)
+
+                    self.labelSubtitle = Label(mycanvas, width=20,height=2,text=book["subtitle"], relief=FLAT, foreground="purple", font=("Georgia 10 bold"))
+                    self.labelSubtitle.pack(side=TOP)
+
+                    testebutton=Button(mycanvas,width=15,height=1,text="know more",font=("Georgia 10 bold"),foreground="purple",command=ButtonBox)
+                    testebutton.pack(side=BOTTOM,fill='x')
+                except:
+                    pass
+                xscrollbar = ttk.Scrollbar(frame, orient=HORIZONTAL,command=mycanvas.xview)
+                mycanvas.configure(xscrollcommand=xscrollbar.set)
+                xscrollbar.pack(side=BOTTOM,fill=X)#ipadx=76,ipady=76,pady=0,padx=0
+                xscrollbar.config(command=mycanvas.xview)
+    
             counter += 1 
         # try:
-        #     self.labelTitle = Label(self.search_window, text=book["title"], relief=FLAT, background="#2C0A59", foreground="white", font=("Georgia 6 bold"))
-        #     self.labelTitle.place(x=160, y=230)
+
+        #     teste=Label(mycanvas,width=10,height=2,text="teste",font=("Georgia 6 bold"),foreground="purple",background="#2C0A59")
+        #     teste.pack()
+
+        #     self.labelTitle = Label(frame, text=book["title"], relief=FLAT, background="#2C0A59", foreground="purple", font=("Georgia 6 bold"))
+        #     self.labelTitle.pack(side=TOP)
         # except:
         #     pass
         # try:
-        #     self.labelSubtitle = Label(self.search_window, text=book["subtitle"], relief=FLAT, background="#2C0A59", foreground="white", font=("Georgia 6 bold"))
-        #     self.labelSubtitle.place(x=160, y=235)
+        #     self.labelSubtitle = Label(mycanvas, text=book["subtitle"], relief=FLAT, background="#2C0A59", foreground="white", font=("Georgia 6 bold"))
+        #     self.labelSubtitle.pack(side=TOP)
         # except:
         #     pass
 
@@ -106,12 +185,12 @@ class SearchWindow:
                 labelImage.destroy()
         except:
             pass
-        counter = 1
         try:
             for i in range(0, len(self.listLabels)):
                 self.listLabels[i].destroy()
         except:
             pass
+        counter = 1
 
         self.listLabels = list()
         for i in range(0,len(books)):
@@ -172,23 +251,33 @@ class SearchWindow:
                     self.listLabels[counter -1].image = photo
                     self.listLabels[counter - 1].place(x=x, y=y)
             counter += 1
-        # self.label.destroy()
+        self.flag = True
 
-    def render_wait_msg(self, event):
-        try:
-            self.label.destroy()
-        except:
-            pass
-        finally:
-            self.var = StringVar()
-            self.var.set("Wait a moment")
-            self.label = Label( self.search_window, textvariable=self.var, relief=FLAT, background="#2C0A59", foreground="white", font=("Georgia 14 bold"))
-            self.label.pack()
+    # def render_wait_msg(self, event):
+    #     try:
+    #         self.label.destroy()
+    #     except:
+    #         pass
+    #     finally:
+    #         self.var = StringVar()
+    #         self.var.set("Wait a moment")
+    #         self.label = Label( self.search_window, textvariable=self.var, relief=FLAT, background="#2C0A59", foreground="white", font=("Georgia 14 bold"))
+    #         self.label.pack()
+
 
     def search_keyword(self):
         keyword = self.entry_search.get()
         books = asyncio.run(request_google_books(keyword))
+        try: 
+            self.label.destroy()
+        except:
+            pass
         if type(books) != list:
+            try:
+                for i in range(0, len(self.listLabels)):
+                    self.listLabels[i].destroy()
+            except:
+                pass
             try: 
                 self.label.destroy()
             except:
@@ -197,9 +286,11 @@ class SearchWindow:
                 self.var.set(f"Error: {books}")
                 self.label = Label( self.search_window, textvariable=self.var, relief=FLAT, background="#2C0A59", foreground="red", font=("Georgia 14 bold"))
                 self.label.pack()
+                self.flag = True
         else:
             asyncio.run(self.renders_image_book(books))
             self.renders_infos_book(books)
+
 
     def generate_search_window(self):
         self.canvas = Canvas(
@@ -279,7 +370,7 @@ class SearchWindow:
             image=button_image_search,
             borderwidth=0,
             highlightthickness=0,
-            command=self.search_keyword,
+            command=self.animate_gif,
             relief="sunken",
             cursor="hand2",
             activebackground="#2C0A59",
@@ -292,20 +383,21 @@ class SearchWindow:
             width=40.3193359375,
             height=37.80328369140625
         )
+        self.button_search.bind("<Button-1>", lambda e: self.thread.start())
+        
+        while True:
+            try:
+                # Read a frame from GIF file
+                part = 'gif -index {}'.format(self.frame_index)
+                frame = PhotoImage(file=relative_to_assets('loading.gif'), format=part)
+            except:
+                print("break")
+                self.last_frame = self.frame_index - 1    # Save index for last frame
+                break               # Will break when GIF index is reached
+            self.framelist.append(frame)
+            print(len(self.framelist))
+            self.frame_index += 1 
+
         self.search_window.resizable(False, False)
-        # while True:
-        #     try:
-        #         # Read a frame from GIF file
-        #         part = 'gif -index {}'.format(self.frame_index)
-        #         frame = tkinter.PhotoImage(file='loading.gif', format=part)
-        #     except:
-        #         print("break")
-        #         self.last_frame = self.frame_index - 1    # Save index for last frame
-        #         break               # Will break when GIF index is reached
-        #     self.framelist.append(frame)
-        #     print(len(self.framelist))
-        #     self.frame_index += 1 
-        '''------------label to show gif--------------------'''
-        #     self.l1.pack()
-        # self.button_search.bind("<Button-1>", self.animate_gif())
+
         self.search_window.mainloop()
