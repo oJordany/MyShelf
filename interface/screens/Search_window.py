@@ -1,3 +1,4 @@
+from distutils.log import info
 from email.mime import image
 from itertools import count
 from pathlib import Path
@@ -6,8 +7,6 @@ from tkinter.tix import ButtonBox
 import tkinter
 import webbrowser
 import asyncio
-
-from regex import B
 from controller.request import request, request_google_books
 from PIL import Image, ImageTk
 from urllib.request import urlopen
@@ -79,102 +78,101 @@ class SearchWindow:
             pass
 
         self.listCanvas = list()
-        self.listSubCanvas = list()
+        # self.listSubCanvas = list()
         for i in range(0,len(books)):
             self.listCanvas.append(None)
-            self.listSubCanvas.append(None)
+            # self.listSubCanvas.append(None)
         counter = 1
         for book in books:
             if counter == 1:
-                self.listCanvas[counter - 1] = Canvas(self.search_window, width=180, height=180)
-                self.listSubCanvas[counter - 1] = Canvas(self.listCanvas[counter - 1])
-                self.listCanvas[counter - 1].place(x=160, y=230)
+                info_books=Frame(self.search_window, width=170, height=50)
+                info_books.place(x=160, y=230)
 
-                # selfLink, title, subtitle, authors, publisher, categories, isbn
+                xscrollbar = ttk.Scrollbar(info_books, orient=HORIZONTAL)
+                yscrollbar = ttk.Scrollbar(info_books, orient=VERTICAL)
+                xscrollbar.pack(side=BOTTOM,fill=X)#ipadx=76,ipady=76,pady=0,padx=0
+                yscrollbar.pack(side=RIGHT,fill=Y)#ipadx=76,ipady=76,pady=0,padx=0
+
+                books_box=Listbox(info_books, width=20, height=10,bg="#93679A",xscrollcommand=xscrollbar.set,yscrollcommand=yscrollbar.set)
+                books_box.pack(in_=info_books)
+
+                xscrollbar.config(command=books_box.xview)
+                yscrollbar.config(command=books_box.yview)
+
                 try:
-                    self.labelTitle = Label(self.listSubCanvas[counter - 1], width=20,height=2,text=f"{book['title']}-{book['subtitle']}", relief=FLAT, foreground="purple", font=("Georgia 10 bold"))
-                    self.labelTitle.pack(side=TOP)
+                    books_box.insert(END,book['title'],"-",book['subtitle'])
+          
                 except:
-                    self.labelTitle = Label(self.listSubCanvas[counter - 1], width=20,height=2,text=book["title"], relief=FLAT, foreground="purple", font=("Georgia 10 bold"))
-                    self.labelTitle.pack(side=TOP)
+                    books_box.insert(END,book['title'])
                 try:
-                    self.labelAuthors = Label(self.listSubCanvas[counter - 1], width=20,height=2,text=book["authors"], relief=FLAT, foreground="purple", font=("Georgia 10 bold"))
-                    self.labelAuthors.pack(side=TOP)
-                except:
-                    pass
-                try:
-                    self.labelPublisher = Label(self.listSubCanvas[counter - 1], width=20,height=2,text=book["publisher"], relief=FLAT, foreground="purple", font=("Georgia 10 bold"))
-                    self.labelPublisher.pack(side=TOP)
-                except:
-                    pass
-                try:
-                    self.labelCategories = Label(self.listSubCanvas[counter - 1], width=20,height=2,text=book["categories"], relief=FLAT, foreground="purple", font=("Georgia 10 bold"))
-                    self.labelCategories.pack(side=TOP)
+                    books_box.insert(END,["authors"])
                 except:
                     pass
                 try:
-                    self.labelIsbn = Label(self.listSubCanvas[counter - 1], width=20,height=2,text=book["isbn"], relief=FLAT, foreground="purple", font=("Georgia 10 bold"))
-                    self.labelIsbn.pack(side=TOP)
+                    books_box.insert(END,book["publisher"])
                 except:
                     pass
                 try:
-                    testebutton=Button(self.listSubCanvas[counter - 1],width=15,height=1,text="know more",font=("Georgia 10 bold"),foreground="black",command=lambda url=book['previewLink']: self.open_url(url), bg="purple", cursor="hand2")
+                    books_box.insert(END,book["categories"])#, relief=FLAT, foreground="purple", font=("Georgia 10 bold"))
+                except:
+                    pass
+                try:
+                    books_box.insert(END,book["isbn"])#, relief=FLAT, foreground="purple", font=("Georgia 10 bold"))
+                   
+                except:
+                    pass
+                try:
+                    testebutton=Button(info_books,width=15,height=1,text="know more",font=("Georgia 10 bold"),foreground="black",command=lambda url=book['previewLink']: self.open_url(url), bg="purple", cursor="hand2")
                     testebutton.pack(side=BOTTOM,fill='x')
                 except:
-                    pass
-
-                #scrollbar in frame
-                # self.listCanvas[counter - 1]=Canvas(frame,height=168, width=170)
-                # self.listCanvas[counter - 1].pack(side=TOP,ipadx=0,ipady=0)
-                xscrollbar = ttk.Scrollbar(self.listCanvas[counter - 1], orient=HORIZONTAL,command=self.listSubCanvas[counter - 1].xview)
-                xscrollbar.pack(side=BOTTOM,fill=X)#ipadx=76,ipady=76,pady=0,padx=0
-                # self.listCanvas[counter - 1].configure(xscrollcommand=xscrollbar.set)
-                xscrollbar.config(command=self.listSubCanvas[counter - 1].xview)
-            
+                    pass          
 
             elif counter == 5:
-                #scrollbar in frame
-                self.listCanvas[counter - 1]=Canvas(self.search_window,height=180, width=180)
-                self.listCanvas[counter - 1].place(x=160, y=450)
+
+                info_books=Frame(self.search_window, width=170, height=170)
+                info_books.place(x=160, y=450)
+
+                xscrollbar = ttk.Scrollbar(info_books, orient=HORIZONTAL)
+                yscrollbar = ttk.Scrollbar(info_books, orient=VERTICAL)
+                xscrollbar.pack(side=BOTTOM,fill=X)#ipadx=76,ipady=76,pady=0,padx=0
+                yscrollbar.pack(side=RIGHT,fill=Y)#ipadx=76,ipady=76,pady=0,padx=0
+
+                books_box=Listbox(info_books, width=20, height=10,bg="#93679A",xscrollcommand=xscrollbar.set,yscrollcommand=yscrollbar.set)
+                books_box.pack(in_=info_books)
+
+                xscrollbar.config(command=books_box.xview)
+                yscrollbar.config(command=books_box.yview)
 
 
                 # selfLink, title, subtitle, authors, publisher, categories, isbn
                 try:
-                    self.labelTitle = Label(self.listCanvas[counter - 1], width=20,height=2,text=f"{book['title']}-{book['subtitle']}", relief=FLAT, foreground="purple", font=("Georgia 10 bold"))
-                    self.labelTitle.pack(side=TOP)
+                    books_box.insert(END,book['title'],"-",book['subtitle'])
+          
                 except:
-                    self.labelTitle = Label(self.listCanvas[counter - 1], width=20,height=2,text=book["title"], relief=FLAT, foreground="purple", font=("Georgia 10 bold"))
-                    self.labelTitle.pack(side=TOP)
+                    books_box.insert(END,book['title'])
                 try:
-                    self.labelAuthors = Label(self.listCanvas[counter - 1], width=20,height=2,text=book["authors"], relief=FLAT, foreground="purple", font=("Georgia 10 bold"))
-                    self.labelAuthors.pack(side=TOP)
+                    books_box.insert(END,["authors"])
                 except:
                     pass
                 try:
-                    self.labelPublisher = Label(self.listCanvas[counter - 1], width=20,height=2,text=book["publisher"], relief=FLAT, foreground="purple", font=("Georgia 10 bold"))
-                    self.labelPublisher.pack(side=TOP)
+                    books_box.insert(END,book["publisher"])
                 except:
                     pass
                 try:
-                    self.labelCategories = Label(self.listCanvas[counter - 1], width=20,height=2,text=book["categories"], relief=FLAT, foreground="purple", font=("Georgia 10 bold"))
-                    self.labelCategories.pack(side=TOP)
+                    books_box.insert(END,book["categories"])#, relief=FLAT, foreground="purple", font=("Georgia 10 bold"))
                 except:
                     pass
                 try:
-                    self.labelIsbn = Label(self.listCanvas[counter - 1], width=20,height=2,text=book["isbn"], relief=FLAT, foreground="purple", font=("Georgia 10 bold"))
-                    self.labelIsbn.pack(side=TOP)
+                    books_box.insert(END,book["isbn"])#, relief=FLAT, foreground="purple", font=("Georgia 10 bold"))
+                   
                 except:
                     pass
                 try:
-                    testebutton=Button(self.listCanvas[counter - 1],background="purple",width=15,height=1,text="know more",font=("Georgia 10 bold"),foreground="black",command=lambda url=book['previewLink']: self.open_url(url), cursor="hand2")
+                    testebutton=Button(info_books,width=15,height=1,text="know more",font=("Georgia 10 bold"),foreground="black",command=lambda url=book['previewLink']: self.open_url(url), bg="purple", cursor="hand2")
                     testebutton.pack(side=BOTTOM,fill='x')
                 except:
-                    pass
+                    pass  
 
-                xscrollbar = ttk.Scrollbar(self.listCanvas[counter - 1], orient=HORIZONTAL,command=self.listCanvas[counter - 1].xview)
-                # self.listCanvas[counter - 1].configure(xscrollcommand=xscrollbar.set)
-                xscrollbar.pack(side=BOTTOM,fill=X)#ipadx=76,ipady=76,pady=0,padx=0
-                xscrollbar.config(command=self.listCanvas[counter - 1].xview)
 
 
             else:
@@ -186,45 +184,49 @@ class SearchWindow:
                     y = 450
 
                 #scrollbar in frame
-                self.listCanvas[counter - 1]=Canvas(self.search_window,height=180, width=180)
-                self.listCanvas[counter - 1].place(x=x, y=y)
+
+                info_books=Frame(self.search_window, width=170, height=170)
+                info_books.place(x=x, y=y)
+                xscrollbar = ttk.Scrollbar(info_books, orient=HORIZONTAL)
+                yscrollbar = ttk.Scrollbar(info_books, orient=VERTICAL)
+                xscrollbar.pack(side=BOTTOM,fill=X)#ipadx=76,ipady=76,pady=0,padx=0
+                yscrollbar.pack(side=RIGHT,fill=Y)#ipadx=76,ipady=76,pady=0,padx=0
+
+                books_box=Listbox(info_books, width=20, height=10,bg="#93679A",xscrollcommand=xscrollbar.set,yscrollcommand=yscrollbar.set)
+                books_box.pack(in_=info_books)
+
+                xscrollbar.config(command=books_box.xview)
+                yscrollbar.config(command=books_box.yview)
+
 
                 # selfLink, title, subtitle, authors, publisher, categories, isbn
                 try:
-                    self.labelTitle = Label(self.listCanvas[counter - 1], width=20,height=2,text=f"{book['title']}-{book['subtitle']}", relief=FLAT, foreground="purple", font=("Georgia 10 bold"))
-                    self.labelTitle.pack(side=TOP)
+                    books_box.insert(END,book['title'],"-",book['subtitle'])
+          
                 except:
-                    self.labelTitle = Label(self.listCanvas[counter - 1], width=20,height=2,text=book["title"], relief=FLAT, foreground="purple", font=("Georgia 10 bold"))
-                    self.labelTitle.pack(side=TOP)
+                    books_box.insert(END,book['title'])
                 try:
-                    self.labelAuthors = Label(self.listCanvas[counter - 1], width=20,height=2,text=book["authors"], relief=FLAT, foreground="purple", font=("Georgia 10 bold"))
-                    self.labelAuthors.pack(side=TOP)
+                    books_box.insert(END,["authors"])
                 except:
                     pass
                 try:
-                    self.labelPublisher = Label(self.listCanvas[counter - 1], width=20,height=2,text=book["publisher"], relief=FLAT, foreground="purple", font=("Georgia 10 bold"))
-                    self.labelPublisher.pack(side=TOP)
+                    books_box.insert(END,book["publisher"])
                 except:
                     pass
                 try:
-                    self.labelCategories = Label(self.listCanvas[counter - 1], width=20,height=2,text=book["categories"], relief=FLAT, foreground="purple", font=("Georgia 10 bold"))
-                    self.labelCategories.pack(side=TOP)
+                    books_box.insert(END,book["categories"])#, relief=FLAT, foreground="purple", font=("Georgia 10 bold"))
                 except:
                     pass
                 try:
-                    self.labelIsbn = Label(self.listCanvas[counter - 1], width=20,height=2,text=book["isbn"], relief=FLAT, foreground="purple", font=("Georgia 10 bold"))
-                    self.labelIsbn.pack(side=TOP)
+                    books_box.insert(END,book["isbn"])#, relief=FLAT, foreground="purple", font=("Georgia 10 bold"))
+                   
                 except:
                     pass
                 try:
-                    testebutton=Button(self.listCanvas[counter - 1],width=15,height=1,text="know more",font=("Georgia 10 bold"),foreground="black",command=lambda url=book['previewLink']: self.open_url(url), background='purple', cursor='hand2')
+                    testebutton=Button(info_books,width=15,height=1,text="know more",font=("Georgia 10 bold"),foreground="black",command=lambda url=book['previewLink']: self.open_url(url), bg="purple", cursor="hand2")
                     testebutton.pack(side=BOTTOM,fill='x')
                 except:
-                    pass
-                xscrollbar = ttk.Scrollbar(self.listCanvas[counter-1], orient=HORIZONTAL,command=self.listCanvas[counter - 1].xview)
-                # self.listCanvas[counter - 1].configure(xscrollcommand=xscrollbar.set)
-                xscrollbar.pack(side=BOTTOM,fill=X)#ipadx=76,ipady=76,pady=0,padx=0
-                xscrollbar.config(command=self.listCanvas[counter - 1].xview)
+                    pass  
     
             counter += 1 
         # try:
