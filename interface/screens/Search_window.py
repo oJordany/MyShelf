@@ -90,15 +90,18 @@ class SearchWindow:
                 self.listCanvas[counter - 1].place(x=160, y=230)
 
                 try:
-                                
                     self.labelTitle = Label(self.listCanvas[counter - 1], width=20,height=2,text=book["title"], relief=FLAT, foreground="purple", font=("Georgia 10 bold"))
                     self.labelTitle.pack(side=TOP)
-
+                except:
+                    pass 
+                try:
                     self.labelSubtitle = Label(self.listCanvas[counter - 1], width=20,height=2,text=book["subtitle"], relief=FLAT, foreground="purple", font=("Georgia 10 bold"))
                     self.labelSubtitle.pack(side=TOP)
-
+                except:
+                    pass
+                try:
                     testebutton=Button(self.listCanvas[counter - 1],width=15,height=1,text="know more",font=("Georgia 10 bold"),foreground="purple",command=ButtonBox)
-                    testebutton.pack(side=BOTTOM,fill='x')
+                    testebutton.pack(side=TOP,fill='x')
                 except:
                     pass
 
@@ -122,10 +125,14 @@ class SearchWindow:
                 try:
                     self.labelTitle = Label(self.listCanvas[counter - 1], width=20,height=2,text=book["title"], relief=FLAT, foreground="purple", font=("Georgia 10 bold"))
                     self.labelTitle.pack(side=TOP)
-
+                except:
+                    pass
+                try:
                     self.labelSubtitle = Label(self.listCanvas[counter - 1], width=20,height=2,text=book["subtitle"], relief=FLAT, foreground="purple", font=("Georgia 10 bold"))
                     self.labelSubtitle.pack(side=TOP)
-
+                except:
+                    pass 
+                try:
                     testebutton=Button(self.listCanvas[counter - 1],width=15,height=1,text="know more",font=("Georgia 10 bold"),foreground="purple",command=ButtonBox)
                     testebutton.pack(side=BOTTOM,fill='x')
                 except:
@@ -152,13 +159,16 @@ class SearchWindow:
                 self.listCanvas[counter - 1].pack(side=TOP,ipadx=0,ipady=0)
                 
                 try:
-                    
                     self.labelTitle = Label(self.listCanvas[counter - 1], width=20,height=2,text=book["title"], relief=FLAT, foreground="purple", font=("Georgia 10 bold"))
                     self.labelTitle.pack(side=TOP)
-
+                except:
+                    pass
+                try:
                     self.labelSubtitle = Label(self.listCanvas[counter - 1], width=20,height=2,text=book["subtitle"], relief=FLAT, foreground="purple", font=("Georgia 10 bold"))
                     self.labelSubtitle.pack(side=TOP)
-
+                except:
+                    pass
+                try:
                     testebutton=Button(self.listCanvas[counter - 1],width=15,height=1,text="know more",font=("Georgia 10 bold"),foreground="purple",command=ButtonBox)
                     testebutton.pack(side=BOTTOM,fill='x')
                 except:
