@@ -89,11 +89,15 @@ class SearchWindow:
                     self.labelTitle = Label(mycanvas, width=20,height=2,text=book["title"], relief=FLAT, foreground="purple", font=("Georgia 10 bold"))
                     self.labelTitle.pack(side=TOP)
 
-                    self.labelSubtitle = Label(mycanvas, width=20,height=2,text=book["subtitle"], relief=FLAT, foreground="purple", font=("Georgia 10 bold"))
-                    self.labelSubtitle.pack(side=TOP)
+                    try:
+
+                        self.labelSubtitle = Label(mycanvas, width=20,height=2,text=book["subtitle"], relief=FLAT, foreground="purple", font=("Georgia 10 bold"))
+                        self.labelSubtitle.pack(side=TOP)
+                    except:
+                        pass
 
                     testebutton=Button(mycanvas,width=15,height=1,text="know more",font=("Georgia 10 bold"),foreground="purple",command=ButtonBox)
-                    testebutton.pack(side=BOTTOM,fill='x')
+                    testebutton.pack(side=TOP,fill='x')
                 except:
                     pass
 
@@ -118,11 +122,15 @@ class SearchWindow:
                     self.labelTitle = Label(mycanvas, width=20,height=2,text=book["title"], relief=FLAT, foreground="purple", font=("Georgia 10 bold"))
                     self.labelTitle.pack(side=TOP)
 
-                    self.labelSubtitle = Label(mycanvas, width=20,height=2,text=book["subtitle"], relief=FLAT, foreground="purple", font=("Georgia 10 bold"))
-                    self.labelSubtitle.pack(side=TOP)
+                    try:
+
+                        self.labelSubtitle = Label(mycanvas, width=20,height=2,text=book["subtitle"], relief=FLAT, foreground="purple", font=("Georgia 10 bold"))
+                        self.labelSubtitle.pack(side=TOP)
+                    except:
+                        pass
 
                     testebutton=Button(mycanvas,width=15,height=1,text="know more",font=("Georgia 10 bold"),foreground="purple",command=ButtonBox)
-                    testebutton.pack(side=BOTTOM,fill='x')
+                    testebutton.pack(side=TOP,fill='x')
                 except:
                     pass
 
@@ -150,12 +158,15 @@ class SearchWindow:
                     
                     self.labelTitle = Label(mycanvas, width=20,height=2,text=book["title"], relief=FLAT, foreground="purple", font=("Georgia 10 bold"))
                     self.labelTitle.pack(side=TOP)
+                    try:
 
-                    self.labelSubtitle = Label(mycanvas, width=20,height=2,text=book["subtitle"], relief=FLAT, foreground="purple", font=("Georgia 10 bold"))
-                    self.labelSubtitle.pack(side=TOP)
+                        self.labelSubtitle = Label(mycanvas, width=20,height=2,text=book["subtitle"], relief=FLAT, foreground="purple", font=("Georgia 10 bold"))
+                        self.labelSubtitle.pack(side=TOP)
+                    except:
+                        pass
 
                     testebutton=Button(mycanvas,width=15,height=1,text="know more",font=("Georgia 10 bold"),foreground="purple",command=ButtonBox)
-                    testebutton.pack(side=BOTTOM,fill='x')
+                    testebutton.pack(side=TOP,fill='x')
                 except:
                     pass
                 xscrollbar = ttk.Scrollbar(frame, orient=HORIZONTAL,command=mycanvas.xview)
