@@ -11,6 +11,7 @@ from controller.request import request, request_google_books
 from PIL import Image, ImageTk
 from urllib.request import urlopen
 import threading
+from tkinter import *
 
 OUTPUT_PATH = Path(__file__).parent
 ASSETS_PATH = OUTPUT_PATH / Path("./assets")
@@ -80,11 +81,48 @@ class SearchWindow:
         counter = 1
         for book in books:
             if counter == 1:
-                frame = ttk.LabelFrame(self.search_window, width=170, height=180)
+                frame = ttk.LabelFrame(self.search_window, width=180, height=180)
                 frame.place(x=160, y=230)
+
+                #scrollbar in frame
+                mycanvas=Canvas(frame,height=168, width=170)
+                mycanvas.pack(side=TOP,ipadx=0,ipady=0)
+                xscrollbar = ttk.Scrollbar(frame, orient=HORIZONTAL,command=mycanvas.xview)
+                xscrollbar.pack(side=BOTTOM,fill=X)#ipadx=76,ipady=76,pady=0,padx=0
+                mycanvas.configure(xscrollcommand=xscrollbar.set)
+                xscrollbar.config(command=mycanvas.xview)
+                # try:
+
+                #     teste=Label(mycanvas,width=10,height=2,text="teste",font=("Georgia 6 bold"),foreground="purple",background="#2C0A59")
+                #     teste.pack(side=TOP,ipadx=0,ipady=0)
+                   
+
+                #     self.labelTitle = Label(mycanvas, text=book["title"], relief=FLAT, background="#2C0A59", foreground="purple", font=("Georgia 6 bold"))
+                #     self.labelTitle.pack()
+                # except:
+                #     pass
+                # try:
+                #     self.labelSubtitle = Label(mycanvas, text=book["subtitle"], relief=FLAT, background="", foreground="purple", font=("Georgia 6 bold"))
+                #     self.labelSubtitle.pack()
+                # except:
+                #     pass
+
+
+
+
+
             elif counter == 5:
-                frame = ttk.LabelFrame(self.search_window, width=170, height=180)
+                frame = ttk.LabelFrame(self.search_window, width=180, height=180)
                 frame.place(x=160, y=450)
+                #scrollbar in frame
+                mycanvas=Canvas(frame,height=168, width=170)
+                mycanvas.pack(side=TOP,ipadx=0,ipady=0)
+                xscrollbar = ttk.Scrollbar(frame, orient=HORIZONTAL,command=mycanvas.xview)
+                mycanvas.configure(xscrollcommand=xscrollbar.set)
+                xscrollbar.pack(side=BOTTOM,fill=X)#ipadx=76,ipady=76,pady=0,padx=0
+                xscrollbar.config(command=mycanvas.xview)
+
+
             else:
                 if counter > 1 and counter < 5:
                     x = 160 + ((counter-1) * 320)
@@ -94,15 +132,29 @@ class SearchWindow:
                     y = 450
                 frame = ttk.LabelFrame(self.search_window, width=180, height=180)
                 frame.place(x=x, y=y)
+
+                #scrollbar in frame
+                mycanvas=Canvas(frame,height=168, width=170)
+                mycanvas.pack(side=TOP,ipadx=0,ipady=0)
+                xscrollbar = ttk.Scrollbar(frame, orient=HORIZONTAL,command=mycanvas.xview)
+                mycanvas.configure(xscrollcommand=xscrollbar.set)
+                xscrollbar.pack(side=BOTTOM,fill=X)#ipadx=76,ipady=76,pady=0,padx=0
+                xscrollbar.config(command=mycanvas.xview)
+                                
+    
             counter += 1 
         # try:
-        #     self.labelTitle = Label(self.search_window, text=book["title"], relief=FLAT, background="#2C0A59", foreground="white", font=("Georgia 6 bold"))
-        #     self.labelTitle.place(x=160, y=230)
+
+        #     teste=Label(mycanvas,width=10,height=2,text="teste",font=("Georgia 6 bold"),foreground="purple",background="#2C0A59")
+        #     teste.pack()
+
+        #     self.labelTitle = Label(frame, text=book["title"], relief=FLAT, background="#2C0A59", foreground="purple", font=("Georgia 6 bold"))
+        #     self.labelTitle.pack(side=TOP)
         # except:
         #     pass
         # try:
-        #     self.labelSubtitle = Label(self.search_window, text=book["subtitle"], relief=FLAT, background="#2C0A59", foreground="white", font=("Georgia 6 bold"))
-        #     self.labelSubtitle.place(x=160, y=235)
+        #     self.labelSubtitle = Label(mycanvas, text=book["subtitle"], relief=FLAT, background="#2C0A59", foreground="white", font=("Georgia 6 bold"))
+        #     self.labelSubtitle.pack(side=TOP)
         # except:
         #     pass
 
