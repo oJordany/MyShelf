@@ -4,9 +4,11 @@ from pathlib import Path
 from tkinter import Tk, Canvas, Entry, Text, Button, PhotoImage, Scrollbar, font, Label, ttk, LEFT, BOTTOM, RIGHT, TOP, X, Y, StringVar, FLAT
 import tkinter
 from typing import final
+from unittest import expectedFailure
 import webbrowser
 import asyncio
 from numpy import size
+from pyparsing import replace_html_entity
 from controller.request import request, request_google_books
 from PIL import Image, ImageTk
 from urllib.request import urlopen
@@ -28,9 +30,10 @@ class SearchWindow:
         self.frame_index = 0 
         self.count = 0
         self.flag = True
-        self.thread = threading.Thread(target= self.search_keyword)
 
         self.search_window = Tk()
+        self.thread = threading.Thread(target= self.search_keyword)
+        self.var = StringVar()
         icon = PhotoImage(file=relative_to_assets("Logo.png"))
         self.search_window.iconphoto(False, icon)
         self.search_window.title("Search")
@@ -39,34 +42,30 @@ class SearchWindow:
     
 
     def animate_gif(self, count=0):  
-        if self.thread.isAlive() == True:
-            if count == 0 and self.flag == True:
-                self.l1 = tkinter.Label(self.search_window, bg="#2C0A59", image='' )
-                self.l1.place(x=650, y=150)
-                self.flag=False
+        try:
+            if self.thread.is_alive() == True:
+                if count == 0 and self.flag == True:
+                    self.l1 = tkinter.Label(self.search_window, bg="#2C0A59", image='' )
+                    self.l1.place(x=650, y=150)
+                    self.flag=False
 
-            
-            count += 1
-            self.l1.config(image=self.framelist[count])
                 
-            if count > self.last_frame - 1:
-                count = 0  
-            #recall animate_gif method    
-            print(count)
-            self.l1.after(50, lambda: self.animate_gif(count=count))
-        else:
-            self.l1.destroy()
-            self.thread = threading.Thread(target= self.search_keyword)
-
-    def stop_gif(self):
-        #stop recall method
-        self.l1.destroy()
-    
-
-    def monitor(self):
-        if self.thread.isAlive() == False:
-            self.stop_gif()
-
+                count += 1
+                self.l1.config(image=self.framelist[count])
+                print('ta vivo')
+                    
+                if count > self.last_frame - 1:
+                    count = 0  
+                #recall animate_gif method    
+                print(count)
+                self.l1.after(50, lambda: self.animate_gif(count=count))
+            else:
+                print('ta morto')
+                self.l1.destroy()
+                self.thread = threading.Thread(target=self.search_keyword)
+        except:
+            self.thread = threading.Thread(target=self.search_keyword)
+        
     def back_to_home(self):
         from interface.screens.HomeWindow import HomeWindow
         self.search_window.destroy()
@@ -164,12 +163,12 @@ class SearchWindow:
                 labelImage.destroy()
         except:
             pass
-        counter = 1
         try:
             for i in range(0, len(self.listLabels)):
                 self.listLabels[i].destroy()
         except:
             pass
+        counter = 1
 
         self.listLabels = list()
         for i in range(0,len(books)):
@@ -247,7 +246,16 @@ class SearchWindow:
     def search_keyword(self):
         keyword = self.entry_search.get()
         books = asyncio.run(request_google_books(keyword))
+        try: 
+            self.label.destroy()
+        except:
+            pass
         if type(books) != list:
+            try:
+                for i in range(0, len(self.listLabels)):
+                    self.listLabels[i].destroy()
+            except:
+                pass
             try: 
                 self.label.destroy()
             except:
@@ -256,9 +264,11 @@ class SearchWindow:
                 self.var.set(f"Error: {books}")
                 self.label = Label( self.search_window, textvariable=self.var, relief=FLAT, background="#2C0A59", foreground="red", font=("Georgia 14 bold"))
                 self.label.pack()
+                self.flag = True
         else:
             asyncio.run(self.renders_image_book(books))
             self.renders_infos_book(books)
+
 
     def generate_search_window(self):
         self.canvas = Canvas(
