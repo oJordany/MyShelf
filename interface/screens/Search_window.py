@@ -110,7 +110,7 @@ class SearchWindow:
                 # self.listCanvas[counter - 1].pack(side=TOP,ipadx=0,ipady=0)
                 xscrollbar = ttk.Scrollbar(self.listCanvas[counter - 1], orient=HORIZONTAL,command=self.listCanvas[counter - 1].xview)
                 xscrollbar.pack(side=BOTTOM,fill=X)#ipadx=76,ipady=76,pady=0,padx=0
-                self.listCanvas[counter - 1].configure(xscrollcommand=xscrollbar.set)
+                # self.listCanvas[counter - 1].configure(xscrollcommand=xscrollbar.set)
                 xscrollbar.config(command=self.listCanvas[counter - 1].xview)
             
 
@@ -139,7 +139,7 @@ class SearchWindow:
                     pass
 
                 xscrollbar = ttk.Scrollbar(frame, orient=HORIZONTAL,command=self.listCanvas[counter - 1].xview)
-                self.listCanvas[counter - 1].configure(xscrollcommand=xscrollbar.set)
+                # self.listCanvas[counter - 1].configure(xscrollcommand=xscrollbar.set)
                 xscrollbar.pack(side=BOTTOM,fill=X)#ipadx=76,ipady=76,pady=0,padx=0
                 xscrollbar.config(command=self.listCanvas[counter - 1].xview)
 
@@ -174,7 +174,7 @@ class SearchWindow:
                 except:
                     pass
                 xscrollbar = ttk.Scrollbar(frame, orient=HORIZONTAL,command=self.listCanvas[counter - 1].xview)
-                self.listCanvas[counter - 1].configure(xscrollcommand=xscrollbar.set)
+                # self.listCanvas[counter - 1].configure(xscrollcommand=xscrollbar.set)
                 xscrollbar.pack(side=BOTTOM,fill=X)#ipadx=76,ipady=76,pady=0,padx=0
                 xscrollbar.config(command=self.listCanvas[counter - 1].xview)
     
