@@ -6,6 +6,8 @@ from tkinter.tix import ButtonBox
 import tkinter
 import webbrowser
 import asyncio
+
+from regex import B
 from controller.request import request, request_google_books
 from PIL import Image, ImageTk
 from urllib.request import urlopen
@@ -46,18 +48,14 @@ class SearchWindow:
                     self.l1.place(x=650, y=150)
                     self.flag=False
 
-                
                 count += 1
                 self.l1.config(image=self.framelist[count])
-                print('ta vivo')
                     
                 if count > self.last_frame - 1:
                     count = 0  
                 #recall animate_gif method    
-                print(count)
                 self.l1.after(50, lambda: self.animate_gif(count=count))
             else:
-                print('ta morto')
                 self.l1.destroy()
                 self.thread = threading.Thread(target=self.search_keyword)
         except:
@@ -71,7 +69,7 @@ class SearchWindow:
 
     def open_url(self, url):
         webbrowser.open_new(url)
-        #lambda url="google.com": self.open_url(url)
+        lambda url=url: self.open_url(url)
 
     async def renders_infos_book(self, books):
         try:
@@ -81,64 +79,99 @@ class SearchWindow:
             pass
 
         self.listCanvas = list()
+        self.listSubCanvas = list()
         for i in range(0,len(books)):
             self.listCanvas.append(None)
+            self.listSubCanvas.append(None)
         counter = 1
         for book in books:
             if counter == 1:
                 self.listCanvas[counter - 1] = Canvas(self.search_window, width=180, height=180)
+                self.listSubCanvas[counter - 1] = Canvas(self.listCanvas[counter - 1])
                 self.listCanvas[counter - 1].place(x=160, y=230)
 
+                # selfLink, title, subtitle, authors, publisher, categories, isbn
                 try:
-                    self.labelTitle = Label(self.listCanvas[counter - 1], width=20,height=2,text=book["title"], relief=FLAT, foreground="purple", font=("Georgia 10 bold"))
+                    self.labelTitle = Label(self.listSubCanvas[counter - 1], width=20,height=2,text=f"{book['title']}-{book['subtitle']}", relief=FLAT, foreground="purple", font=("Georgia 10 bold"))
                     self.labelTitle.pack(side=TOP)
                 except:
-                    pass 
+                    self.labelTitle = Label(self.listSubCanvas[counter - 1], width=20,height=2,text=book["title"], relief=FLAT, foreground="purple", font=("Georgia 10 bold"))
+                    self.labelTitle.pack(side=TOP)
                 try:
-                    self.labelSubtitle = Label(self.listCanvas[counter - 1], width=20,height=2,text=book["subtitle"], relief=FLAT, foreground="purple", font=("Georgia 10 bold"))
-                    self.labelSubtitle.pack(side=TOP)
+                    self.labelAuthors = Label(self.listSubCanvas[counter - 1], width=20,height=2,text=book["authors"], relief=FLAT, foreground="purple", font=("Georgia 10 bold"))
+                    self.labelAuthors.pack(side=TOP)
                 except:
                     pass
                 try:
-                    testebutton=Button(self.listCanvas[counter - 1],width=15,height=1,text="know more",font=("Georgia 10 bold"),foreground="purple",command=ButtonBox)
-                    testebutton.pack(side=TOP,fill='x')
+                    self.labelPublisher = Label(self.listSubCanvas[counter - 1], width=20,height=2,text=book["publisher"], relief=FLAT, foreground="purple", font=("Georgia 10 bold"))
+                    self.labelPublisher.pack(side=TOP)
+                except:
+                    pass
+                try:
+                    self.labelCategories = Label(self.listSubCanvas[counter - 1], width=20,height=2,text=book["categories"], relief=FLAT, foreground="purple", font=("Georgia 10 bold"))
+                    self.labelCategories.pack(side=TOP)
+                except:
+                    pass
+                try:
+                    self.labelIsbn = Label(self.listSubCanvas[counter - 1], width=20,height=2,text=book["isbn"], relief=FLAT, foreground="purple", font=("Georgia 10 bold"))
+                    self.labelIsbn.pack(side=TOP)
+                except:
+                    pass
+                try:
+                    testebutton=Button(self.listSubCanvas[counter - 1],width=15,height=1,text="know more",font=("Georgia 10 bold"),foreground="black",command=lambda url=book['previewLink']: self.open_url(url), bg="purple", cursor="hand2")
+                    testebutton.pack(side=BOTTOM,fill='x')
                 except:
                     pass
 
                 #scrollbar in frame
                 # self.listCanvas[counter - 1]=Canvas(frame,height=168, width=170)
                 # self.listCanvas[counter - 1].pack(side=TOP,ipadx=0,ipady=0)
-                xscrollbar = ttk.Scrollbar(self.listCanvas[counter - 1], orient=HORIZONTAL,command=self.listCanvas[counter - 1].xview)
+                xscrollbar = ttk.Scrollbar(self.listCanvas[counter - 1], orient=HORIZONTAL,command=self.listSubCanvas[counter - 1].xview)
                 xscrollbar.pack(side=BOTTOM,fill=X)#ipadx=76,ipady=76,pady=0,padx=0
                 # self.listCanvas[counter - 1].configure(xscrollcommand=xscrollbar.set)
-                xscrollbar.config(command=self.listCanvas[counter - 1].xview)
+                xscrollbar.config(command=self.listSubCanvas[counter - 1].xview)
             
 
             elif counter == 5:
-                frame = ttk.LabelFrame(self.search_window, width=180, height=180)
-                frame.place(x=160, y=450)
                 #scrollbar in frame
-                self.listCanvas[counter - 1]=Canvas(frame,height=168, width=170)
-                self.listCanvas[counter - 1].pack(side=TOP,ipadx=0,ipady=0)
+                self.listCanvas[counter - 1]=Canvas(self.search_window,height=180, width=180)
+                self.listCanvas[counter - 1].place(x=160, y=450)
 
 
+                # selfLink, title, subtitle, authors, publisher, categories, isbn
                 try:
+                    self.labelTitle = Label(self.listCanvas[counter - 1], width=20,height=2,text=f"{book['title']}-{book['subtitle']}", relief=FLAT, foreground="purple", font=("Georgia 10 bold"))
+                    self.labelTitle.pack(side=TOP)
+                except:
                     self.labelTitle = Label(self.listCanvas[counter - 1], width=20,height=2,text=book["title"], relief=FLAT, foreground="purple", font=("Georgia 10 bold"))
                     self.labelTitle.pack(side=TOP)
+                try:
+                    self.labelAuthors = Label(self.listCanvas[counter - 1], width=20,height=2,text=book["authors"], relief=FLAT, foreground="purple", font=("Georgia 10 bold"))
+                    self.labelAuthors.pack(side=TOP)
                 except:
                     pass
                 try:
-                    self.labelSubtitle = Label(self.listCanvas[counter - 1], width=20,height=2,text=book["subtitle"], relief=FLAT, foreground="purple", font=("Georgia 10 bold"))
-                    self.labelSubtitle.pack(side=TOP)
+                    self.labelPublisher = Label(self.listCanvas[counter - 1], width=20,height=2,text=book["publisher"], relief=FLAT, foreground="purple", font=("Georgia 10 bold"))
+                    self.labelPublisher.pack(side=TOP)
                 except:
-                    pass 
+                    pass
                 try:
-                    testebutton=Button(self.listCanvas[counter - 1],width=15,height=1,text="know more",font=("Georgia 10 bold"),foreground="purple",command=ButtonBox)
+                    self.labelCategories = Label(self.listCanvas[counter - 1], width=20,height=2,text=book["categories"], relief=FLAT, foreground="purple", font=("Georgia 10 bold"))
+                    self.labelCategories.pack(side=TOP)
+                except:
+                    pass
+                try:
+                    self.labelIsbn = Label(self.listCanvas[counter - 1], width=20,height=2,text=book["isbn"], relief=FLAT, foreground="purple", font=("Georgia 10 bold"))
+                    self.labelIsbn.pack(side=TOP)
+                except:
+                    pass
+                try:
+                    testebutton=Button(self.listCanvas[counter - 1],background="purple",width=15,height=1,text="know more",font=("Georgia 10 bold"),foreground="black",command=lambda url=book['previewLink']: self.open_url(url), cursor="hand2")
                     testebutton.pack(side=BOTTOM,fill='x')
                 except:
                     pass
 
-                xscrollbar = ttk.Scrollbar(frame, orient=HORIZONTAL,command=self.listCanvas[counter - 1].xview)
+                xscrollbar = ttk.Scrollbar(self.listCanvas[counter - 1], orient=HORIZONTAL,command=self.listCanvas[counter - 1].xview)
                 # self.listCanvas[counter - 1].configure(xscrollcommand=xscrollbar.set)
                 xscrollbar.pack(side=BOTTOM,fill=X)#ipadx=76,ipady=76,pady=0,padx=0
                 xscrollbar.config(command=self.listCanvas[counter - 1].xview)
@@ -151,29 +184,44 @@ class SearchWindow:
                 else:
                     x = 160 + ((counter - 5) * 320)
                     y = 450
-                frame = ttk.LabelFrame(self.search_window, width=180, height=180)
-                frame.place(x=x, y=y)
 
                 #scrollbar in frame
-                self.listCanvas[counter - 1]=Canvas(frame,height=168, width=170)
-                self.listCanvas[counter - 1].pack(side=TOP,ipadx=0,ipady=0)
-                
+                self.listCanvas[counter - 1]=Canvas(self.search_window,height=180, width=180)
+                self.listCanvas[counter - 1].place(x=x, y=y)
+
+                # selfLink, title, subtitle, authors, publisher, categories, isbn
                 try:
-                    self.labelTitle = Label(self.listCanvas[counter - 1], width=20,height=2,text=book["title"], relief=FLAT, foreground="purple", font=("Georgia 10 bold"))
+                    self.labelTitle = Label(self.listCanvas[counter - 1], width=20,height=2,text=f"{book['title']}-{book['subtitle']}", relief=FLAT, foreground="purple", font=("Georgia 10 bold"))
                     self.labelTitle.pack(side=TOP)
                 except:
-                    pass
+                    self.labelTitle = Label(self.listCanvas[counter - 1], width=20,height=2,text=book["title"], relief=FLAT, foreground="purple", font=("Georgia 10 bold"))
+                    self.labelTitle.pack(side=TOP)
                 try:
-                    self.labelSubtitle = Label(self.listCanvas[counter - 1], width=20,height=2,text=book["subtitle"], relief=FLAT, foreground="purple", font=("Georgia 10 bold"))
-                    self.labelSubtitle.pack(side=TOP)
+                    self.labelAuthors = Label(self.listCanvas[counter - 1], width=20,height=2,text=book["authors"], relief=FLAT, foreground="purple", font=("Georgia 10 bold"))
+                    self.labelAuthors.pack(side=TOP)
                 except:
                     pass
                 try:
-                    testebutton=Button(self.listCanvas[counter - 1],width=15,height=1,text="know more",font=("Georgia 10 bold"),foreground="purple",command=ButtonBox)
+                    self.labelPublisher = Label(self.listCanvas[counter - 1], width=20,height=2,text=book["publisher"], relief=FLAT, foreground="purple", font=("Georgia 10 bold"))
+                    self.labelPublisher.pack(side=TOP)
+                except:
+                    pass
+                try:
+                    self.labelCategories = Label(self.listCanvas[counter - 1], width=20,height=2,text=book["categories"], relief=FLAT, foreground="purple", font=("Georgia 10 bold"))
+                    self.labelCategories.pack(side=TOP)
+                except:
+                    pass
+                try:
+                    self.labelIsbn = Label(self.listCanvas[counter - 1], width=20,height=2,text=book["isbn"], relief=FLAT, foreground="purple", font=("Georgia 10 bold"))
+                    self.labelIsbn.pack(side=TOP)
+                except:
+                    pass
+                try:
+                    testebutton=Button(self.listCanvas[counter - 1],width=15,height=1,text="know more",font=("Georgia 10 bold"),foreground="black",command=lambda url=book['previewLink']: self.open_url(url), background='purple', cursor='hand2')
                     testebutton.pack(side=BOTTOM,fill='x')
                 except:
                     pass
-                xscrollbar = ttk.Scrollbar(frame, orient=HORIZONTAL,command=self.listCanvas[counter - 1].xview)
+                xscrollbar = ttk.Scrollbar(self.listCanvas[counter-1], orient=HORIZONTAL,command=self.listCanvas[counter - 1].xview)
                 # self.listCanvas[counter - 1].configure(xscrollcommand=xscrollbar.set)
                 xscrollbar.pack(side=BOTTOM,fill=X)#ipadx=76,ipady=76,pady=0,padx=0
                 xscrollbar.config(command=self.listCanvas[counter - 1].xview)
@@ -403,11 +451,9 @@ class SearchWindow:
                 part = 'gif -index {}'.format(self.frame_index)
                 frame = PhotoImage(file=relative_to_assets('loading.gif'), format=part)
             except:
-                print("break")
                 self.last_frame = self.frame_index - 1    # Save index for last frame
                 break               # Will break when GIF index is reached
             self.framelist.append(frame)
-            print(len(self.framelist))
             self.frame_index += 1 
 
         self.search_window.resizable(False, False)

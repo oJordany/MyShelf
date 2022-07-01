@@ -1,3 +1,4 @@
+from base64 import decode
 import json
 from isbnlib import info
 from isbnlib import meta
@@ -63,10 +64,10 @@ async def request_google_books(keyword):
 
     for i in range(0, count_max):
         infos = dict()
-
+        print(decoded[i]['selfLink'])
         try:
-            link = decoded[i]["selfLink"]
-            infos["selfLink"] = link
+            link = decoded[i]["volumeInfo"]["previewLink"]  
+            infos["previewLink"] = link
         except:
             pass
         try:
@@ -104,8 +105,12 @@ async def request_google_books(keyword):
         except:
             pass
         try:
-            isbn = decoded[i]["volumeInfo"]["industryIdentifiers"][0]["identifier"]
-            infos["isbn"] = isbn
+            if decoded[i]["volumeInfo"]["industryIdentifiers"][0]["type"] == "OTHER":
+                isbn = "ISBN Not Registred"
+                infos['isbn'] = isbn
+            else:
+                isbn = decoded[i]["volumeInfo"]["industryIdentifiers"][0]["identifier"]
+                infos["isbn"] = isbn
         except:
             pass
 
