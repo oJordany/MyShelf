@@ -85,19 +85,18 @@ class SearchWindow:
         counter = 1
         for book in books:
             if counter == 1:
-                info_books=Frame(self.search_window, width=170, height=50)
+                info_books=Frame(self.search_window, width=160, height=50)
                 info_books.place(x=160, y=230)
 
-                xscrollbar = ttk.Scrollbar(info_books, orient=HORIZONTAL)
-                yscrollbar = ttk.Scrollbar(info_books, orient=VERTICAL)
+                xscrollbar = ttk.Scrollbar(info_books, orient=HORIZONTAL)          
                 xscrollbar.pack(side=BOTTOM,fill=X)#ipadx=76,ipady=76,pady=0,padx=0
-                yscrollbar.pack(side=RIGHT,fill=Y)#ipadx=76,ipady=76,pady=0,padx=0
+                
 
-                books_box=Listbox(info_books, width=20, height=10,bg="#93679A",xscrollcommand=xscrollbar.set,yscrollcommand=yscrollbar.set)
+                books_box=Listbox(info_books, width=18, height=8,bg="#93679A",xscrollcommand=xscrollbar.set,font=("Georgia 12 "))
                 books_box.pack(in_=info_books)
 
                 xscrollbar.config(command=books_box.xview)
-                yscrollbar.config(command=books_box.yview)
+                
 
                 try:
                     books_box.insert(END,book['title'],"-",book['subtitle'])
@@ -133,15 +132,15 @@ class SearchWindow:
                 info_books.place(x=160, y=450)
 
                 xscrollbar = ttk.Scrollbar(info_books, orient=HORIZONTAL)
-                yscrollbar = ttk.Scrollbar(info_books, orient=VERTICAL)
+      
                 xscrollbar.pack(side=BOTTOM,fill=X)#ipadx=76,ipady=76,pady=0,padx=0
-                yscrollbar.pack(side=RIGHT,fill=Y)#ipadx=76,ipady=76,pady=0,padx=0
+                
 
-                books_box=Listbox(info_books, width=20, height=10,bg="#93679A",xscrollcommand=xscrollbar.set,yscrollcommand=yscrollbar.set)
+                books_box=Listbox(info_books, width=18, height=8,bg="#93679A",xscrollcommand=xscrollbar.set,font=("Georgia 12"))
                 books_box.pack(in_=info_books)
 
                 xscrollbar.config(command=books_box.xview)
-                yscrollbar.config(command=books_box.yview)
+                
 
 
                 # selfLink, title, subtitle, authors, publisher, categories, isbn
@@ -188,15 +187,15 @@ class SearchWindow:
                 info_books=Frame(self.search_window, width=170, height=170)
                 info_books.place(x=x, y=y)
                 xscrollbar = ttk.Scrollbar(info_books, orient=HORIZONTAL)
-                yscrollbar = ttk.Scrollbar(info_books, orient=VERTICAL)
+                
                 xscrollbar.pack(side=BOTTOM,fill=X)#ipadx=76,ipady=76,pady=0,padx=0
-                yscrollbar.pack(side=RIGHT,fill=Y)#ipadx=76,ipady=76,pady=0,padx=0
+                
 
-                books_box=Listbox(info_books, width=20, height=10,bg="#93679A",xscrollcommand=xscrollbar.set,yscrollcommand=yscrollbar.set)
+                books_box=Listbox(info_books, width=18, height=8,bg="#93679A",xscrollcommand=xscrollbar.set,font=("Georgia 12 "))
                 books_box.pack(in_=info_books)
 
                 xscrollbar.config(command=books_box.xview)
-                yscrollbar.config(command=books_box.yview)
+                
 
 
                 # selfLink, title, subtitle, authors, publisher, categories, isbn
