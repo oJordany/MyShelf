@@ -90,25 +90,21 @@ class SearchWindow:
                 xscrollbar.pack(side=BOTTOM,fill=X)#ipadx=76,ipady=76,pady=0,padx=0
                 mycanvas.configure(xscrollcommand=xscrollbar.set)
                 xscrollbar.config(command=mycanvas.xview)
-                # try:
-
-                #     teste=Label(mycanvas,width=10,height=2,text="teste",font=("Georgia 6 bold"),foreground="purple",background="#2C0A59")
-                #     teste.pack(side=TOP,ipadx=0,ipady=0)
+                try:
+                    
+                    teste=Label(mycanvas,width=10,height=2,text="know more",font=("Georgia 10 bold"),foreground="purple")
+                    teste.pack(side=TOP, ipadx=10,ipady=10,fill='x')
                    
 
-                #     self.labelTitle = Label(mycanvas, text=book["title"], relief=FLAT, background="#2C0A59", foreground="purple", font=("Georgia 6 bold"))
-                #     self.labelTitle.pack()
-                # except:
-                #     pass
-                # try:
-                #     self.labelSubtitle = Label(mycanvas, text=book["subtitle"], relief=FLAT, background="", foreground="purple", font=("Georgia 6 bold"))
-                #     self.labelSubtitle.pack()
-                # except:
-                #     pass
-
-
-
-
+                    self.labelTitle = Label(mycanvas, text=book["title"], relief=FLAT, foreground="purple", font=("Georgia 10 bold"))
+                    self.labelTitle.pack(side=TOP,pady=10,padx=10)
+                except:
+                    pass
+                try:
+                    self.labelSubtitle = Label(mycanvas, text=book["subtitle"], relief=FLAT, foreground="purple", font=("Georgia 12 bold"))
+                    self.labelSubtitle.pack(pady=10,padx=10)
+                except:
+                    pass
 
             elif counter == 5:
                 frame = ttk.LabelFrame(self.search_window, width=180, height=180)
@@ -120,6 +116,21 @@ class SearchWindow:
                 mycanvas.configure(xscrollcommand=xscrollbar.set)
                 xscrollbar.pack(side=BOTTOM,fill=X)#ipadx=76,ipady=76,pady=0,padx=0
                 xscrollbar.config(command=mycanvas.xview)
+                try:
+                    
+                    teste=Label(mycanvas,width=10,height=2,text="know more",font=("Georgia 10 bold"),foreground="purple")
+                    teste.pack(side=TOP,pady=10,padx=10)
+                   
+
+                    self.labelTitle = Label(mycanvas, text=book["title"], relief=FLAT, foreground="purple", font=("Georgia 10 bold"))
+                    self.labelTitle.pack(side=TOP,pady=10,padx=10)
+                except:
+                    pass
+                try:
+                    self.labelSubtitle = Label(mycanvas, text=book["subtitle"], relief=FLAT, foreground="purple", font=("Georgia 12 bold"))
+                    self.labelSubtitle.pack()
+                except:
+                    pass
 
 
             else:
@@ -139,7 +150,22 @@ class SearchWindow:
                 mycanvas.configure(xscrollcommand=xscrollbar.set)
                 xscrollbar.pack(side=BOTTOM,fill=X)#ipadx=76,ipady=76,pady=0,padx=0
                 xscrollbar.config(command=mycanvas.xview)
-                                
+                
+                try:
+                    
+                    teste=Label(mycanvas,width=10,height=2,text="know more",font=("Georgia 10 bold"),foreground="purple")
+                    teste.pack(side=TOP)
+                   
+
+                    self.labelTitle = Label(mycanvas, text=book["title"], relief=FLAT, foreground="purple", font=("Georgia 10 bold"))
+                    self.labelTitle.pack(side=TOP)
+                except:
+                    pass
+                try:
+                    self.labelSubtitle = Label(mycanvas, text=book["subtitle"], relief=FLAT, foreground="purple", font=("Georgia 12 bold"))
+                    self.labelSubtitle.pack(side=TOP)
+                except:
+                    pass
     
             counter += 1 
         # try:
