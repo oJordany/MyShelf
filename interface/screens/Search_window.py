@@ -2,6 +2,7 @@ from email.mime import image
 from itertools import count
 from pathlib import Path
 from tkinter import Tk, Canvas, Entry, Text, Button, PhotoImage, Scrollbar, font, Label, ttk, LEFT, BOTTOM, RIGHT, TOP, X, Y, StringVar, FLAT
+from tkinter.tix import ButtonBox
 import tkinter
 import webbrowser
 import asyncio
@@ -85,31 +86,30 @@ class SearchWindow:
         counter = 1
         for book in books:
             if counter == 1:
-                frame = ttk.LabelFrame(self.search_window, width=180, height=180)
-                frame.place(x=160, y=230)
+                self.listCanvas[counter - 1] = Canvas(self.search_window, width=180, height=180)
+                self.listCanvas[counter - 1].place(x=160, y=230)
+
+                try:
+                                
+                    self.labelTitle = Label(self.listCanvas[counter - 1], width=20,height=2,text=book["title"], relief=FLAT, foreground="purple", font=("Georgia 10 bold"))
+                    self.labelTitle.pack(side=TOP)
+
+                    self.labelSubtitle = Label(self.listCanvas[counter - 1], width=20,height=2,text=book["subtitle"], relief=FLAT, foreground="purple", font=("Georgia 10 bold"))
+                    self.labelSubtitle.pack(side=TOP)
+
+                    testebutton=Button(self.listCanvas[counter - 1],width=15,height=1,text="know more",font=("Georgia 10 bold"),foreground="purple",command=ButtonBox)
+                    testebutton.pack(side=BOTTOM,fill='x')
+                except:
+                    pass
 
                 #scrollbar in frame
-                self.listCanvas[counter - 1] = mycanvas=Canvas(frame,height=168, width=170)
-                self.listCanvas[counter - 1].pack(side=TOP,ipadx=0,ipady=0)
-                xscrollbar = ttk.Scrollbar(frame, orient=HORIZONTAL,command=self.listCanvas[counter - 1].xview)
+                # self.listCanvas[counter - 1]=Canvas(frame,height=168, width=170)
+                # self.listCanvas[counter - 1].pack(side=TOP,ipadx=0,ipady=0)
+                xscrollbar = ttk.Scrollbar(self.listCanvas[counter - 1], orient=HORIZONTAL,command=self.listCanvas[counter - 1].xview)
                 xscrollbar.pack(side=BOTTOM,fill=X)#ipadx=76,ipady=76,pady=0,padx=0
                 self.listCanvas[counter - 1].configure(xscrollcommand=xscrollbar.set)
                 xscrollbar.config(command=self.listCanvas[counter - 1].xview)
-                try:
-                    
-                    teste=Label(self.listCanvas[counter - 1],width=10,height=2,text="know more",font=("Georgia 10 bold"),foreground="purple")
-                    teste.pack(side=TOP, ipadx=10,ipady=10,fill='x')
-                   
-
-                    self.labelTitle = Label(self.listCanvas[counter - 1], text=book["title"], relief=FLAT, foreground="purple", font=("Georgia 10 bold"))
-                    self.labelTitle.pack(side=TOP,pady=10,padx=10)
-                except:
-                    pass
-                try:
-                    self.labelSubtitle = Label(self.listCanvas[counter - 1], text=book["subtitle"], relief=FLAT, foreground="purple", font=("Georgia 12 bold"))
-                    self.labelSubtitle.pack(pady=10,padx=10)
-                except:
-                    pass
+            
 
             elif counter == 5:
                 frame = ttk.LabelFrame(self.search_window, width=180, height=180)
@@ -117,25 +117,24 @@ class SearchWindow:
                 #scrollbar in frame
                 self.listCanvas[counter - 1]=Canvas(frame,height=168, width=170)
                 self.listCanvas[counter - 1].pack(side=TOP,ipadx=0,ipady=0)
+
+
+                try:
+                    self.labelTitle = Label(self.listCanvas[counter - 1], width=20,height=2,text=book["title"], relief=FLAT, foreground="purple", font=("Georgia 10 bold"))
+                    self.labelTitle.pack(side=TOP)
+
+                    self.labelSubtitle = Label(self.listCanvas[counter - 1], width=20,height=2,text=book["subtitle"], relief=FLAT, foreground="purple", font=("Georgia 10 bold"))
+                    self.labelSubtitle.pack(side=TOP)
+
+                    testebutton=Button(self.listCanvas[counter - 1],width=15,height=1,text="know more",font=("Georgia 10 bold"),foreground="purple",command=ButtonBox)
+                    testebutton.pack(side=BOTTOM,fill='x')
+                except:
+                    pass
+
                 xscrollbar = ttk.Scrollbar(frame, orient=HORIZONTAL,command=self.listCanvas[counter - 1].xview)
                 self.listCanvas[counter - 1].configure(xscrollcommand=xscrollbar.set)
                 xscrollbar.pack(side=BOTTOM,fill=X)#ipadx=76,ipady=76,pady=0,padx=0
                 xscrollbar.config(command=self.listCanvas[counter - 1].xview)
-                try:
-                    
-                    teste=Label(self.listCanvas[counter - 1],width=10,height=2,text="know more",font=("Georgia 10 bold"),foreground="purple")
-                    teste.pack(side=TOP,pady=10,padx=10)
-                   
-
-                    self.labelTitle = Label(self.listCanvas[counter - 1], text=book["title"], relief=FLAT, foreground="purple", font=("Georgia 10 bold"))
-                    self.labelTitle.pack(side=TOP,pady=10,padx=10)
-                except:
-                    pass
-                try:
-                    self.labelSubtitle = Label(self.listCanvas[counter - 1], text=book["subtitle"], relief=FLAT, foreground="purple", font=("Georgia 12 bold"))
-                    self.labelSubtitle.pack()
-                except:
-                    pass
 
 
             else:
@@ -151,26 +150,23 @@ class SearchWindow:
                 #scrollbar in frame
                 self.listCanvas[counter - 1]=Canvas(frame,height=168, width=170)
                 self.listCanvas[counter - 1].pack(side=TOP,ipadx=0,ipady=0)
+                
+                try:
+                    
+                    self.labelTitle = Label(self.listCanvas[counter - 1], width=20,height=2,text=book["title"], relief=FLAT, foreground="purple", font=("Georgia 10 bold"))
+                    self.labelTitle.pack(side=TOP)
+
+                    self.labelSubtitle = Label(self.listCanvas[counter - 1], width=20,height=2,text=book["subtitle"], relief=FLAT, foreground="purple", font=("Georgia 10 bold"))
+                    self.labelSubtitle.pack(side=TOP)
+
+                    testebutton=Button(self.listCanvas[counter - 1],width=15,height=1,text="know more",font=("Georgia 10 bold"),foreground="purple",command=ButtonBox)
+                    testebutton.pack(side=BOTTOM,fill='x')
+                except:
+                    pass
                 xscrollbar = ttk.Scrollbar(frame, orient=HORIZONTAL,command=self.listCanvas[counter - 1].xview)
                 self.listCanvas[counter - 1].configure(xscrollcommand=xscrollbar.set)
                 xscrollbar.pack(side=BOTTOM,fill=X)#ipadx=76,ipady=76,pady=0,padx=0
                 xscrollbar.config(command=self.listCanvas[counter - 1].xview)
-                
-                try:
-                    
-                    teste=Label(self.listCanvas[counter - 1],width=10,height=2,text="know more",font=("Georgia 10 bold"),foreground="purple")
-                    teste.pack(side=TOP)
-                   
-
-                    self.labelTitle = Label(self.listCanvas[counter - 1], text=book["title"], relief=FLAT, foreground="purple", font=("Georgia 10 bold"))
-                    self.labelTitle.pack(side=TOP)
-                except:
-                    pass
-                try:
-                    self.labelSubtitle = Label(self.listCanvas[counter - 1], text=book["subtitle"], relief=FLAT, foreground="purple", font=("Georgia 12 bold"))
-                    self.labelSubtitle.pack(side=TOP)
-                except:
-                    pass
     
             counter += 1 
         # try:
@@ -194,6 +190,7 @@ class SearchWindow:
                 self.listLabels[i].destroy()
         except:
             pass
+        counter = 1
 
         counter = 1
         self.listLabels = list()
@@ -292,8 +289,9 @@ class SearchWindow:
                 self.label.pack()
                 self.flag = True
         else:
-            asyncio.run(self.renders_image_book(books))
             asyncio.run(self.renders_infos_book(books))
+            asyncio.run(self.renders_image_book(books))
+
 
 
     def generate_search_window(self):
