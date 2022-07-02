@@ -90,33 +90,41 @@ class SearchWindow:
 
                 xscrollbar = ttk.Scrollbar(info_books, orient=HORIZONTAL)          
                 xscrollbar.pack(side=BOTTOM,fill=X)#ipadx=76,ipady=76,pady=0,padx=0
+
+                yscrollbar = ttk.Scrollbar(info_books, orient=VERTICAL)          
+                yscrollbar.pack(side=RIGHT,fill=Y)#ipadx=76,ipady=76,pady=0,padx=0
                 
 
-                books_box=Listbox(info_books, width=18, height=8,bg="#93679A",xscrollcommand=xscrollbar.set,font=("Georgia 12 "))
+                books_box=Listbox(info_books, width=17, height=8,bg="#93679A",xscrollcommand=xscrollbar.set,yscrollcommand=yscrollbar.set,font=("Georgia 10 bold"),fg="#2C0A59")
                 books_box.pack(in_=info_books)
 
                 xscrollbar.config(command=books_box.xview)
+                yscrollbar.config(command=books_box.xview)
                 
 
                 try:
-                    books_box.insert(END,book['title'],"-",book['subtitle'])
+                    books_box.insert(END,"TITLE: ",book['title'])
           
                 except:
-                    books_box.insert(END,book['title'])
+                    pass
                 try:
-                    books_box.insert(END,["authors"])
+                    books_box.insert(END,"SUBTITLE: ",book['subtitle'])
                 except:
                     pass
                 try:
-                    books_box.insert(END,book["publisher"])
+                    books_box.insert(END,"AUTHORS: ",book["authors"])
                 except:
                     pass
                 try:
-                    books_box.insert(END,book["categories"])#, relief=FLAT, foreground="purple", font=("Georgia 10 bold"))
+                    books_box.insert(END,"PUBLISHER: ",book["publisher"])
                 except:
                     pass
                 try:
-                    books_box.insert(END,book["isbn"])#, relief=FLAT, foreground="purple", font=("Georgia 10 bold"))
+                    books_box.insert(END,"CATEGORIES: ",book["categories"])#, relief=FLAT, foreground="purple", font=("Georgia 10 bold"))
+                except:
+                    pass
+                try:
+                    books_box.insert(END,"ISBN: ",book["isbn"])#, relief=FLAT, foreground="purple", font=("Georgia 10 bold"))
                    
                 except:
                     pass
@@ -124,45 +132,52 @@ class SearchWindow:
                     testebutton=Button(info_books,width=15,height=1,text="know more",font=("Georgia 10 bold"),foreground="black",command=lambda url=book['previewLink']: self.open_url(url), bg="purple", cursor="hand2")
                     testebutton.pack(side=BOTTOM,fill='x')
                 except:
-                    pass          
+                    pass         
 
             elif counter == 5:
 
                 info_books=Frame(self.search_window, width=170, height=170)
                 info_books.place(x=160, y=450)
 
-                xscrollbar = ttk.Scrollbar(info_books, orient=HORIZONTAL)
-      
+                xscrollbar = ttk.Scrollbar(info_books, orient=HORIZONTAL)          
                 xscrollbar.pack(side=BOTTOM,fill=X)#ipadx=76,ipady=76,pady=0,padx=0
+
+                yscrollbar = ttk.Scrollbar(info_books, orient=VERTICAL)          
+                yscrollbar.pack(side=RIGHT,fill=Y)#ipadx=76,ipady=76,pady=0,padx=0
                 
 
-                books_box=Listbox(info_books, width=18, height=8,bg="#93679A",xscrollcommand=xscrollbar.set,font=("Georgia 12"))
+                books_box=Listbox(info_books, width=17, height=8,bg="#93679A",xscrollcommand=xscrollbar.set,yscrollcommand=yscrollbar.set,font=("Georgia 10 bold"),fg="#2C0A59")
                 books_box.pack(in_=info_books)
 
                 xscrollbar.config(command=books_box.xview)
+                yscrollbar.config(command=books_box.xview)
                 
 
 
                 # selfLink, title, subtitle, authors, publisher, categories, isbn
                 try:
-                    books_box.insert(END,book['title'],"-",book['subtitle'])
+                    books_box.insert(END,"TITLE: ",book['title'])
           
                 except:
-                    books_box.insert(END,book['title'])
+                    pass
                 try:
-                    books_box.insert(END,["authors"])
+                    books_box.insert(END,"SUBTITLE: ",book['subtitle'])
                 except:
                     pass
                 try:
-                    books_box.insert(END,book["publisher"])
+                    books_box.insert(END,"AUTHORS: ",book["authors"])
                 except:
                     pass
                 try:
-                    books_box.insert(END,book["categories"])#, relief=FLAT, foreground="purple", font=("Georgia 10 bold"))
+                    books_box.insert(END,"PUBLISHER: ",book["publisher"])
                 except:
                     pass
                 try:
-                    books_box.insert(END,book["isbn"])#, relief=FLAT, foreground="purple", font=("Georgia 10 bold"))
+                    books_box.insert(END,"CATEGORIES: ",book["categories"])#, relief=FLAT, foreground="purple", font=("Georgia 10 bold"))
+                except:
+                    pass
+                try:
+                    books_box.insert(END,"ISBN: ",book["isbn"])#, relief=FLAT, foreground="purple", font=("Georgia 10 bold"))
                    
                 except:
                     pass
@@ -186,38 +201,46 @@ class SearchWindow:
 
                 info_books=Frame(self.search_window, width=170, height=170)
                 info_books.place(x=x, y=y)
-                xscrollbar = ttk.Scrollbar(info_books, orient=HORIZONTAL)
                 
+                xscrollbar = ttk.Scrollbar(info_books, orient=HORIZONTAL)          
                 xscrollbar.pack(side=BOTTOM,fill=X)#ipadx=76,ipady=76,pady=0,padx=0
+
+                yscrollbar = ttk.Scrollbar(info_books, orient=VERTICAL)          
+                yscrollbar.pack(side=RIGHT,fill=Y)#ipadx=76,ipady=76,pady=0,padx=0
                 
 
-                books_box=Listbox(info_books, width=18, height=8,bg="#93679A",xscrollcommand=xscrollbar.set,font=("Georgia 12 "))
+                books_box=Listbox(info_books, width=17, height=8,bg="#93679A",xscrollcommand=xscrollbar.set,yscrollcommand=yscrollbar.set,font=("Georgia 10 bold"),fg="#2C0A59")
                 books_box.pack(in_=info_books)
 
                 xscrollbar.config(command=books_box.xview)
+                yscrollbar.config(command=books_box.xview)
                 
 
 
                 # selfLink, title, subtitle, authors, publisher, categories, isbn
                 try:
-                    books_box.insert(END,book['title'],"-",book['subtitle'])
+                    books_box.insert(END,"TITLE: ",book['title'])
           
                 except:
-                    books_box.insert(END,book['title'])
+                    pass
                 try:
-                    books_box.insert(END,["authors"])
+                    books_box.insert(END,"SUBTITLE: ",book['subtitle'])
                 except:
                     pass
                 try:
-                    books_box.insert(END,book["publisher"])
+                    books_box.insert(END,"AUTHORS: ",book["authors"])
                 except:
                     pass
                 try:
-                    books_box.insert(END,book["categories"])#, relief=FLAT, foreground="purple", font=("Georgia 10 bold"))
+                    books_box.insert(END,"PUBLISHER: ",book["publisher"])
                 except:
                     pass
                 try:
-                    books_box.insert(END,book["isbn"])#, relief=FLAT, foreground="purple", font=("Georgia 10 bold"))
+                    books_box.insert(END,"CATEGORIES: ",book["categories"])#, relief=FLAT, foreground="purple", font=("Georgia 10 bold"))
+                except:
+                    pass
+                try:
+                    books_box.insert(END,"ISBN: ",book["isbn"])#, relief=FLAT, foreground="purple", font=("Georgia 10 bold"))
                    
                 except:
                     pass
