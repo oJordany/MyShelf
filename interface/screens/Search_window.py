@@ -72,78 +72,78 @@ class SearchWindow:
 
     async def renders_infos_book(self, books):
         try:
-            for i in range(0, len(self.listCanvas)):
-                self.listCanvas[i].destroy()
+            for i in range(0, len(self.listFrames)):
+                self.listFrames[i].destroy()
         except:
             pass
 
-        self.listCanvas = list()
+        self.listFrames = list()
         # self.listSubCanvas = list()
         for i in range(0,len(books)):
-            self.listCanvas.append(None)
+            self.listFrames.append(None)
             # self.listSubCanvas.append(None)
         counter = 1
         for book in books:
             if counter == 1:
-                info_books=Frame(self.search_window, width=160, height=50)
-                info_books.place(x=160, y=230)
+                self.listFrames[counter-1]=Frame(self.search_window, width=160, height=50)
+                self.listFrames[counter-1].place(x=160, y=230)
 
-                xscrollbar = ttk.Scrollbar(info_books, orient=HORIZONTAL)          
+                xscrollbar = ttk.Scrollbar(self.listFrames[counter-1], orient=HORIZONTAL)          
                 xscrollbar.pack(side=BOTTOM,fill=X)#ipadx=76,ipady=76,pady=0,padx=0
 
-                yscrollbar = ttk.Scrollbar(info_books, orient=VERTICAL)          
+                yscrollbar = ttk.Scrollbar(self.listFrames[counter-1], orient=VERTICAL)          
                 yscrollbar.pack(side=RIGHT,fill=Y)#ipadx=76,ipady=76,pady=0,padx=0
                 
-                books_box=Listbox(info_books, width=17, height=8,bg="#93679A",xscrollcommand=xscrollbar.set,yscrollcommand=yscrollbar.set,font=("Georgia 10 bold"),fg="#2C0A59",selectbackground="purple", cursor="hand2")
-                books_box.pack(in_=info_books)
+                books_box=Listbox(self.listFrames[counter-1], width=17, height=8,bg="#93679A",xscrollcommand=xscrollbar.set,yscrollcommand=yscrollbar.set,font=("Georgia 10 bold"),fg="#2C0A59",selectbackground="purple", cursor="hand2")
+                books_box.pack(in_=self.listFrames[counter-1])
 
                 xscrollbar.config(command=books_box.xview)
                 yscrollbar.config(command=books_box.yview)
                 
                 try:
-                    books_box.insert(END,"TITLE: ",book['title'])
+                    books_box.insert(END,f"TITLE: {book['title']}")
           
                 except:
                     pass
                 try:
-                    books_box.insert(END,"SUBTITLE: ",book['subtitle'])
+                    books_box.insert(END,f"SUBTITLE: {book['subtitle']}")
                 except:
                     pass
                 try:
-                    books_box.insert(END,"AUTHORS: ",book["authors"])
+                    books_box.insert(END,f"AUTHORS: {book['authors']}")
                 except:
                     pass
                 try:
-                    books_box.insert(END,"PUBLISHER: ",book["publisher"])
+                    books_box.insert(END,f"PUBLISHER: {book['publisher']}")
                 except:
                     pass
                 try:
-                    books_box.insert(END,"CATEGORIES: ",book["categories"])#, relief=FLAT, foreground="purple", font=("Georgia 10 bold"))
+                    books_box.insert(END,f"CATEGORIES: {book['categories']}")#, relief=FLAT, foreground="purple", font=("Georgia 10 bold"))
                 except:
                     pass
                 try:
-                    books_box.insert(END,"ISBN: ",book["isbn"])#, relief=FLAT, foreground="purple", font=("Georgia 10 bold"))
+                    books_box.insert(END,f"ISBN: {book['isbn']}")#, relief=FLAT, foreground="purple", font=("Georgia 10 bold"))
                    
                 except:
                     pass
                 try:
-                    testebutton=Button(info_books,width=15,height=1,text="know more",font=("Georgia 10 bold"),foreground="black",command=lambda url=book['previewLink']: self.open_url(url), bg="purple", cursor="hand2")
+                    testebutton=Button(self.listFrames[counter-1],width=15,height=1,text="know more",font=("Georgia 10 bold"),foreground="black",command=lambda url=book['previewLink']: self.open_url(url), bg="purple", cursor="hand2")
                     testebutton.pack(side=BOTTOM,fill='x')
                 except:
                     pass         
 
             elif counter == 5:
 
-                info_books=Frame(self.search_window, width=170, height=170)
-                info_books.place(x=160, y=450)
+                self.listFrames[counter-1]=Frame(self.search_window, width=170, height=170)
+                self.listFrames[counter-1].place(x=160, y=450)
 
-                xscrollbar = ttk.Scrollbar(info_books, orient=HORIZONTAL)          
+                xscrollbar = ttk.Scrollbar(self.listFrames[counter-1], orient=HORIZONTAL)          
                 xscrollbar.pack(side=BOTTOM,fill=X)#ipadx=76,ipady=76,pady=0,padx=0
-                yscrollbar = ttk.Scrollbar(info_books, orient=VERTICAL)          
+                yscrollbar = ttk.Scrollbar(self.listFrames[counter-1], orient=VERTICAL)          
                 yscrollbar.pack(side=RIGHT,fill=Y)#ipadx=76,ipady=76,pady=0,padx=0
             
-                books_box=Listbox(info_books, width=17, height=8,bg="#93679A",xscrollcommand=xscrollbar.set,yscrollcommand=yscrollbar.set,font=("Georgia 10 bold"),fg="#2C0A59",selectbackground="purple", cursor="hand2")
-                books_box.pack(in_=info_books)
+                books_box=Listbox(self.listFrames[counter-1], width=17, height=8,bg="#93679A",xscrollcommand=xscrollbar.set,yscrollcommand=yscrollbar.set,font=("Georgia 10 bold"),fg="#2C0A59",selectbackground="purple", cursor="hand2")
+                books_box.pack(in_=self.listFrames[counter-1])
 
                 xscrollbar.config(command=books_box.xview)
                 yscrollbar.config(command=books_box.yview)
@@ -152,33 +152,33 @@ class SearchWindow:
 
                 # selfLink, title, subtitle, authors, publisher, categories, isbn
                 try:
-                    books_box.insert(END,"TITLE: ",book['title'])
+                    books_box.insert(END,f"TITLE: {book['title']}")
           
                 except:
                     pass
                 try:
-                    books_box.insert(END,"SUBTITLE: ",book['subtitle'])
+                    books_box.insert(END,f"SUBTITLE: {book['subtitle']}")
                 except:
                     pass
                 try:
-                    books_box.insert(END,"AUTHORS: ",book["authors"])
+                    books_box.insert(END,f"AUTHORS: {book['authors']}")
                 except:
                     pass
                 try:
-                    books_box.insert(END,"PUBLISHER: ",book["publisher"])
+                    books_box.insert(END,f"PUBLISHER: {book['publisher']}")
                 except:
                     pass
                 try:
-                    books_box.insert(END,"CATEGORIES: ",book["categories"])#, relief=FLAT, foreground="purple", font=("Georgia 10 bold"))
+                    books_box.insert(END,f"CATEGORIES: {book['categories']}")#, relief=FLAT, foreground="purple", font=("Georgia 10 bold"))
                 except:
                     pass
                 try:
-                    books_box.insert(END,"ISBN: ",book["isbn"])#, relief=FLAT, foreground="purple", font=("Georgia 10 bold"))
+                    books_box.insert(END,f"ISBN: {book['isbn']}")#, relief=FLAT, foreground="purple", font=("Georgia 10 bold"))
                    
                 except:
                     pass
                 try:
-                    testebutton=Button(info_books,width=15,height=1,text="know more",font=("Georgia 10 bold"),foreground="black",command=lambda url=book['previewLink']: self.open_url(url), bg="purple", cursor="hand2")
+                    testebutton=Button(self.listFrames[counter-1],width=15,height=1,text="know more",font=("Georgia 10 bold"),foreground="black",command=lambda url=book['previewLink']: self.open_url(url), bg="purple", cursor="hand2")
                     testebutton.pack(side=BOTTOM,fill='x')
                 except:
                     pass  
@@ -193,17 +193,17 @@ class SearchWindow:
 
                 #scrollbar in frame
 
-                info_books=Frame(self.search_window, width=170, height=170)
-                info_books.place(x=x, y=y)
+                self.listFrames[counter-1]=Frame(self.search_window, width=170, height=170)
+                self.listFrames[counter-1].place(x=x, y=y)
 
-                xscrollbar = ttk.Scrollbar(info_books, orient=HORIZONTAL)          
+                xscrollbar = ttk.Scrollbar(self.listFrames[counter-1], orient=HORIZONTAL)          
                 xscrollbar.pack(side=BOTTOM,fill=X)#ipadx=76,ipady=76,pady=0,padx=0
-                yscrollbar = ttk.Scrollbar(info_books, orient=VERTICAL)          
+                yscrollbar = ttk.Scrollbar(self.listFrames[counter-1], orient=VERTICAL)          
                 yscrollbar.pack(side=RIGHT,fill=Y)#ipadx=76,ipady=76,pady=0,padx=0
                 
 
-                books_box=Listbox(info_books, width=17, height=8,bg="#93679A",xscrollcommand=xscrollbar.set,yscrollcommand=yscrollbar.set,font=("Georgia 10 bold"),fg="#2C0A59",selectbackground="purple", cursor="hand2")
-                books_box.pack(in_=info_books)
+                books_box=Listbox(self.listFrames[counter-1], width=17, height=8,bg="#93679A",xscrollcommand=xscrollbar.set,yscrollcommand=yscrollbar.set,font=("Georgia 10 bold"),fg="#2C0A59",selectbackground="purple", cursor="hand2")
+                books_box.pack(in_=self.listFrames[counter-1])
 
                 xscrollbar.config(command=books_box.xview)
                 yscrollbar.config(command=books_box.yview)
@@ -211,33 +211,33 @@ class SearchWindow:
 
                 # selfLink, title, subtitle, authors, publisher, categories, isbn
                 try:
-                    books_box.insert(END,"TITLE: ",book['title'])
+                    books_box.insert(END,f"TITLE: {book['title']}")
           
                 except:
                     pass
                 try:
-                    books_box.insert(END,"SUBTITLE: ",book['subtitle'])
+                    books_box.insert(END,f"SUBTITLE: {book['subtitle']}")
                 except:
                     pass
                 try:
-                    books_box.insert(END,"AUTHORS: ",book["authors"])
+                    books_box.insert(END,f"AUTHORS: {book['authors']}")
                 except:
                     pass
                 try:
-                    books_box.insert(END,"PUBLISHER: ",book["publisher"])
+                    books_box.insert(END,f"PUBLISHER: {book['publisher']}")
                 except:
                     pass
                 try:
-                    books_box.insert(END,"CATEGORIES: ",book["categories"])#, relief=FLAT, foreground="purple", font=("Georgia 10 bold"))
+                    books_box.insert(END,f"CATEGORIES: {book['categories']}")#, relief=FLAT, foreground="purple", font=("Georgia 10 bold"))
                 except:
                     pass
                 try:
-                    books_box.insert(END,"ISBN: ",book["isbn"])#, relief=FLAT, foreground="purple", font=("Georgia 10 bold"))
+                    books_box.insert(END,f"ISBN: {book['isbn']}")#, relief=FLAT, foreground="purple", font=("Georgia 10 bold"))
                    
                 except:
                     pass
                 try:
-                    testebutton=Button(info_books,width=15,height=1,text="know more",font=("Georgia 10 bold"),foreground="black",command=lambda url=book['previewLink']: self.open_url(url), bg="purple", cursor="hand2")
+                    testebutton=Button(self.listFrames[counter-1],width=15,height=1,text="know more",font=("Georgia 10 bold"),foreground="black",command=lambda url=book['previewLink']: self.open_url(url), bg="purple", cursor="hand2")
                     testebutton.pack(side=BOTTOM,fill='x')
                 except:
                     pass 
@@ -318,6 +318,11 @@ class SearchWindow:
     def search_keyword(self):
         keyword = self.entry_search.get()
         books = asyncio.run(request_google_books(keyword))
+        try:
+            for i in range(0, len(self.listFrames)):
+                self.listFrames[i].destroy()
+        except:
+            pass
         try: 
             self.label.destroy()
         except:
