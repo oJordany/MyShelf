@@ -11,68 +11,13 @@ import urllib.request
 import asyncio
 
 
-def request_open_library(isbn):
-    try:
-        result = requests.get(
-            f"https://openlibrary.org/api/books?bibkeys=ISBN:{isbn}&jscmd=data&format=json"
-        )
-    except:
-        return "Connection Failure"
-    books = result.json()
-    pattern = re.compile(r"\[|\'|\'|\"|\"|\]")
-
-    encoded = json.dumps(books)
-    decoded = json.loads(encoded)
-    try:
-        decoded = decoded[f'ISBN:{isbn}']
-    except:
-        return "Error: non-existent ISBN"
-
-    metadata = dict()
-    metadata["type"] = 'book'
-    listAuthors = list()
-    listPublishers = list()
-    listLanguages = list()
-    try:
-        metadata["title"] = decoded["title"]+" - "+decoded["subtitle"]
-    except:
-        metadata["title"] = decoded["title"]
-    try:
-        for author in decoded['authors']:
-            listAuthors.append(author['name'])
-        metadata["author"] = re.sub(pattern, '', str(listAuthors))
-    except:
-        metadata["author"] = 'NULL'
-    try:
-        metadata['year'] = decoded["publish_date"]
-    except:
-        metadata['year'] = 'NULL'
-    metadata['identifier'] = isbn
-    try:
-        for publisher in decoded['publishers']:
-            listPublishers.append(publisher['name'])
-        metadata['publisher'] = re.sub(pattern, '', str(listPublishers))
-    except:
-        metadata['publisher'] = 'NULL'
-    try:
-        for language in decoded['subject_places']:
-            listLanguages.append(language['name'])
-        metadata["language"] = re.sub(pattern, '', str(listLanguages))
-    except:
-        metadata["language"] = 'NULL'
-    print('pela segunda api')
-    print(metadata)
-
-    return metadata
-
-
 def request(isbn):
     try:
         urllib.request.urlopen('http://google.com')
     except:
         return "Error: Connection Failure"
     try:
-        language = info(isbn)  # Isso contém o país
+        language = info(isbn) # Isso contém o país 
         bibtex = bibformatters["json"]
         metadata = json.loads(bibtex(meta(isbn)))
         metadata['language'] = language
@@ -81,24 +26,15 @@ def request(isbn):
         authors = list()
         for author in metadata['author']:
             authors.append(author['name'])
-        print(authors)
-        if authors != ['']:
-            metadata['author'] = str(authors)
-        else:
-            metadata['author'] = 'NULL'
+        metadata['author'] = str(authors)
         metadata['identifier'] = int(metadata['identifier'][0]['id'])
         pattern = re.compile(r"\[|\'|\'|\]")
         metadata['author'] = re.sub(pattern, '', metadata['author'])
-        print('pela primeira api')
         return metadata
 
     except:
-        try:
-            metadata = request_open_library(isbn)
-            return metadata
-        except:
-            return "Error: non-existent ISBN"
-
+        msgError = "Error: non-existent isbn"
+        return msgError
 
 async def request_google_books(keyword):
     keywordTreated = re.sub(r'\s', '+', keyword)
@@ -115,7 +51,7 @@ async def request_google_books(keyword):
         items = books["items"]
     except:
         return f"nothing found for {keyword}"
-
+    
     encoded = json.dumps(items)
     decoded = json.loads(encoded)
 
@@ -130,7 +66,7 @@ async def request_google_books(keyword):
         infos = dict()
         print(decoded[i]['selfLink'])
         try:
-            link = decoded[i]["volumeInfo"]["previewLink"]
+            link = decoded[i]["volumeInfo"]["previewLink"]  
             infos["previewLink"] = link
         except:
             pass
@@ -180,5 +116,5 @@ async def request_google_books(keyword):
 
         response.append(copy.deepcopy(infos))
         del infos
-
+    
     return response
