@@ -98,7 +98,7 @@ class SearchWindow:
                 books_box.pack(in_=info_books)
 
                 xscrollbar.config(command=books_box.xview)
-                yscrollbar.config(command=books_box.xview)
+                yscrollbar.config(command=books_box.yview)
                 
                 try:
                     books_box.insert(END,"TITLE: ",book['title'])
@@ -146,7 +146,7 @@ class SearchWindow:
                 books_box.pack(in_=info_books)
 
                 xscrollbar.config(command=books_box.xview)
-                yscrollbar.config(command=books_box.xview)
+                yscrollbar.config(command=books_box.yview)
                 
 
 
@@ -208,7 +208,7 @@ class SearchWindow:
                 books_box.pack(in_=info_books)
 
                 xscrollbar.config(command=books_box.xview)
-                yscrollbar.config(command=books_box.xview)
+                yscrollbar.config(command=books_box.yview)
                 
 
 
@@ -240,7 +240,7 @@ class SearchWindow:
                 except:
                     pass
                 try:
-                    testebutton=Button(info_books,width=15,height=1,text="know more",font=("Georgia 10 bold"),foreground="black",command=lambda url=book['previewLink']: self.open_url(url), bg="purple", cursor="hand2")
+                    testebutton=Button(info_books,width=15,height=1,text="know more",font=("Georgia 10 bold"),foreground="black",command=lambda url=book['previewLink']: self.open_url(url), bg="purple", cursor="hand2",highlightthickness="white")
                     testebutton.pack(side=BOTTOM,fill='x')
                 except:
                     pass  
