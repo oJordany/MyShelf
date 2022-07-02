@@ -183,8 +183,6 @@ class SearchWindow:
                 except:
                     pass  
 
-
-
             else:
                 if counter > 1 and counter < 5:
                     x = 160 + ((counter-1) * 320)
@@ -210,7 +208,6 @@ class SearchWindow:
                 xscrollbar.config(command=books_box.xview)
                 yscrollbar.config(command=books_box.yview)
                 
-
 
                 # selfLink, title, subtitle, authors, publisher, categories, isbn
                 try:
@@ -240,11 +237,11 @@ class SearchWindow:
                 except:
                     pass
                 try:
-                    testebutton=Button(info_books,width=15,height=1,text="know more",font=("Georgia 10 bold"),foreground="black",command=lambda url=book['previewLink']: self.open_url(url), bg="purple", cursor="hand2",highlightthickness="white")
+                    testebutton=Button(info_books,width=15,height=1,text="know more",font=("Georgia 10 bold"),foreground="black",command=lambda url=book['previewLink']: self.open_url(url), bg="purple", cursor="hand2")
                     testebutton.pack(side=BOTTOM,fill='x')
                 except:
-                    pass  
-    
+                    pass 
+
             counter += 1 
     async def renders_image_book(self, books):
         try:
@@ -276,6 +273,7 @@ class SearchWindow:
                     self.listLabels[counter -1].image = photo
                     self.listLabels[counter - 1].place(x=30, y=230)
             elif counter == 5:
+
                 try:
                     imageUrl = book["imageLink"]
                     u = urlopen(imageUrl)
@@ -292,6 +290,7 @@ class SearchWindow:
                     self.listLabels[counter - 1].image = photo
                     self.listLabels[counter - 1].place(x=30, y=450)
             else:
+
                 if counter > 1 and counter < 5:
                     x = 30 + ((counter-1) * 320)
                     y = 230
