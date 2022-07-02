@@ -94,14 +94,12 @@ class SearchWindow:
                 yscrollbar = ttk.Scrollbar(info_books, orient=VERTICAL)          
                 yscrollbar.pack(side=RIGHT,fill=Y)#ipadx=76,ipady=76,pady=0,padx=0
                 
-
-                books_box=Listbox(info_books, width=17, height=8,bg="#93679A",xscrollcommand=xscrollbar.set,yscrollcommand=yscrollbar.set,font=("Georgia 10 bold"),fg="#2C0A59")
+                books_box=Listbox(info_books, width=17, height=8,bg="#93679A",xscrollcommand=xscrollbar.set,yscrollcommand=yscrollbar.set,font=("Georgia 10 bold"),fg="#2C0A59",selectbackground="purple", cursor="hand2")
                 books_box.pack(in_=info_books)
 
                 xscrollbar.config(command=books_box.xview)
                 yscrollbar.config(command=books_box.xview)
                 
-
                 try:
                     books_box.insert(END,"TITLE: ",book['title'])
           
@@ -141,12 +139,10 @@ class SearchWindow:
 
                 xscrollbar = ttk.Scrollbar(info_books, orient=HORIZONTAL)          
                 xscrollbar.pack(side=BOTTOM,fill=X)#ipadx=76,ipady=76,pady=0,padx=0
-
                 yscrollbar = ttk.Scrollbar(info_books, orient=VERTICAL)          
                 yscrollbar.pack(side=RIGHT,fill=Y)#ipadx=76,ipady=76,pady=0,padx=0
-                
-
-                books_box=Listbox(info_books, width=17, height=8,bg="#93679A",xscrollcommand=xscrollbar.set,yscrollcommand=yscrollbar.set,font=("Georgia 10 bold"),fg="#2C0A59")
+            
+                books_box=Listbox(info_books, width=17, height=8,bg="#93679A",xscrollcommand=xscrollbar.set,yscrollcommand=yscrollbar.set,font=("Georgia 10 bold"),fg="#2C0A59",selectbackground="purple", cursor="hand2")
                 books_box.pack(in_=info_books)
 
                 xscrollbar.config(command=books_box.xview)
@@ -201,15 +197,14 @@ class SearchWindow:
 
                 info_books=Frame(self.search_window, width=170, height=170)
                 info_books.place(x=x, y=y)
-                
+
                 xscrollbar = ttk.Scrollbar(info_books, orient=HORIZONTAL)          
                 xscrollbar.pack(side=BOTTOM,fill=X)#ipadx=76,ipady=76,pady=0,padx=0
-
                 yscrollbar = ttk.Scrollbar(info_books, orient=VERTICAL)          
                 yscrollbar.pack(side=RIGHT,fill=Y)#ipadx=76,ipady=76,pady=0,padx=0
                 
 
-                books_box=Listbox(info_books, width=17, height=8,bg="#93679A",xscrollcommand=xscrollbar.set,yscrollcommand=yscrollbar.set,font=("Georgia 10 bold"),fg="#2C0A59")
+                books_box=Listbox(info_books, width=17, height=8,bg="#93679A",xscrollcommand=xscrollbar.set,yscrollcommand=yscrollbar.set,font=("Georgia 10 bold"),fg="#2C0A59",selectbackground="purple", cursor="hand2")
                 books_box.pack(in_=info_books)
 
                 xscrollbar.config(command=books_box.xview)
@@ -251,21 +246,6 @@ class SearchWindow:
                     pass  
     
             counter += 1 
-        # try:
-
-        #     teste=Label(mycanvas,width=10,height=2,text="teste",font=("Georgia 6 bold"),foreground="purple",background="#2C0A59")
-        #     teste.pack()
-
-        #     self.labelTitle = Label(frame, text=book["title"], relief=FLAT, background="#2C0A59", foreground="purple", font=("Georgia 6 bold"))
-        #     self.labelTitle.pack(side=TOP)
-        # except:
-        #     pass
-        # try:
-        #     self.labelSubtitle = Label(mycanvas, text=book["subtitle"], relief=FLAT, background="#2C0A59", foreground="white", font=("Georgia 6 bold"))
-        #     self.labelSubtitle.pack(side=TOP)
-        # except:
-        #     pass
-
     async def renders_image_book(self, books):
         try:
             for i in range(0, len(self.listLabels)):
@@ -335,18 +315,6 @@ class SearchWindow:
                     self.listLabels[counter - 1].place(x=x, y=y)
             counter += 1
         self.flag = True
-
-    # def render_wait_msg(self, event):
-    #     try:
-    #         self.label.destroy()
-    #     except:
-    #         pass
-    #     finally:
-    #         self.var = StringVar()
-    #         self.var.set("Wait a moment")
-    #         self.label = Label( self.search_window, textvariable=self.var, relief=FLAT, background="#2C0A59", foreground="white", font=("Georgia 14 bold"))
-    #         self.label.pack()
-
 
     def search_keyword(self):
         keyword = self.entry_search.get()
