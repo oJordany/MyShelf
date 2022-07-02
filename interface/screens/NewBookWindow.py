@@ -97,8 +97,8 @@ class NewBookWindow:
                     s.quit()
                     print('email enviado')
 
-                    var.set("book successfully inserted")
-                    colorLabel = "green"
+                var.set("book successfully inserted")
+                colorLabel = "green"
             except Exception as err:
                 print(err)
                 var.set("Error: select a status")
