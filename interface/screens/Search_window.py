@@ -91,14 +91,14 @@ class SearchWindow:
                 xscrollbar = ttk.Scrollbar(self.listFrames[counter-1], orient=HORIZONTAL)          
                 xscrollbar.pack(side=BOTTOM,fill=X)#ipadx=76,ipady=76,pady=0,padx=0
 
-                yscrollbar = ttk.Scrollbar(self.listFrames[counter-1], orient=VERTICAL)          
-                yscrollbar.pack(side=RIGHT,fill=Y)#ipadx=76,ipady=76,pady=0,padx=0
+                # yscrollbar = ttk.Scrollbar(self.listFrames[counter-1], orient=VERTICAL)          
+                # yscrollbar.pack(side=RIGHT,fill=Y)#ipadx=76,ipady=76,pady=0,padx=0
                 
-                books_box=Listbox(self.listFrames[counter-1], width=17, height=8,bg="#93679A",xscrollcommand=xscrollbar.set,yscrollcommand=yscrollbar.set,font=("Georgia 10 bold"),fg="#2C0A59",selectbackground="purple", cursor="hand2")
+                books_box=Listbox(self.listFrames[counter-1], width=18, height=8,bg="#93679A",xscrollcommand=xscrollbar.set,font=("Georgia 10 bold"),fg="#2C0A59",selectbackground="purple", cursor="hand2")#yscrollcommand=yscrollbar.set,
                 books_box.pack(in_=self.listFrames[counter-1])
 
                 xscrollbar.config(command=books_box.xview)
-                yscrollbar.config(command=books_box.yview)
+                # yscrollbar.config(command=books_box.yview)
                 
                 try:
                     books_box.insert(END,f"TITLE: {book['title']}")
@@ -139,14 +139,14 @@ class SearchWindow:
 
                 xscrollbar = ttk.Scrollbar(self.listFrames[counter-1], orient=HORIZONTAL)          
                 xscrollbar.pack(side=BOTTOM,fill=X)#ipadx=76,ipady=76,pady=0,padx=0
-                yscrollbar = ttk.Scrollbar(self.listFrames[counter-1], orient=VERTICAL)          
-                yscrollbar.pack(side=RIGHT,fill=Y)#ipadx=76,ipady=76,pady=0,padx=0
+                # yscrollbar = ttk.Scrollbar(self.listFrames[counter-1], orient=VERTICAL)          
+                # yscrollbar.pack(side=RIGHT,fill=Y)#ipadx=76,ipady=76,pady=0,padx=0
             
-                books_box=Listbox(self.listFrames[counter-1], width=17, height=8,bg="#93679A",xscrollcommand=xscrollbar.set,yscrollcommand=yscrollbar.set,font=("Georgia 10 bold"),fg="#2C0A59",selectbackground="purple", cursor="hand2")
+                books_box=Listbox(self.listFrames[counter-1], width=18, height=8,bg="#93679A",xscrollcommand=xscrollbar.set,font=("Georgia 10 bold"),fg="#2C0A59",selectbackground="purple", cursor="hand2")#yscrollcommand=yscrollbar.set,
                 books_box.pack(in_=self.listFrames[counter-1])
 
                 xscrollbar.config(command=books_box.xview)
-                yscrollbar.config(command=books_box.yview)
+                # yscrollbar.config(command=books_box.yview)
                 
 
 
@@ -198,15 +198,15 @@ class SearchWindow:
 
                 xscrollbar = ttk.Scrollbar(self.listFrames[counter-1], orient=HORIZONTAL)          
                 xscrollbar.pack(side=BOTTOM,fill=X)#ipadx=76,ipady=76,pady=0,padx=0
-                yscrollbar = ttk.Scrollbar(self.listFrames[counter-1], orient=VERTICAL)          
-                yscrollbar.pack(side=RIGHT,fill=Y)#ipadx=76,ipady=76,pady=0,padx=0
+                # yscrollbar = ttk.Scrollbar(self.listFrames[counter-1], orient=VERTICAL)          
+                # yscrollbar.pack(side=RIGHT,fill=Y)#ipadx=76,ipady=76,pady=0,padx=0
                 
 
-                books_box=Listbox(self.listFrames[counter-1], width=17, height=8,bg="#93679A",xscrollcommand=xscrollbar.set,yscrollcommand=yscrollbar.set,font=("Georgia 10 bold"),fg="#2C0A59",selectbackground="purple", cursor="hand2")
+                books_box=Listbox(self.listFrames[counter-1], width=18, height=8,bg="#93679A",xscrollcommand=xscrollbar.set,font=("Georgia 10 bold"),fg="#2C0A59",selectbackground="purple", cursor="hand2")#,yscrollcommand=yscrollbar.set
                 books_box.pack(in_=self.listFrames[counter-1])
 
                 xscrollbar.config(command=books_box.xview)
-                yscrollbar.config(command=books_box.yview)
+                # yscrollbar.config(command=books_box.yview)
                 
 
                 # selfLink, title, subtitle, authors, publisher, categories, isbn
