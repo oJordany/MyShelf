@@ -2,6 +2,7 @@ from email.utils import formatdate
 from pathlib import Path
 from socket import timeout
 from time import time
+import requests
 
 from tkinter import NW, Tk, Canvas, Entry, Text, Button, PhotoImage, Label, StringVar, FLAT
 from turtle import delay
@@ -31,6 +32,7 @@ class NewBookWindow:
         self.novaHome.generate_home_window()
 
     def submit(self):
+        from createEvent import create_event_detail
         from controller.database import Table, check_existence
         from controller.request import request 
         from datetime import date
@@ -65,14 +67,38 @@ class NewBookWindow:
                     datas['start_of_reading'] = self.IWTR_window.date
                     datas['end_of_reading'] = "NULL"
                     self.estante.add_data(datas)
-                    
+                    print(self.IWTR_window.date)
+                    self.event_name = 'Read Notification'
+                    self.body = {
+                        'ContentType': 'HTML',
+                        'Content': f'''<p>you have a book to read on your virtual bookshelf.</p><p>Don't waste time, start reading the book &quot;{datas['title']}&quot; right now.</p>'''
+                    }
+                    self.start = {
+                        'DateTime': f'{self.IWTR_window.date}T08:00:00',
+                        'TimeZone': 'America/Sao_Paulo'
+                    }
+
+                    self.end = {
+                        'DateTime': f'{self.IWTR_window.date}T23:00:00',
+                        'TimeZone': 'America/Sao_Paulo'
+                    }
+
+                    self.attendees = [
+                        {
+                            'EmailAddress': {
+                                "Address":f'{self.IWTR_window.email}',
+                            },
+                            'Type': 'Required'
+                        },
+                    ]
+                    create_event_detail(self.event_name, self.body, self.start, self.end, self.attendees)
                     datas_decrypted = decrypt()
                     print(datas_decrypted)
                     username = self.IWTR_window.username
                     email_body = f'''
                     <h3>Hi {username} 👋,</h3>
                     <p>you have a book to read on your virtual bookshelf.</p>
-                    <p>Don't waste time, start reading the book &quot;{datas['title']}&quot; right now.</p>
+                    <p>We created an event on your microsoft calendar on {self.IWTR_window.date} so you don't forget to read the nana book &quot;{datas['title']}&quot;.</p>
                     <br>
                     <p>Thanks for staying with us.</p>
                     <br>
