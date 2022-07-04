@@ -212,7 +212,6 @@ class SearchWindow:
                 # selfLink, title, subtitle, authors, publisher, categories, isbn
                 try:
                     books_box.insert(END,f"TITLE: {book['title']}")
-          
                 except:
                     pass
                 try:
@@ -225,6 +224,7 @@ class SearchWindow:
                     pass
                 try:
                     books_box.insert(END,f"PUBLISHER: {book['publisher']}")
+                    print(books['publisher'])
                 except:
                     pass
                 try:
