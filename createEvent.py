@@ -24,15 +24,24 @@ client_instance = ConfidentialClientApplication(
 # authorization_request_url = client_instance.get_authorization_request_url(SCOPES)
 # print(authorization_request_url)
 # webbrowser.open(authorization_request_url, new=True)
-
-# authorizaton_code = "M.R3_BAY.663abfdc-a9e1-8823-148a-cd62044dc7eb"
+def refresh_token():
+    with open("confidential/confidential.json", "r") as confidential:
+        confidential_object = json.load(confidential)
+    access_token_refresh = client_instance.acquire_token_by_refresh_token(
+        refresh_token=confidential_object["refresh_token"],
+        scopes=SCOPES
+    )
+    access_token_refresh_json = json.dumps(access_token_refresh)
+    with open("confidential/confidential.json", "w") as confidential:
+        confidential.write(access_token_refresh_json)
+    return access_token_refresh["access_token"]
+# authorizaton_code = "M.R3_BAY.4a3bdfc1-ead1-03d0-47d6-3695c65aa54f"
 # access_token = client_instance.acquire_token_by_authorization_code(
 #     code=authorizaton_code,
 #     scopes=SCOPES
 # )
-
-# print(access_token)
-access_token_id = "EwCAA8l6BAAUkj1NuJYtTVha+Mogk+HEiPbQo04AAesLl7nKy7mD3aXmwOP5oykMSQeW5GqpxUYbRwchRvRtE+YObch+Oq5I1lYEo55wsm+PH3t08IU3rnLLRuOnegKa2vGxdGEO9XWBEdFjELc+iLVUEq7ka1hVZIEfLJrBWIsmSF5MaeB1uv8FR0ECMbkTWMVsy5bvrcsrfYTmV2MwmCiAM2BTN9is8nHtzSOqoy7wKjpLHYrA0CX/54nKCmAlxMg8WfMvnxrm8ACQE1kroH6VUXkLnLgmrqs0HC0pbklD5I79lrMw1/V0+6ecCMOAJ4iLlsSpmezz5Se04p4Zk4WsvIOP3aZPuGBzMme2RJ9P8uFIbL97d3AyUWgILwYDZgAACAv/X8VsepYYUAI1r3a5eV3DIzdR9NYHPqTUPoCHQVkjRXTHefqQHw0qLaS+zGRfZfqPVMixhteTSaiwwKiVPgO61nb8gGFw4E/ug5pnU6bwIrPrGAZkztgVGNoo3pnCNAUwIOCKxd3Fd6m5Zlv6AjwDlO1GSzLQ3zdqZQCL5eab0zNQS/dAIrXvY5TYUJaMzoRGzR/jHAZUVNzc26+mGGhgqX6WCkUIembY7Us8tUNWFM8vbAeEpgUTvW9yHzL3/VjV0PjLwpEOWYXIqrAmqD1OnMmjzqQarBZkYNFbNFofVFA+xpa3j13xbaXW4UjTcj+4B5d5MR1Xlr3UGBPaGQZMYpZGbzqSKmc7bSLivtHWnUAhlBmGMNP1XMYK8rfb8zU15BlG9eckbwvq5+S2yb7jjZQJzOKgWh+KcTGQNdCR6ZjLsI/6FPXP9bAXRbCKYZvtsYwI3mdrHVo4BspoBr5gwNv0bobi5gahbr707LHqAilxYrmpiWNg6Y9fG/H8H342Ck/KSGyA8kt1mpVI4Dq3D9VaNmhCJ/VZpIcVm9h6pnewy9MgRN0HMsQrutX+SZPZBtghHTcTTE6YnK1g6B6XZHhiZfQHgpi8QSMNZJhnMLRtz5Sm4wlbMzyE4o2+B2R9u/3tb9tZc9D1EdWDnodubJebggykReIwff3T6N82v8fKDDog7EAvaMJUEUznUm0tBJ6efU0tTCw7+41FdpGagUw929Ph0QM4j4iOjeX/2/oZCgqEzw7yYdhEUvwbpena7NbKy5TNwnZ2E8CLeARPyvywB0J3CnmHnwI="
+access_token_id = refresh_token()
+# access_token_id = "EwCAA8l6BAAUkj1NuJYtTVha+Mogk+HEiPbQo04AAakwCFfDqorAZCQBnDpztgMblTUJgX/FwD+YpX7DMAuY5SJVxdbXQJDLW2EeICUGz37TVNdRPxRU+uyXFaSuRaT9Qid87gjQjDNzaz/h6YJvhsMOWyXMDlUJ5drCkcpx1/SAkqDL01f6C5HBs6tB2DEqIIZW+F3etwLKFPrIlfSlnopCLByNb0oxKSbWOnzvCPtSmxhJbHmS2czTYFI4cbOzGJl2IElaPKDSf/0NJRqf059jbx8HO4qDlC0W+GnKqotZ3aKBziqZK8/2rGchSdwSFX1EOo5GbSlVFPMMD23Tvw3gVEX+wOi0V0LUgnBvKIjbOPtQcpoSYPF75N4MkUoDZgAACDmyWpzFEl2aUAKhqUyfx6DReUeZbUKLpgYXRM4Epe8ijbkQdKBrJ/ReqsOnsDAkKv8A8+ukc3beT+3ezXw5JKvfU0IIU+TyXUzO/zEbDVH5oI6MD003YtudrfLEAiVgNuD13UFw2HYV3FGkRk+serJnN4YmhtlkLSFsxAt/qJNxOd3+ED9afQH9RZPCDFuBu1WmKw668eIQBRbZu8Y7wxG99U2qhX73CIo9WiayCXWUuo0qL/BZXkxNn/6oVJAQUjLo8IaqW7THKbAyOCz4dyw2Ocxwt/thbjClPeM5feF133xGB+A+nDEhSYzBowsJEH5Q5ov0XxVfO8g8lTniIAAgYJD/BcpL6DIe9yg4hh5NIYHjehBtis7P9KsakYWIBYEaVkLnZs2a4mn1QSCPy76aYZseQE6eR9DmQZ8wy3mwkfkzk6UB7ErFRkU7NWEDVUrD0ObieQOQBv2jFowPgdjAc8mffZnI924OvuwRy72spJZducSa5T2Zz0/Ek0F6OXr1FV+gf3kgAgYdYYZeW6CCOTzWPyYcaQDDEVXiecy72wqPiLJLNXqnfUDxyXdECc/dtZqyg5DcppvMwiFdJqym5/hFpmPKwfMGva6mQp8ZdnBXTxRdSNsQJaI8gOE/EJNcJjiag6H0rGETS4HPiv7Rt7HzXDgy1w1U/S6IbX81o1FqG2sLvVeLxRpVy6tmkT5kFJOIfHiJwR6nsH+KLYQANgyV6ZHXUgQ/Lpq1L6WNyeBX6HnfWNgATOIeVV19cwQtmvsjSny0TjMXL6mR6Bt+4qYr3EZrd2q1nwI="
 
 
 headers = {"Authorization": "Bearer "+access_token_id}

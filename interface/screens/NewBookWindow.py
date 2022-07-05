@@ -3,7 +3,7 @@ from pathlib import Path
 from socket import timeout
 from time import time
 import requests
-
+import threading
 from tkinter import NW, Tk, Canvas, Entry, Text, Button, PhotoImage, Label, StringVar, FLAT
 from turtle import delay
 
@@ -24,6 +24,11 @@ class NewBookWindow:
         self.newbookwindow.title("Add a New Book")
         self.newbookwindow.geometry("1300x700")
         self.newbookwindow.configure(bg = "#2C0A59")
+        self.framelist = []      # List to hold all the frames
+        self.frame_index = 0 
+        self.count = 0
+        self.flag = True
+        self.thread = threading.Thread(target= self.submit)
 
     def back_to_home(self):
         from interface.screens.HomeWindow import HomeWindow
@@ -31,7 +36,32 @@ class NewBookWindow:
         self.novaHome = HomeWindow()
         self.novaHome.generate_home_window()
 
+    def animate_gif(self, count=0):  
+        try:
+            if self.thread.is_alive() == True:
+                if count == 0 and self.flag == True:
+                    self.l1 = Label(self.newbookwindow, bg="#2C0A59", image='' )
+                    self.l1.place(x=650, y=90)
+                    self.flag=False
+
+                count += 1
+                self.l1.config(image=self.framelist[count])
+                    
+                if count > self.last_frame - 1:
+                    count = 0  
+                #recall animate_gif method    
+                self.l1.after(50, lambda: self.animate_gif(count=count))
+            else:
+                self.l1.destroy()
+                self.thread = threading.Thread(target=self.submit)
+        except:
+            self.thread = threading.Thread(target=self.submit)
+
     def submit(self):
+        try:
+            self.label.destroy()
+        except:
+            pass
         from createEvent import create_event_detail
         from controller.database import Table, check_existence
         from controller.request import request 
@@ -39,8 +69,7 @@ class NewBookWindow:
         import smtplib
         import email.message
         from confidential.confidential import decrypt
-        APPLICATION_ID = '78f82552-1b78-4ccb-8416-11e79a7170ee'
-        CLIENT_SECRET = 'u7D8Q~ua.ifDQs~WY6FktaW1bdQg3WjElade3bTZ'
+
         isbn = self.entry_isbn.get()
         var = StringVar()
         datas = request(isbn)
@@ -143,11 +172,12 @@ class NewBookWindow:
             pass 
         finally:
             self.label = Label( self.newbookwindow, textvariable=var, relief=FLAT, background="#2C0A59", foreground=colorLabel, font=("Georgia 14 bold"))
-            self.label.place(x=540, y=200)
+            self.label.place(x=560, y=120)
 
         print(datas)
         
         del datas
+        self.flag = True
     
     def select_status(self, status):
         self.status = status
@@ -335,14 +365,14 @@ class NewBookWindow:
             bg="#2C0A59",
             bd=0,
             activebackground="#2C0A60",
-            command=self.submit,
+            command=self.animate_gif,
             cursor="hand2",
         )
         button_plus.place(
             x=1087.2080078125,
             y=227.0,
         )
-        button_plus.bind("<Button-1>", )
+        button_plus.bind("<Button-1>", lambda e: self.thread.start())
 
         button_image_icon = PhotoImage(
             file=relative_to_assets("icon.png"))
@@ -361,5 +391,16 @@ class NewBookWindow:
             x=1197.0,
             y=19.0,
         )
+        while True:
+            try:
+                # Read a frame from GIF file
+                part = 'gif -index {}'.format(self.frame_index)
+                frame = PhotoImage(file=relative_to_assets('loading.gif'), format=part)
+            except:
+                self.last_frame = self.frame_index - 1    # Save index for last frame
+                break               # Will break when GIF index is reached
+            self.framelist.append(frame)
+            self.frame_index += 1 
+
         self.newbookwindow.resizable(False, False)
         self.newbookwindow.mainloop()
