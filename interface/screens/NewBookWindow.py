@@ -58,6 +58,10 @@ class NewBookWindow:
             self.thread = threading.Thread(target=self.submit)
 
     def submit(self):
+        try:
+            self.label.destroy()
+        except:
+            pass
         from createEvent import create_event_detail
         from controller.database import Table, check_existence
         from controller.request import request 
@@ -168,7 +172,7 @@ class NewBookWindow:
             pass 
         finally:
             self.label = Label( self.newbookwindow, textvariable=var, relief=FLAT, background="#2C0A59", foreground=colorLabel, font=("Georgia 14 bold"))
-            self.label.place(x=540, y=120)
+            self.label.place(x=560, y=120)
 
         print(datas)
         
