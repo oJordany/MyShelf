@@ -4,7 +4,7 @@ from interface.screens.HomeWindow import HomeWindow
 from controller.database import *
 from confidential.confidential import decrypt, encrypt
 
-# criando banco e tabelas
+# creating database
 create_database()
 
 home_window = HomeWindow()

@@ -1,10 +1,10 @@
 from io import BufferedReader
 import sqlite3
 
-def get_key():
+def get_key(keyNumber):
     con = sqlite3.connect('database/estante.db')
     cur = con.cursor()
-    cur.execute("SELECT * FROM Keys")
+    cur.execute(f"SELECT key{keyNumber} FROM Keys")
     key = cur.fetchone()[0]
     con.close()
     return key
@@ -14,12 +14,17 @@ def create_database():
     con.commit()
     con.close()
 
-def add_data_key(key):
+def add_data_key(*key):
     con = sqlite3.connect('database/estante.db')
     with con:
         cur = con.cursor()
-        print(key)
-        cur.execute('''INSERT INTO Keys(key) VALUES (?)''', (memoryview(key), ))
+        cur.execute('''INSERT INTO Keys VALUES (?, ?)''', (memoryview(key[0]), memoryview(key[1])))
+
+def update_data_key(key):
+    con = sqlite3.connect('database/estante.db')
+    with con:
+        cur = con.cursor()
+        cur.execute('''UPDATE Keys SET key2 = (?)''', (memoryview(key), ))
     
 # def show_database(nameDatabase='estante'):
 #     con = sqlite3.connect(f'database/{nameDatabase}.db')
@@ -147,7 +152,7 @@ class Table:
                         "{dados['title']}", 
                         {'"' if dados['author'] != 'NULL' else ''}{dados['author']}{'"' if dados['author'] != 'NULL' else ''}, 
                         {'"' if dados['publisher'] != '' else ''}{dados['publisher'] if dados['publisher'] != '' else 'NULL'}{'"' if dados['publisher'] != '' else ''}, 
-                        {int(dados['year']) if dados['year'].isdigit() else dados['year']}, 
+                        {int(dados['year']) if dados['year'].isdigit() else 'NULL'}, 
                         {'"' if dados['language'] != 'NULL' else ''}{dados['language']}{'"' if dados['language'] != 'NULL' else ''},  
                         {'"' if dados['start_of_reading'] != 'NULL' else ''}{dados['start_of_reading']}{'"' if dados['start_of_reading'] != 'NULL' else ''}, 
                         {'"' if dados['end_of_reading'] != 'NULL' else ''}{dados['end_of_reading']}{'"' if dados['end_of_reading'] != 'NULL' else ''},
