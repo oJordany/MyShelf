@@ -224,7 +224,6 @@ class SearchWindow:
                     pass
                 try:
                     books_box.insert(END,f"PUBLISHER: {book['publisher']}")
-                    print(books['publisher'])
                 except:
                     pass
                 try:

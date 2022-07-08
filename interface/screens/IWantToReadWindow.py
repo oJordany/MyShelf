@@ -59,7 +59,6 @@ class IWantToReadWindow:
         canvas.place(x=0,y=0)
         
         todaysDate = str(date.today())
-        print(todaysDate)
         dateSeparated = list()
         for match in re.finditer(r'\d{2,4}', todaysDate):
             dateSeparated.append(int(match.group()))

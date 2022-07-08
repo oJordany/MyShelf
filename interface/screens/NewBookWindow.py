@@ -62,7 +62,7 @@ class NewBookWindow:
             self.label.destroy()
         except:
             pass
-        from createEvent import create_event_detail
+        from controller.createEvent import create_event_detail
         from controller.database import Table, check_existence
         from controller.request import request 
         from datetime import date
@@ -85,84 +85,85 @@ class NewBookWindow:
                     datas['start_of_reading'] = "NULL"
                     datas['end_of_reading'] = "NULL"
                     self.estante.add_data(datas)
-
+                    var.set("book successfully inserted")
+                    colorLabel = "green"
                 elif self.status == "reading":
                     datas['start_of_reading'] = str(date.today())
                     datas['end_of_reading'] = "NULL"
                     self.estante.add_data(datas)
+                    var.set("book successfully inserted")
+                    colorLabel = "green"
 
                 elif self.status == "I want to read":
-                    
-                    datas['start_of_reading'] = self.IWTR_window.date
-                    datas['end_of_reading'] = "NULL"
-                    self.estante.add_data(datas)
-                    print(self.IWTR_window.date)
-                    self.event_name = 'Read Notification'
-                    self.body = {
-                        'ContentType': 'HTML',
-                        'Content': f'''<p>you have a book to read on your virtual bookshelf.</p><p>Don't waste time, start reading the book &quot;{datas['title']}&quot; right now.</p>'''
-                    }
-                    self.start = {
-                        'DateTime': f'{self.IWTR_window.date}T08:00:00',
-                        'TimeZone': 'America/Sao_Paulo'
-                    }
+                    try:
+                        datas['start_of_reading'] = self.IWTR_window.date
+                        datas['end_of_reading'] = "NULL"
+                        self.event_name = 'Read Notification'
+                        self.body = {
+                            'ContentType': 'HTML',
+                            'Content': f'''<p>you have a book to read on your virtual bookshelf.</p><p>Don't waste time, start reading the book &quot;{datas['title']}&quot; right now.</p>'''
+                        }
+                        self.start = {
+                            'DateTime': f'{self.IWTR_window.date}T08:00:00',
+                            'TimeZone': 'America/Sao_Paulo'
+                        }
 
-                    self.end = {
-                        'DateTime': f'{self.IWTR_window.date}T23:00:00',
-                        'TimeZone': 'America/Sao_Paulo'
-                    }
+                        self.end = {
+                            'DateTime': f'{self.IWTR_window.date}T23:00:00',
+                            'TimeZone': 'America/Sao_Paulo'
+                        }
 
-                    self.attendees = [
-                        {
-                            'EmailAddress': {
-                                "Address":f'{self.IWTR_window.email}',
+                        self.attendees = [
+                            {
+                                'EmailAddress': {
+                                    "Address":f'{self.IWTR_window.email}',
+                                },
+                                'Type': 'Required'
                             },
-                            'Type': 'Required'
-                        },
-                    ]
-                    create_event_detail(self.event_name, self.body, self.start, self.end, self.attendees)
-                    datas_decrypted = decrypt()
-                    print(datas_decrypted)
-                    username = self.IWTR_window.username
-                    email_body = f'''
-                    <h3>Hi {username} 👋,</h3>
-                    <p>you have a book to read on your virtual bookshelf.</p>
-                    <p>We created an event on your microsoft calendar on {self.IWTR_window.date} so you don't forget to read the nana book &quot;{datas['title']}&quot;.</p>
-                    <br>
-                    <p>Thanks for staying with us.</p>
-                    <br>
-                    <p>With best regards,</p>
-                    <p>My Shelf📚.</p>
-                    '''
-                    msg = email.message.Message()
-                    msg['Subject'] = "Read Notification"
-                    msg['From'] = datas_decrypted[0]
-                    msg['To'] = self.IWTR_window.email
-                    code = datas_decrypted[1]
-                    msg.add_header('Content-Type', 'text/html')
-                    msg.set_payload(email_body)
+                        ]
+                        create_event_detail(self.event_name, self.body, self.start, self.end, self.attendees)
+                        datas_decrypted = decrypt('confidential.txt', 1)
+                        username = self.IWTR_window.username
+                        email_body = f'''
+                        <h3>Hi {username} 👋,</h3>
+                        <p>you have a book to read on your virtual bookshelf.</p>
+                        <p>We created an event on your microsoft calendar on {self.IWTR_window.date} so you don't forget to read the book &quot;{datas['title']}&quot;.</p>
+                        <br>
+                        <p>Thanks for staying with us.</p>
+                        <br>
+                        <p>With best regards,</p>
+                        <p>My Shelf📚.</p>
+                        '''
+                        msg = email.message.Message()
+                        msg['Subject'] = "Read Notification"
+                        msg['From'] = datas_decrypted[0]
+                        msg['To'] = self.IWTR_window.email
+                        code = datas_decrypted[1]
+                        msg.add_header('Content-Type', 'text/html')
+                        msg.set_payload(email_body)
 
-                    s = smtplib.SMTP('smtp.outlook.com: 587')
+                        s = smtplib.SMTP('smtp.outlook.com: 587')
 
-                    s.starttls()
+                        s.starttls()
 
-                    s.login(msg["From"], code)
-                    s.sendmail(msg["From"], msg["To"], msg.as_string().encode('utf-8'))
-                    
-                    s.quit()
-                    print('email enviado')
-
-                var.set("book successfully inserted")
-                colorLabel = "green"
+                        s.login(msg["From"], code)
+                        s.sendmail(msg["From"], msg["To"], msg.as_string().encode('utf-8'))
+                        
+                        s.quit()
+                        var.set("book successfully inserted")
+                        colorLabel = "green"
+                        self.estante.add_data(datas)
+                    except:
+                        var.set("Error: Invalid Email")
+                        colorLabel = "red"
             except Exception as err:
-                print(err)
                 var.set("Error: select a status")
                 colorLabel = "red"
         elif not check:
             var.set(datas)
             colorLabel = "red"
 
-        if check:
+        elif check:
             var.set("This book already exists")
             colorLabel = "red"
         
@@ -174,14 +175,12 @@ class NewBookWindow:
             self.label = Label( self.newbookwindow, textvariable=var, relief=FLAT, background="#2C0A59", foreground=colorLabel, font=("Georgia 14 bold"))
             self.label.place(x=560, y=120)
 
-        print(datas)
         
         del datas
         self.flag = True
     
     def select_status(self, status):
         self.status = status
-        print(status)
         
 
     def clicked_button_read(self, event):

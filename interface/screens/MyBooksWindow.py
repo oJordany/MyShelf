@@ -307,7 +307,6 @@ class Aplicattion():
         
         search = self.entry_search.get()
         self.searchDatas = search_database(search)
-        print(self.searchDatas)
         for i in range(0, len(self.searchDatas)):
             self.Books_list.insert(parent='', index='end', iid=i,text=self.searchDatas[i][0], values=self.searchDatas[i][1:])
         if self.searchDatas == []:

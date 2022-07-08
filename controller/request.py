@@ -59,8 +59,6 @@ def request_open_library(isbn):
         metadata["language"] = re.sub(pattern, '', str(listLanguages))
     except:
         metadata["language"] = 'NULL'
-    print('pela segunda api')
-    print(metadata)
 
     return metadata
     
@@ -77,7 +75,6 @@ def request(isbn):
         authors = list()
         for author in metadata['author']:
             authors.append(author['name'])
-        print(authors)
         if authors != ['']:
             metadata['author'] = str(authors)
         else:
@@ -85,7 +82,6 @@ def request(isbn):
         metadata['identifier'] = int(metadata['identifier'][0]['id'])
         pattern = re.compile(r"\[|\'|\'|\]")
         metadata['author'] = re.sub(pattern, '', metadata['author'])
-        print('pela primeira api')
         return metadata
 
     except:
@@ -123,7 +119,6 @@ async def request_google_books(keyword):
 
     for i in range(0, count_max):
         infos = dict()
-        print(decoded[i]['selfLink'])
         try:
             link = decoded[i]["volumeInfo"]["previewLink"]  
             infos["previewLink"] = link

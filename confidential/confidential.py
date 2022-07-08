@@ -1,27 +1,55 @@
+import json
 from cryptography.fernet import Fernet
-from controller.database import get_key, add_data_key
+from controller.database import get_key, add_data_key, update_data_key
 
 
 def encrypt():
-    key = Fernet.generate_key()
+    key1 = Fernet.generate_key()
     
-    add_data_key(key)
-
-    fernet = Fernet(key)
+    fernet1 = Fernet(key1)
     
     with open('confidential/confidential.txt', 'rb') as file:
-        original = file.read()
+        original1 = file.read()
 
-    encrypted = fernet.encrypt(original)
+    encrypted1 = fernet1.encrypt(original1)
 
     with open('confidential/confidential.txt', 'wb') as encrypted_file:
-        encrypted_file.write(encrypted)
+        encrypted_file.write(encrypted1)
 
-def decrypt():
-    key = get_key()
+    key2 = Fernet.generate_key()
+    
+    add_data_key(key1, key2)
+
+    fernet2 = Fernet(key2)
+    
+    with open('confidential/confidential.json', 'rb') as file:
+        original2 = file.read()
+
+    encrypted2 = fernet2.encrypt(original2)
+
+    with open('confidential/confidential.json', 'wb') as encrypted_file:
+        encrypted_file.write(encrypted2)
+
+def updated_encryption():
+    key2 = Fernet.generate_key()
+    
+    update_data_key(key2)
+
+    fernet2 = Fernet(key2)
+    
+    with open('confidential/confidential.json', 'rb') as file:
+        original2 = file.read()
+
+    encrypted2 = fernet2.encrypt(original2)
+
+    with open('confidential/confidential.json', 'wb') as encrypted_file:
+        encrypted_file.write(encrypted2)
+
+def decrypt(fileName, keyNumber):
+    key = get_key(keyNumber)
     fernet = Fernet(key)
 
-    with open('confidential/confidential.txt', 'rb') as enc_file:
+    with open(f'confidential/{fileName}', 'rb') as enc_file:
         encrypted = enc_file.read()
     
     decrypted = fernet.decrypt(encrypted)
