@@ -152,7 +152,6 @@ class NewBookWindow:
                         s.quit()
                         var.set("book successfully inserted")
                         colorLabel = "green"
-                        print(datas)
                         self.estante.add_data(datas)
                     except:
                         var.set("Error: Invalid Email")
