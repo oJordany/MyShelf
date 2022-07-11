@@ -1,5 +1,17 @@
 #!/home/jordany/Documentos/estanteVirtual/venv/bin/python3
 # EASY-INSTALL-ENTRY-SCRIPT: 'future==0.18.2','console_scripts','futurize'
+<<<<<<< HEAD
+__requires__ = 'future==0.18.2'
+import re
+import sys
+from pkg_resources import load_entry_point
+
+if __name__ == '__main__':
+    sys.argv[0] = re.sub(r'(-script\.pyw?|\.exe)?$', '', sys.argv[0])
+    sys.exit(
+        load_entry_point('future==0.18.2', 'console_scripts', 'futurize')()
+    )
+=======
 import re
 import sys
 
@@ -31,3 +43,4 @@ globals().setdefault('load_entry_point', importlib_load_entry_point)
 if __name__ == '__main__':
     sys.argv[0] = re.sub(r'(-script\.pyw?|\.exe)?$', '', sys.argv[0])
     sys.exit(load_entry_point('future==0.18.2', 'console_scripts', 'futurize')())
+>>>>>>> 36f6ed0373373371e1c0f7323987bcd5d4197cb5
