@@ -152,7 +152,7 @@ class Table:
                         "{dados['title']}", 
                         {'"' if dados['author'] != 'NULL' else ''}{dados['author']}{'"' if dados['author'] != 'NULL' else ''}, 
                         {'"' if dados['publisher'] != '' else ''}{dados['publisher'] if dados['publisher'] != '' else 'NULL'}{'"' if dados['publisher'] != '' else ''}, 
-                        {int(dados['year']) if dados['year'].isdigit() else dados['year']}, 
+                        {int(dados['year']) if dados['year'].isdigit() else 'NULL'}, 
                         {'"' if dados['language'] != 'NULL' else ''}{dados['language']}{'"' if dados['language'] != 'NULL' else ''},  
                         {'"' if dados['start_of_reading'] != 'NULL' else ''}{dados['start_of_reading']}{'"' if dados['start_of_reading'] != 'NULL' else ''}, 
                         {'"' if dados['end_of_reading'] != 'NULL' else ''}{dados['end_of_reading']}{'"' if dados['end_of_reading'] != 'NULL' else ''},

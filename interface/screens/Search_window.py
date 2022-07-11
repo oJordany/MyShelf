@@ -61,10 +61,11 @@ class SearchWindow:
             self.thread = threading.Thread(target=self.search_keyword)
         
     def back_to_home(self):
-        from interface.screens.HomeWindow import HomeWindow
-        self.search_window.destroy()
-        self.novaHome = HomeWindow()
-        self.novaHome.generate_home_window()
+        if self.thread.is_alive() == False:
+            from interface.screens.HomeWindow import HomeWindow
+            self.search_window.destroy()
+            self.novaHome = HomeWindow()
+            self.novaHome.generate_home_window()
 
     def open_url(self, url):
         webbrowser.open_new(url)
