@@ -6,7 +6,7 @@
   <a/>
   <h1>MyShelf</h1>
   
-  **Reading Organizer**
+  **A reading organizer app**
   
   <a href="https://github.com/oJordany/estanteVirtual/"><img src="https://img.shields.io/github/license/ojordany/estanteVirtual?color=%237159C1&style=plastic"/></a>
   <a href="https://github.com/oJordany/estanteVirtual/"><img src="https://img.shields.io/github/stars/ojordany/estanteVirtual?color=%237159c1"/></a>
@@ -16,6 +16,55 @@
   <a href="https://github.com/oJordany/estanteVirtual/"><img src="https://img.shields.io/github/commit-activity/w/ojordany/estanteVirtual?color=7159c1"/></a>
 </div>
 
----
+<h1></h1>
+
+<h2>&#x2714 List of Contents</h2>
+<ul type="pointer">
+  <li><a href="#about">About</a></li>
+  <li><a href="#installation">Installation</a></li>
+  <li><a href="#usage">Usage</a></li>
+  <ul>
+    <li><a href="#myBooks">My Books</a></li>
+    <li><a href="#addANewBook">Add a New Book</a></li>
+    <li><a href="#searchABook">Search a Book</a></li>
+  </ul>
+  <li><a href="#projectStatus">Project Status</a></li>
+  <li><a href="#requirements">Requirements</a></li>
+  <li><a href="#license">License</a></li>
+  <li><a href="#authors">Authors</a></li>
+</ul>
+
+<h1></h1>
+
+<h2><a name="about">&#x1F4D6 About</a></h2>
+
+<h1></h1>
+
+<h2><a name="installation">&#x1F4E5 Installation</a></h2>
+
+<h1></h1>
+
+<h2><a name="usage">👨‍💻 Usage</a></h2>
+<ul type="none">
+  <li><h3><a name="myBooks">&#x1F4DA My Books</a></h3></li>
+  <li><h3><a name="addANewBook">&#x2795 Add a New Book</a></h3></li>
+  <li><h3><a name="searchABook">&#x1F50E Search a Book</a></h3></li>
+</ul>
+
+<h1></h1>
+
+<h2><a name="projectStatus">&#x1F50B Project Status</a></h2>
+
+<h1></h1>
+
+<h2><a name="requirements">&#x2699 Requirements</a></h2>
+
+<h1></h1>
+
+<h2><a name="license">&#x1F4DC License</a></h2>
+
+<h1></h1>
+
+<h2><a name="authors">&#x1F465 Authors</a></h2>
 
 <!-- https://user-images.githubusercontent.com/84668196/178361787-8b90a4b3-a470-432e-bbdd-2170084aa5b5.mp4 -->
