@@ -62,6 +62,7 @@
 <h1></h1>
 
 <h2><a name="license">&#x1F4DC License</a></h2>
+
 <div align="center"><a href="https://github.com/oJordany/estanteVirtual/"><img src="https://img.shields.io/github/license/ojordany/estanteVirtual?color=%237159C1&style=plastic"/></a></div>
 
 ~~~
@@ -78,5 +79,15 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 <h1></h1>
 
 <h2><a name="authors">&#x1F465 Authors</a></h2>
+
+<img src="https://user-images.githubusercontent.com/84668196/178501845-e4b3b3a0-02e4-46ff-8447-ddf8e0a962e7.png" width="180px" height="180px" align="left"> 
+<h1>Luiz Jordany de Sousa Silva</h1>
+<strong>Computer Science Student | Web Developer | intern at SEDEPTI-BC</strong>
+<br/><br/>
+<a href="https://instagram.com/ojordany/" target="_blank"><img src="https://img.shields.io/badge/-Instagram-%23E4405F?style=for-the-badge&logo=instagram&logoColor=white" target="_blank"></a>
+•
+<a href = "mailto:jordanyluiz@gmail.com"><img src="https://img.shields.io/badge/-Gmail-%23333?style=for-the-badge&logo=gmail&logoColor=white" target="_blank"></a>
+•
+<a href="https://www.linkedin.com/in/luiz-silva-759a491b9" target="_blank"><img src="https://img.shields.io/badge/-LinkedIn-%230077B5?style=for-the-badge&logo=linkedin&logoColor=white" target="_blank"></a>
 
 <!-- https://user-images.githubusercontent.com/84668196/178361787-8b90a4b3-a470-432e-bbdd-2170084aa5b5.mp4 -->
