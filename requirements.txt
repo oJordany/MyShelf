@@ -1,0 +1,5 @@
+isbnlib==3.10.10
+requests==2.25.1
+tkcalendar==1.6.1
+msal==1.18.0
+Pillow==8.4.0
