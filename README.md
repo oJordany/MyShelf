@@ -48,7 +48,7 @@
 <span><br/>➥ download the zip file by clicking here.<a href="https://github.com/oJordany/estanteVirtual/archive/refs/heads/main.zip" alt='next'><img align="center"src="https://cdn.discordapp.com/attachments/897609680073941012/963207775045971988/pngwing-edit.png" alt="clique-cursor" width="60px"></a></span>
 <br/>
 <p>➥ After downloading the file, unzip it</p>
-<p>➥ Go to the unzipped folder and run the main.exe file by double clicking on it.</p>
+<p>➥ Go to the unzipped folder and run the <strong><q>main.exe</q></strong> file by double clicking on it.</p>
 <p>➥ If you find it necessary, create a shortcut to the application and place it on the desktop.</p>
 
 <h1></h1>
