@@ -37,15 +37,19 @@
 <h1></h1>
 
 <h2><a name="about">&#x1F4D6 About</a></h2>
+<p>➥ This initiative took shape during a programming class in which the creation of a project was proposed as a final evaluation criterion.</p>
+<p>➥ The application was developed to meet the needs of students and readers who lack a simple system for organizing and tracking their readings.</p>
+<p>➥ So, from there we started creating the project by applying several useful features to make it work like a virtual bookshelf.</p>
+<p>➥ Features included were as follows: search for books and information using keywords, add books via isbn, select a book's reading status, schedule readings in microsoft calendar to notify the user about books on the shelf, monitor the start and the end of reading, check some book metadata (author, publisher, isbn, publication date, language), etc.</p>
 
 <h1></h1>
 
 <h2><a name="installation">&#x1F4E5 Installation</a></h2>
 <span><br/>➥ download the zip file by clicking here.<a href="https://github.com/oJordany/estanteVirtual/archive/refs/heads/main.zip" alt='next'><img align="center"src="https://cdn.discordapp.com/attachments/897609680073941012/963207775045971988/pngwing-edit.png" alt="clique-cursor" width="60px"></a></span>
 <br/>
-<p> ➥ After downloading the file, unzip it</p>
-<p> ➥ Go to the unzipped folder and run the main.exe file by double clicking on it.</p>
-<p> ➥ If you find it necessary, create a shortcut to the application and place it on the desktop.</p>
+<p>➥ After downloading the file, unzip it</p>
+<p>➥ Go to the unzipped folder and run the main.exe file by double clicking on it.</p>
+<p>➥ If you find it necessary, create a shortcut to the application and place it on the desktop.</p>
 
 <h1></h1>
 
@@ -59,10 +63,25 @@
 <h1></h1>
 
 <h2><a name="projectStatus">&#x1F50B Project Status</a></h2>
+<p>➥ Currently, the project is stable and with all its features being executed perfectly.</p>
+<p>➥ We are planning to make the application responsive over time.</p>
+<p>➥ In addition, we are planning to improve the input fields to execute commands directly from the keyboard, such as the action of the <strong><q>enter</q></strong> key to submit some book or keyword.</p>
 
 <h1></h1>
 
 <h2><a name="requirements">&#x2699 Requirements</a></h2>
+
+<p>➥ there is an executable file that already contains all the dependencies, including python 3.</p>
+<p>➥ If you want to run it through the <strong><q>main.py</q></strong> file, you need to install the dependencies below:</p>
+
+~~~Python
+# Python 3.0 or higher
+isbnlib==3.10.10
+requests==2.25.1
+tkcalendar==1.6.1
+msal==1.18.0
+Pillow==8.4.0
+~~~
 
 <h1></h1>
 
